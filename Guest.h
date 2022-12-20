@@ -5,6 +5,11 @@
 
 #ifndef _GUEST_H
 #define _GUEST_H
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
 
 class Guest {
 public: 

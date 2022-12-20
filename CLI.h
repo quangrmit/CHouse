@@ -5,12 +5,13 @@
 
 #ifndef _CLI_H
 #define _CLI_H
+#include "Member.h";
+#include "Admin.h"
 
 class CLI {
 public: 
-    void Attribute1;
     
-void CLI();
+CLI();
     
 void welcome();
     

@@ -21,31 +21,31 @@ void Database::updateFile() {
 /**
  * @return Database *
  */
-static Database * Database::getInstance() {
-    return null;
+Database * Database::getInstance() {
+    return nullptr;
 }
 
 /**
  * @return HouseDatabase *
  */
 HouseDatabase * Database::getHouseDatabase() {
-    return null;
+    return nullptr;
 }
 
 /**
  * @return MemberDatabase *
  */
 MemberDatabase * Database::getMemberDatabase() {
-    return null;
+    return nullptr;
 }
 
 /**
  * @return RequestDatabase *
  */
 RequestDatabase * Database::getRequestDatabase() {
-    return null;
+    return nullptr;
 }
 
-void Database::Database() {
+Database::Database() {
 
 }

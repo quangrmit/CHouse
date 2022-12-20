@@ -2,15 +2,13 @@
  * Project Untitled
  */
 
-
 #include "Admin.h"
 
 /**
  * Admin implementation
  */
 
-
-void Admin::Admin() {
+Admin::Admin() {
 
 }
 
@@ -18,14 +16,17 @@ void Admin::Admin() {
  * @return vector<string>
  */
 vector<string> Admin::viewAllUser() {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 /**
  * @return vector<string>
  */
 vector<string> Admin::viewAllHouse() {
-    return null;
+    vector<string> result;
+    return result;
+
 }
 
 /**
@@ -33,6 +34,6 @@ vector<string> Admin::viewAllHouse() {
  * @param password
  * @return bool
  */
-static bool Admin::compareUsernameandPassword(string username, string password) {
+bool Admin::compareUsernameandPassword(string username, string password) {
     return false;
 }

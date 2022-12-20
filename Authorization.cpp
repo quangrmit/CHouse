@@ -16,14 +16,14 @@
  * @return Member *
  */
 Member * Authorization::login(string username, string password) {
-    return null;
+    return nullptr;
 }
 
 /**
  * @param data
  * @return bool
  */
-bool Authorization::register(map data) {
+bool Authorization::registerUser(map<string, any> data) {
     return false;
 }
 
@@ -33,5 +33,5 @@ bool Authorization::register(map data) {
  * @return Admin *
  */
 Admin * Authorization::loginAdmin(string username, string password) {
-    return null;
+    return nullptr;
 }

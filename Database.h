@@ -5,7 +5,9 @@
 
 #ifndef _DATABASE_H
 #define _DATABASE_H
-
+#include "HouseDatabase.h"
+#include "MemberDatabase.h"
+#include "RequestDatabase.h"
 class Database {
 public: 
     
@@ -26,7 +28,7 @@ private:
     static HouseDatabase * houseDatabase;
     static RequestDatabase * requestDatabase;
     
-void Database();
+Database();
 };
 
 #endif //_DATABASE_H

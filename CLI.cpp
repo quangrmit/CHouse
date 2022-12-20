@@ -10,7 +10,7 @@
  */
 
 
-void CLI::CLI() {
+CLI::CLI() {
 
 }
 

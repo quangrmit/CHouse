@@ -5,11 +5,16 @@
 
 #ifndef _ADMIN_H
 #define _ADMIN_H
+#include <string>
+#include <vector>
+#include "Date.h"
+using std::string;
+using std::vector;
 
 class Admin {
 public: 
     
-void Admin();
+Admin();
     
 vector<string> viewAllUser();
     

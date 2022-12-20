@@ -14,5 +14,7 @@
  * @return vector<string>
  */
 vector<string> Guest::viewAllHouse() {
-    return null;
+    vector<string> result;
+
+    return result;
 }
