@@ -4,13 +4,16 @@
 
 
 #include "Admin.h"
-
+#include "string"
+#include "vector"
+using std::string;
+using std::vector;
 /**
  * Admin implementation
  */
 
 
-void Admin::Admin() {
+ Admin::Admin() {
 
 }
 
@@ -33,6 +36,6 @@ vector<string> Admin::viewAllHouse() {
  * @param password
  * @return bool
  */
-static bool Admin::compareUsernameandPassword(string username, string password) {
+bool Admin::compareUsernameandPassword(string username, string password) {
     return false;
 }

@@ -5,6 +5,11 @@
 
 #ifndef _AUTHORIZATION_H
 #define _AUTHORIZATION_H
+#include "string"
+#include "vector"
+
+using std::string;
+using std::vector;
 
 class Authorization {
 public: 

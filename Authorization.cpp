@@ -4,7 +4,11 @@
 
 
 #include "Authorization.h"
-
+#include "Member.h"
+#include "string"
+#include "vector"
+using std::string;
+using std::vector;
 /**
  * Authorization implementation
  */
