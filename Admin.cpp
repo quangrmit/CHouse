@@ -3,12 +3,17 @@
  */
 
 #include "Admin.h"
-
+#include "string"
+#include "vector"
+using std::string;
+using std::vector;
 /**
  * Admin implementation
  */
 
-Admin::Admin() {
+
+
+ Admin::Admin() {
 
 }
 

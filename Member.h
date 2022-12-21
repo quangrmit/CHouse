@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include "Date.h"
 using std::vector;
 using std::string;
 
@@ -13,56 +14,63 @@ using std::string;
 
 class Member {
 public: 
-    
-/**
- * @param data
- */
+
 Member(string data);
-    
-string viewInfo();
+
+    const string &getHid() const;
+
+    void setHid(const string &hId);
+
+    int getOccupierRating() const;
+
+    void setOccupierRating(int occupierRating);
+
+    const string &getUsername() const;
+
+    void setUsername(const string &username);
+
+    const string &getFullname() const;
+
+    void setFullname(const string &fullname);
+
+    const string &getPhonenumber() const;
+
+    void setPhonenumber(const string &phonenumber);
+
+    const string &getPassword() const;
+
+    void setPassword(const string &password);
+
+    const string &getMid() const;
+
+    void setMid(const string &mId);
+
+    string viewInfo();
     
 bool listhouse();
     
 bool unlisthouse();
     
-/**
- * @param start
- * @param end
- * @param city
- */
+
 vector<string> searchHouse(Date start, Date end, string city);
-    
-/**
- * @param mID
- */
+
 void rateOccupier(string mID);
     
-/**
- * @param hID
- */
+
 void rateHouse(string hID);
     
-/**
- * @param start
- * @param end
- * @param hID
- */
+
 void requestStaying(Date start, Date end, string hID);
     
 bool checkout();
     
 vector<string> viewAllRequests();
     
-/**
- * @param rID
- */
+
 bool acceptRequest(string rID);
-    
-/**
- * @param username
- * @param password
- */
+
 bool compareUsernameandPassword(string username, string password);
+
 private: 
     string hID;
     int occupierRating;

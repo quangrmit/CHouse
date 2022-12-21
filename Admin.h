@@ -2,6 +2,10 @@
  * Project Untitled
  */
 
+#include "string"
+#include "vector"
+using std::string;
+using std::vector;
 
 #ifndef _ADMIN_H
 #define _ADMIN_H
@@ -13,8 +17,9 @@ using std::vector;
 
 class Admin {
 public: 
-    
-Admin();
+
+    Admin();
+
     
 vector<string> viewAllUser();
     
