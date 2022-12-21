@@ -2,7 +2,6 @@
  * Project Untitled
  */
 
-
 #include "Admin.h"
 #include "string"
 #include "vector"
@@ -13,6 +12,7 @@ using std::vector;
  */
 
 
+
  Admin::Admin() {
 
 }
@@ -21,14 +21,17 @@ using std::vector;
  * @return vector<string>
  */
 vector<string> Admin::viewAllUser() {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 /**
  * @return vector<string>
  */
 vector<string> Admin::viewAllHouse() {
-    return null;
+    vector<string> result;
+    return result;
+
 }
 
 /**

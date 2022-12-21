@@ -15,7 +15,8 @@
  * @return vector<string>
  */
 vector<string> RequestDatabase::readRequest(map<string, any> data) {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 /**
@@ -31,12 +32,12 @@ bool RequestDatabase::createRequest(map<string, any> data) {
  * @return Request *
  */
 Request * RequestDatabase::findRequest(string rID) {
-    return null;
+    return nullptr;
 }
 
 /**
  * @param data
  */
-void RequestDatabase::RequestDatabase(vector<string> data) {
+RequestDatabase::RequestDatabase(vector<string> data) {
 
 }

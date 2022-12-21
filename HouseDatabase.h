@@ -5,6 +5,16 @@
 
 #ifndef _HOUSEDATABASE_H
 #define _HOUSEDATABASE_H
+#include <vector>
+#include <string>
+#include <map>
+#include <any>
+#include "House.h"
+
+using std::vector;
+using std::string;
+using std::map;
+using std::any;
 
 class HouseDatabase {
 public: 
@@ -27,7 +37,7 @@ House * findHouse(string hID);
 /**
  * @param data
  */
-void HouseDatabase(vector<string> data);
+HouseDatabase(vector<string> data);
 private: 
     vector<House> houses;
 };

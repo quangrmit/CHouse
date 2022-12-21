@@ -5,6 +5,16 @@
 
 #ifndef _MEMBERDATABASE_H
 #define _MEMBERDATABASE_H
+#include <vector>
+#include <string>
+#include <map>
+#include <any>
+#include "Member.h"
+
+using std::vector;
+using std::string;
+using std::map;
+using std::any;
 
 class MemberDatabase {
 public: 
@@ -22,12 +32,12 @@ bool createMember(map<string, any> data);
 /**
  * @param string mID
  */
-Member * findMember(void string mID);
+Member * findMember(string mID);
     
 /**
  * @param data
  */
-void MemberDatabase(vector<string> data);
+MemberDatabase(vector<string> data);
 private: 
     vector<Member> members;
 };

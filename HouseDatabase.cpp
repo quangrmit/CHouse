@@ -15,7 +15,8 @@
  * @return vector<string>
  */
 vector<string> HouseDatabase::readHouse(map<string, any> data) {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 /**
@@ -31,12 +32,13 @@ bool HouseDatabase::createHouse(map<string, any> data) {
  * @return House *
  */
 House * HouseDatabase::findHouse(string hID) {
-    return null;
+
+    return nullptr;
 }
 
 /**
  * @param data
  */
-void HouseDatabase::HouseDatabase(vector<string> data) {
+HouseDatabase::HouseDatabase(vector<string> data) {
 
 }

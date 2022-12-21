@@ -15,7 +15,8 @@
  * @return vector<string>
  */
 vector<string> MemberDatabase::readMember(map<string, any> data) {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 /**
@@ -30,13 +31,13 @@ bool MemberDatabase::createMember(map<string, any> data) {
  * @param string mID
  * @return Member *
  */
-Member * MemberDatabase::findMember(void string mID) {
-    return null;
+Member * MemberDatabase::findMember(string mID) {
+    return nullptr;
 }
 
 /**
  * @param data
  */
-void MemberDatabase::MemberDatabase(vector<string> data) {
+MemberDatabase::MemberDatabase(vector<string> data) {
 
 }

@@ -5,6 +5,16 @@
 
 #ifndef _REQUESTDATABASE_H
 #define _REQUESTDATABASE_H
+#include <vector>
+#include <string>
+#include <map>
+#include <any>
+#include "Request.h"
+
+using std::vector;
+using std::string;
+using std::map;
+using std::any;
 
 class RequestDatabase {
 public: 
@@ -27,7 +37,7 @@ Request * findRequest(string rID);
 /**
  * @param data
  */
-void RequestDatabase(vector<string> data);
+RequestDatabase(vector<string> data);
 private: 
     vector<Request> requests;
 };
