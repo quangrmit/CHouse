@@ -2,13 +2,11 @@
  * Project Untitled
  */
 
-
 #include "HouseDatabase.h"
 
 /**
  * HouseDatabase implementation
  */
-
 
 /**
  * @param data
@@ -16,6 +14,20 @@
  */
 vector<string> HouseDatabase::readHouse(map<string, any> data) {
     vector<string> result;
+
+    Date start = Date::string_to_date(std::any_cast<string>(data["start"]));
+    Date end = Date::string_to_date(std::any_cast<string>(data["end"]));
+    for (int i = 0; i < houses.size(); i++) {
+        if (start == houses[i]->start && end == houses[i]->end && data["city"]) {
+            if (data.find("city") == data.end()) {
+                result.push_back(houses[i]->toString());
+            } else {
+                if (data["city"] == houses[i]->city) {
+                    result.push_back(houses[i]->toString());
+                }
+            }
+        }
+    }
     return result;
 }
 
@@ -31,8 +43,7 @@ bool HouseDatabase::createHouse(map<string, any> data) {
  * @param hID
  * @return House *
  */
-House * HouseDatabase::findHouse(string hID) {
-
+House* HouseDatabase::findHouse(string hID) {
     return nullptr;
 }
 
@@ -40,5 +51,10 @@ House * HouseDatabase::findHouse(string hID) {
  * @param data
  */
 HouseDatabase::HouseDatabase(vector<string> data) {
+    for (int i = 0; i < data.size(); i++) {
+        // vector<string> attributes = split(data[i], ',');
+        House house = House(data[i]);
 
+        houses.push_back(&house);
+    }
 }
