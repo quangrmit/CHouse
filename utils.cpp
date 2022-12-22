@@ -1,8 +1,5 @@
 #include "utils.h"
 
-#include <sstream>
-#include <string>
-#include <vector>
 
 std::vector<std::string> split(std::string test, char delimiter) {
     std::stringstream ss;
@@ -14,4 +11,16 @@ std::vector<std::string> split(std::string test, char delimiter) {
         seglist.push_back(segment);
     }
     return seglist;
+}
+
+std::vector<std::string> extractData(std::ifstream &data) {
+    std::vector<std::string> result;
+    std::string mid;
+    while (true) {
+        std::getline(data, mid);
+        if (mid.empty()) {
+            return result;
+        }
+        result.push_back(mid);
+    }
 }

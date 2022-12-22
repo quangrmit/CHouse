@@ -2,15 +2,15 @@
  * Project Untitled
  */
 
+
+
+#ifndef _MEMBER_H
+#define _MEMBER_H
 #include <string>
 #include <vector>
 #include "Date.h"
 using std::vector;
 using std::string;
-
-
-#ifndef _MEMBER_H
-#define _MEMBER_H
 
 class Member {
 public: 
