@@ -4,7 +4,7 @@ mID,fullName,username,password,phoneNumber,hID,credit,o_rating,review
 3,Linh,Linh,123,1234578,3,90,100,5_"oke";5_"oke";5_"oke"
 4,Nguyen,Nguyen,123,1234578,4,40,0,0_"oke",0_"oke";0_"oke";0_"oke"
 
-hID,description,city,h_rating,start,end,consumer_point,min_o_rating,reviews
+hID,description,city,h_rating,start,end,consuming_point,min_o_rating,reviews
 1,nice house,HCM,10,12/12/2022,01/01/2023,130,1,10_good;10_excellent
 2,not bad house,Hue,0,06/01/2023,10/02/2023,200,8,0_quite bad
 3,mid house,Hue,5,,,,,5_nice engouh;5_oke

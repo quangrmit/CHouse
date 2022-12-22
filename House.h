@@ -4,7 +4,9 @@
 
 #ifndef _HOUSE_H
 #define _HOUSE_H
+#include "Date.h"
 #include "string"
+#include "utils.h"
 #include "vector"
 using std::string;
 using std::vector;
@@ -30,10 +32,34 @@ class House {
 
     void setDescription(const string &description);
 
+    int getID();
+    string getCity();
+    Date getStartDate();
+    Date getEndDate();
+    int getConsumingPoints();
+    int getMinOccupierRating();
+    vector<vector<string>> getReviews();
+    string reviewToString();
+
+    void setID(int ID);
+    void setCity(string city);
+    void setStartDate(Date date);
+    void setEndDate(Date date);
+    void setConsumingPoint(int consumingPoints);
+    void setMinOccupierRating(int rating);
+    void setReviews(vector<vector<string>> reviews);
+
    private:
+    int hID;
     int houseRating;
     string location;
     string description;
+    string city;
+    Date start;
+    Date end;
+    int consumingPoint;
+    int minOccupierRating;
+    vector<vector<string>> reviews;
 };
 
 #endif  //_HOUSE_H
