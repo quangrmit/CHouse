@@ -22,7 +22,7 @@ public:
 /**
  * @param data
  */
-vector<string> readMember(map<string, any> data);
+vector<string> readMember(map<string, any> data = {});
     
 /**
  * @param data

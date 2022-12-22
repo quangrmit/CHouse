@@ -1,3 +1,6 @@
+#ifndef _DATE_H
+#define _DATE_H
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -23,3 +26,5 @@ class Date {
     static std::string date_to_string(Date* dmy);
     static Date string_to_date(std::string str);
 };
+
+#endif

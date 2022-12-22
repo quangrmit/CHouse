@@ -79,7 +79,7 @@ bool Date::operator==(Date d2) {
         return false;
     }
 }
-int Date::operator-(Date d2) {
+int Date::operator - (Date d2) {
     if (*this == d2) {
         return 0;
     }
@@ -134,6 +134,7 @@ int Date::operator-(Date d2) {
             return numDaysInGap + headMonthDays + tailMonthDays + leap_year_date_map[d2.month] - d2.date + 1 + this->date;
         }
     }
+    return -1;
 }
 std::string Date::date_to_string(Date* dmy) {
     std::string result = "";
