@@ -70,6 +70,7 @@ bool Date::operator<(Date d2) {
     } else {
         return false;
     }
+
 }
 
 bool Date::operator==(Date d2) {

@@ -4,10 +4,6 @@
 
 #include "House.h"
 
-#include "string"
-#include "vector"
-using std::string;
-using std::vector;
 
 /**
  * House implementation
@@ -56,6 +52,15 @@ const string &House::getDescription() const {
 
 void House::setDescription(const string &description) {
     House::description = description;
+}
+
+
+const string &House::getHid() const {
+    return hID;
+}
+
+void House::setHid(const string &hId) {
+    hID = hId;
 }
 
 int House::getID() {
