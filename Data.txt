@@ -14,3 +14,24 @@ rID,uID,hID,start,end,status,complete
 1,1,2,07/01/2023,09/02/2023,1,false
 2,3,2,07/01/2023,09/02/2023,0,true
 3,4,2,06/01/2023,07/01/2023,1,false
+
+
+Member::Member(string data) {
+   std::vector<string> dataList = split(data,',');
+   std::vector<string> reviewList = split(dataList[8],';');
+   std::vector<std::vector<string>> reviews;
+
+   for(string review : reviewList) {
+       reviews.push_back(split(review,'_'));
+   }
+
+    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
+
+}
+
+Member::Member(const string &mId, const string &fullname, const string &username, const string &password,
+               const string &phonenumber, const string &hId, int credit, int occupierRating,
+               const vector<std::vector<string>> &review) : mID(mId), fullname(fullname), username(username),
+                                                            password(password), phonenumber(phonenumber), hID(hId),
+                                                            credit(credit), occupierRating(occupierRating),
+                                                            review(review) {};
