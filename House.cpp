@@ -52,16 +52,16 @@ House::House(string data) {
     (dataList[7]=="") ? minORating = -1 : std::stoi(dataList[7]);
 
 
-    House(std::stoi(dataList[0]),std::stoi(dataList[1]),dataList[2],dataList[3],startDate,endDate,cP, minORating,reviews);
+    House(std::stoi(dataList[0]),dataList[1],dataList[2],std::stoi(dataList[3]),startDate,endDate,cP, minORating,reviews);
 
 }
 
-House::House(int hId, int houseRating, const string &description, const string &city,
+House::House(int hId, const string &description, const string &city, int houseRating,
              const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
              const vector<vector<string>> &reviews) : hID(hId), houseRating(houseRating),
                                                       description(description), city(city), start(start), end(anEnd),
                                                       consumingPoint(consumingPoint),
-                                                      minOccupierRating(minOccupierRating), reviews(reviews) {}
+                                                      minOccupierRating(minOccupierRating), reviews(reviews) {};
 string House::reviewToString() {
     vector<string> reviews;
     for (int i = 0; i < this->reviews.size(); i++) {

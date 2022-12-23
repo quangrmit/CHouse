@@ -63,7 +63,7 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
 void Member::rateOccupier(string mID) {
 
 }
-432
+
 void Member::rateHouse(string hID) {
 
 }

@@ -20,7 +20,7 @@ class House {
      */
     House(string data);
    
-   House(int hId, int houseRating, const string &description, const string &city,
+   House(int hId, const string &description, const string &city, int houseRating,
           const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
           const vector<vector<string>> &reviews);
 

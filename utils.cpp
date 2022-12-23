@@ -29,7 +29,6 @@ std::vector<std::string> extractData(std::ifstream& data) {
 
     while (!data.eof()) {
             std::getline(data, mid);
-            std::cout << mid << std::endl;
             if (mid.empty()) {
                 return result;
             }
