@@ -13,11 +13,13 @@
  * @return string
  */
 string House::toString() {
-    string cP,minORating;
+    string cP,minORating,startDate,endDate;
     (consumingPoint==11) ? cP = "": cP = std::to_string(consumingPoint);
     (minOccupierRating==-1) ? minORating = "": minORating = std::to_string(minOccupierRating);
+    (start.isEmpty()) ? startDate = "" : startDate=Date::date_to_string(&start);
+    (end.isEmpty()) ? endDate = "" : endDate=Date::date_to_string(&end);
 
-    return std::to_string(this->hID) + "," + this->description + "," + this->city + "," + std::to_string(this->houseRating) + "," + Date::date_to_string(&this->start) + "," + Date::date_to_string(&this->end) + "," +
+    return std::to_string(this->hID) + "," + this->description + "," + this->city + "," + std::to_string(this->houseRating) + "," + startDate+ "," + endDate + "," +
            cP + "," + minORating + "," + reviewToString();
 }
 
@@ -29,12 +31,18 @@ House::House(string data) {
     std::vector<string> reviewList = split(dataList[8],';');
     std::vector<std::vector<string>> reviews;
 
-    std::vector<string> start = split(dataList[4],'/');
-    Date startDate = Date(std::stoi(start[0]), std::stoi(start[1]), std::stoi(start[2]));
+    Date startDate,endDate;
+    if (dataList[4].empty()) {
+        startDate.setEmpty();
+        endDate.setEmpty();
+    }
+    else {
+        std::vector<string> start = split(dataList[4], '/');
+        startDate = Date(std::stoi(start[0]), std::stoi(start[1]), std::stoi(start[2]));
 
-    std::vector<string> end = split(dataList[5],'/');
-    Date endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
-
+        std::vector<string> end = split(dataList[5], '/');
+        endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
+    }
     for(string review : reviewList) {
         reviews.push_back(split(review,'_'));
     }
