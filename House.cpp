@@ -13,8 +13,12 @@
  * @return string
  */
 string House::toString() {
+    string cP,minORating;
+    (consumingPoint==11) ? cP = "": cP = std::to_string(consumingPoint);
+    (minOccupierRating==-1) ? minORating = "": minORating = std::to_string(minOccupierRating);
+
     return std::to_string(this->hID) + "," + this->description + "," + this->city + "," + std::to_string(this->houseRating) + "," + Date::date_to_string(&this->start) + "," + Date::date_to_string(&this->end) + "," +
-           std::to_string(this->consumingPoint) + "," + std::to_string(this->minOccupierRating) + "," + reviewToString();
+           cP + "," + minORating + "," + reviewToString();
 }
 
 /**
@@ -35,7 +39,12 @@ House::House(string data) {
         reviews.push_back(split(review,'_'));
     }
 
-    House(std::stoi(dataList[0]),std::stoi(dataList[1]),dataList[2],dataList[3],startDate,endDate,std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
+    int cP,minORating;
+    (dataList[6] == "") ? cP = 11 : cP = std::stoi(dataList[6]) ;
+    (dataList[7]=="") ? minORating = -1 : std::stoi(dataList[7]);
+
+
+    House(std::stoi(dataList[0]),std::stoi(dataList[1]),dataList[2],dataList[3],startDate,endDate,cP, minORating,reviews);
 
 }
 

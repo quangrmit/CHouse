@@ -29,9 +29,13 @@ Member::Member(const string &mId, const string &fullname, const string &username
 
 string Member::toString() {
 
-
+    std::vector<string> reviewVec;
+    for (std::vector<string> element : review) {
+        reviewVec.push_back(join(element,'_'));
+    }
+    string reviewString = join(reviewVec,';');
     return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
-                                                                                                          std::to_string(occupierRating);
+                                                                                                          std::to_string(occupierRating)+","+reviewString;
 }
 
 
@@ -59,7 +63,7 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
 void Member::rateOccupier(string mID) {
 
 }
-
+432
 void Member::rateHouse(string hID) {
 
 }

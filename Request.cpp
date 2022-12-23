@@ -7,6 +7,7 @@
 #include "string"
 #include "vector"
 #include "utils.h"
+#include "Date.h"
 
 using std::string;
 using std::vector;
@@ -14,7 +15,11 @@ using std::vector;
 
 
 string Request::toString() {
-    return "";
+
+    string closeString;
+    (close== true)? closeString="true":closeString="false";
+
+    return rID+","+mID+","+hID+","+Date::date_to_string(&start)+","+Date::date_to_string(&end)+","+ std::to_string(status)+","+closeString;
 }
 
  Request::Request(string data) {

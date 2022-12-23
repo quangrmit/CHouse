@@ -10,7 +10,7 @@ hID,description,city,h_rating,start,end,consuming_point,min_o_rating,reviews
 3,mid house,Hue,5,,,,,5_nice engouh;5_oke
 4,ok house,Hue,7,,,,,7_comfortable house;7_uncomfortable house
 
-rID,uID,hID,start,end,status,complete
+rID,mID,hID,start,end,status,close
 1,1,2,07/01/2023,09/02/2023,1,false
 2,3,2,07/01/2023,09/02/2023,0,true
 3,4,2,06/01/2023,07/01/2023,1,false
