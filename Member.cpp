@@ -31,7 +31,7 @@ string Member::toString() {
 
 
     return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
-                                                                                                          std::to_string(occupierRating)
+                                                                                                          std::to_string(occupierRating);
 }
 
 
@@ -52,7 +52,8 @@ bool Member::unlisthouse() {
 }
 
 vector<string> Member::searchHouse(Date start, Date end, string city) {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 void Member::rateOccupier(string mID) {
@@ -74,7 +75,8 @@ bool Member::checkout() {
 }
 
 vector<string> Member::viewAllRequests() {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 bool Member::acceptRequest(string rID) {

@@ -41,8 +41,8 @@ private:
     static HouseDatabase * houseDatabase;
     static RequestDatabase * requestDatabase;
     static string header1, header2, header3;
-    
-Database();
+
+    Database();
 };
 
 #endif //_DATABASE_H

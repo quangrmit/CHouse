@@ -55,13 +55,6 @@ void House::setDescription(const string &description) {
 }
 
 
-const string &House::getHid() const {
-    return hID;
-}
-
-void House::setHid(const string &hId) {
-    hID = hId;
-}
 
 int House::getID() {
     return this->hID;
