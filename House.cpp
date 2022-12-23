@@ -61,13 +61,6 @@ void House::setHouseRating(int houseRating) {
     House::houseRating = houseRating;
 }
 
-const string &House::getLocation() const {
-    return location;
-}
-
-void House::setLocation(const string &location) {
-    House::location = location;
-}
 
 const string &House::getDescription() const {
     return description;

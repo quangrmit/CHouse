@@ -68,7 +68,6 @@ class House {
     int consumingPoint;
     int minOccupierRating;
     vector<vector<string>> reviews;
->>>>>>> 68ebfc0fbf36c1715c980328980e127059c2a65a
 };
 
 #endif  //_HOUSE_H
