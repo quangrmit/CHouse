@@ -16,7 +16,7 @@ using std::string;
 
 class Member {
 public: 
-
+Member();
 Member(string data);
 
     Member(const string &mId, const string &fullname, const string &username, const string &password,

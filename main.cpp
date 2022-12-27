@@ -1,12 +1,12 @@
-#include "Database.h"
-
+// #include "Database.h"
+#include "CLI.h"
 int main() {
-    Database * data = Database::getInstance();
-    // CLI * app = new CLI();
+    // Database * data = Database::getInstance();
     // app.run()
     //delete data;
-    // delete app;
-    // return 0;  
+    // delete app; 
 
-
+    CLI *test = new CLI();
+    test->welcome();
+    return 0;
 }

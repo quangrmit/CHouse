@@ -27,6 +27,7 @@ Member::Member(const string &mId, const string &fullname, const string &username
                                                             credit(credit), occupierRating(occupierRating),
                                                             review(review) {};
 
+
 string Member::toString() {
 
     std::vector<string> reviewVec;
@@ -63,7 +64,7 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
 void Member::rateOccupier(string mID) {
 
 }
-432
+
 void Member::rateHouse(string hID) {
 
 }
