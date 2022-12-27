@@ -4,12 +4,42 @@
 
 
 #include "Member.h"
-#include "Date.h"
+#include "utils.h"
 
 
 Member::Member(string data) {
+   std::vector<string> dataList = split(data,',');
+   std::vector<string> reviewList = split(dataList[8],';');
+   std::vector<std::vector<string>> reviews;
+
+   for(string review : reviewList) {
+       reviews.push_back(split(review,'_'));
+   }
+
+    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
 
 }
+
+Member::Member(const string &mId, const string &fullname, const string &username, const string &password,
+               const string &phonenumber, const string &hId, int credit, int occupierRating,
+               const vector<std::vector<string>> &review) : mID(mId), fullname(fullname), username(username),
+                                                            password(password), phonenumber(phonenumber), hID(hId),
+                                                            credit(credit), occupierRating(occupierRating),
+                                                            review(review) {};
+
+string Member::toString() {
+
+    std::vector<string> reviewVec;
+    for (std::vector<string> element : review) {
+        reviewVec.push_back(join(element,'_'));
+    }
+    string reviewString = join(reviewVec,';');
+    return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
+                                                                                                          std::to_string(occupierRating)+","+reviewString;
+}
+
+
+
 
 string Member::viewInfo() {
     return "";
@@ -26,7 +56,8 @@ bool Member::unlisthouse() {
 }
 
 vector<string> Member::searchHouse(Date start, Date end, string city) {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 void Member::rateOccupier(string mID) {
@@ -48,7 +79,8 @@ bool Member::checkout() {
 }
 
 vector<string> Member::viewAllRequests() {
-    return null;
+    vector<string> result;
+    return result;
 }
 
 bool Member::acceptRequest(string rID) {
@@ -114,3 +146,22 @@ const string &Member::getMid() const {
 void Member::setMid(const string &mId) {
     mID = mId;
 }
+
+const vector<std::vector<string>> &Member::getReview() const {
+    return review;
+}
+
+void Member::setReview(const vector<std::vector<string>> &review) {
+    Member::review = review;
+}
+
+int Member::getCredit() const {
+    return credit;
+}
+
+void Member::setCredit(int credit) {
+    Member::credit = credit;
+}
+
+
+

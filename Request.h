@@ -15,11 +15,18 @@ using std::vector;
 
 class Request {
 public: 
-    string rID;
+
     
 string toString();
 
 Request(string data);
+
+    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status,
+            bool close);
+
+    const string &getRid() const;
+
+    void setRid(const string &rId);
 
     const string &getMid() const;
 
@@ -46,6 +53,7 @@ Request(string data);
     void setClose(bool close);
 
 private:
+    string rID;
     string mID;
     string hID;
     Date start;

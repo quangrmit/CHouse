@@ -7,7 +7,13 @@
 /**
  * Database implementation
  */
-
+Database * Database::single = nullptr;
+MemberDatabase * Database::memberDatabase = nullptr;
+HouseDatabase * Database::houseDatabase = nullptr;
+RequestDatabase * Database::requestDatabase = nullptr;
+string Database::header1 = "";
+string Database::header2 = "";
+string Database::header3 = "";
 
 void Database::loadFile() {
     std::ifstream storage;
@@ -18,14 +24,20 @@ void Database::loadFile() {
     }
 
     std::getline(storage, header1);
+
     vector<string> users = extractData(storage);
+
     std::getline(storage, header2);
+
     vector<string> houses = extractData(storage);
+
     std::getline(storage, header3);
+
     vector<string> requests = extractData(storage);
 
     memberDatabase = new MemberDatabase(users);
     houseDatabase = new HouseDatabase(houses);
+
     requestDatabase = new RequestDatabase(requests);
     
     
@@ -63,7 +75,10 @@ void Database::updateFile() {
 
 
 }
+Database::Database() {
+    this->loadFile();
 
+}
 /**
  * @return Database *
  */
@@ -95,7 +110,3 @@ RequestDatabase * Database::getRequestDatabase() {
     return requestDatabase;
 }
 
-Database::Database() {
-    this->loadFile();
-
-}

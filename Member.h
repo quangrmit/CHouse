@@ -4,8 +4,10 @@
 
 
 
+
 #ifndef _MEMBER_H
 #define _MEMBER_H
+
 #include <string>
 #include <vector>
 #include "Date.h"
@@ -16,6 +18,14 @@ class Member {
 public: 
 
 Member(string data);
+
+    Member(const string &mId, const string &fullname, const string &username, const string &password,
+           const string &phonenumber, const string &hId, int credit, int occupierRating,
+           const vector<std::vector<string>> &review);
+
+    int getCredit() const;
+
+    void setCredit(int credit);
 
     const string &getHid() const;
 
@@ -45,6 +55,10 @@ Member(string data);
 
     void setMid(const string &mId);
 
+    const vector<std::vector<string>> &getReview() const;
+
+    void setReview(const vector<std::vector<string>> &review);
+
     string viewInfo();
     
 bool listhouse();
@@ -71,14 +85,18 @@ bool acceptRequest(string rID);
 
 bool compareUsernameandPassword(string username, string password);
 
+string toString();
+
 private: 
-    string hID;
-    int occupierRating;
-    string username;
-    string fullname;
-    string phonenumber;
-    string password;
     string mID;
+    string fullname;
+    string username;
+    string password;
+    string phonenumber;
+    string hID;
+    int credit;
+    int occupierRating;
+    std::vector<std::vector<string>> review;
 };
 
 #endif //_MEMBER_H

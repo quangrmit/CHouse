@@ -1,11 +1,6 @@
 #include "Date.h"
 
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
+
 
 #include "utils.h"
 
@@ -70,6 +65,7 @@ bool Date::operator<(Date d2) {
     } else {
         return false;
     }
+
 }
 
 bool Date::operator==(Date d2) {
@@ -158,4 +154,12 @@ Date Date::string_to_date(std::string str) {
     int month = std::stoi(list[1]);
     int year = std::stoi(list[2]);
     return Date(date, month, year);
+}
+
+void Date::setEmpty() {
+    empty = true;
+}
+
+bool Date::isEmpty() {
+    return empty;
 }

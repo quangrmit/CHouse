@@ -3,6 +3,7 @@
  */
 
 #include "HouseDatabase.h"
+#include <iostream>
 
 /**
  * HouseDatabase implementation

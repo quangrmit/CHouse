@@ -1,5 +1,5 @@
 #include "utils.h"
-
+#include <iostream>
 std::vector<std::string> split(std::string test, char delimiter) {
     std::stringstream ss;
     ss << test;
@@ -23,11 +23,18 @@ std::string join(std::vector<std::string> list, char joinChar) {
 
 std::vector<std::string> extractData(std::ifstream& data) {
     std::vector<std::string> result;
+
     std::string mid;
-    while (true) {
-        std::getline(data, mid);
-        if (mid.empty()) {
-            return result;
-        }
-        result.push_back(mid);
+    int count = 0;
+
+    while (!data.eof()) {
+            std::getline(data, mid);
+            if (mid.empty()) {
+                return result;
+            }
+            result.push_back(mid);
+            count++;
+            
     }
+    return result;
+}
