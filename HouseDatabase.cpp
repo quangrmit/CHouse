@@ -45,6 +45,17 @@ vector<string> HouseDatabase::readHouse(map<string, any> data) {
  * @return bool
  */
 bool HouseDatabase::createHouse(map<string, any> data) {
+    int hID = std::any_cast<int>(data["hID"]);
+    string description = std::any_cast<string>(data["description"]);
+    string city = std::any_cast<string>(data["city"]);
+    int houseRating = std::any_cast<int>(data["houseRating"]);
+    Date start = std::any_cast<Date>(data["start"]);
+    Date end = std::any_cast<Date>(data["end"]);
+    int consumingPoint = std::any_cast<int>(data["consumingPoint"]);
+    int minOccupierRating = std::any_cast<int>(data["minOccupierRating"]);
+    vector<vector<string>> reviews = std::any_cast<vector<vector<string>>>(data["reviews"]);
+    House* house = new House(hID, description, city, houseRating, start, end, consumingPoint, minOccupierRating, reviews);
+
     return false;
 }
 
@@ -52,7 +63,12 @@ bool HouseDatabase::createHouse(map<string, any> data) {
  * @param hID
  * @return House *
  */
-House* HouseDatabase::findHouse(string hID) {
+House* HouseDatabase::findHouse(int hID) {
+    for (int i = 0; i < houses.size(); i++) {
+        if (houses[i]->getID() == hID) {
+            return houses[i];
+        }
+    }
     return nullptr;
 }
 
