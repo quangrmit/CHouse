@@ -26,20 +26,18 @@ void Database::loadFile() {
     std::getline(storage, header1);
 
     vector<string> users = extractData(storage);
-    std::cout << "Hello world";
 
     std::getline(storage, header2);
 
     vector<string> houses = extractData(storage);
-    std::cout << "Hello world";
 
     std::getline(storage, header3);
 
     vector<string> requests = extractData(storage);
-    std::cout << "Hello world";
 
     memberDatabase = new MemberDatabase(users);
     houseDatabase = new HouseDatabase(houses);
+
     requestDatabase = new RequestDatabase(requests);
     
     
