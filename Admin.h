@@ -2,16 +2,15 @@
  * Project Untitled
  */
 
-#include "string"
-#include "vector"
-using std::string;
-using std::vector;
 
 #ifndef _ADMIN_H
 #define _ADMIN_H
 #include <string>
 #include <vector>
 #include "Date.h"
+#include "Database.h"
+#include "MemberDatabase.h"
+#include "HouseDatabase.h"
 using std::string;
 using std::vector;
 
@@ -29,7 +28,7 @@ vector<string> viewAllHouse();
  * @param username
  * @param password
  */
-static bool compareUsernameandPassword(string username, string password);
+bool compareUsernameandPassword(string username, string password);
 private: 
     string username;
     string password;

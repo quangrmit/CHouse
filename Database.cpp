@@ -11,6 +11,7 @@ Database * Database::single = nullptr;
 MemberDatabase * Database::memberDatabase = nullptr;
 HouseDatabase * Database::houseDatabase = nullptr;
 RequestDatabase * Database::requestDatabase = nullptr;
+Admin * Database::admin = nullptr;
 string Database::header1 = "";
 string Database::header2 = "";
 string Database::header3 = "";
@@ -39,6 +40,7 @@ void Database::loadFile() {
     houseDatabase = new HouseDatabase(houses);
 
     requestDatabase = new RequestDatabase(requests);
+    admin = new Admin();
     
     
 }
@@ -74,6 +76,10 @@ void Database::updateFile() {
 
 
 
+}
+
+Admin * Database::getAdmin() {
+    return admin;
 }
 Database::Database() {
     this->loadFile();

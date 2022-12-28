@@ -15,7 +15,8 @@
 #include "Date.h"
 #include "Member.h"
 #include "Admin.h"
- using std::string;
+#include "Database.h"
+using std::string;
  
 using std::vector;
 using std::any;
@@ -25,6 +26,8 @@ using std::string;
 
 class Authorization {
 public: 
+
+Authorization();
     
 /**
  * @param username
@@ -37,7 +40,7 @@ Member * login(std::string username, std::string password);
  * 
  */
 
-bool registerUser(map<string, any> data);
+bool registerUser(map<string, any> userData, map<string, any> houseData);
     
 /**
  * @param username

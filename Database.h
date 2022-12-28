@@ -13,6 +13,7 @@
 #include "HouseDatabase.h"
 #include "MemberDatabase.h"
 #include "RequestDatabase.h"
+#include "Admin.h"
 #include "utils.h"
 
 #define FILENAME "Data.txt"
@@ -35,11 +36,13 @@ HouseDatabase * getHouseDatabase();
 MemberDatabase * getMemberDatabase();
     
 RequestDatabase * getRequestDatabase();
+Admin * getAdmin();
 private: 
     static Database * single;
     static MemberDatabase * memberDatabase;
     static HouseDatabase * houseDatabase;
     static RequestDatabase * requestDatabase;
+    static Admin * admin;
     static string header1, header2, header3;
 
     Database();

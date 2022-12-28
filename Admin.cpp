@@ -21,7 +21,10 @@ using std::vector;
  * @return vector<string>
  */
 vector<string> Admin::viewAllUser() {
-    vector<string> result;
+    Database * database = Database::getInstance();
+    HouseDatabase * houses = database->getHouseDatabase();
+    vector<string> result = houses->readHouse({});
+    delete database, houses;
     return result;
 }
 
@@ -29,7 +32,10 @@ vector<string> Admin::viewAllUser() {
  * @return vector<string>
  */
 vector<string> Admin::viewAllHouse() {
-    vector<string> result;
+    Database * database = Database::getInstance();
+    MemberDatabase * members = database->getMemberDatabase();
+    vector<string> result = members->readMember({});
+    delete database, members;
     return result;
 
 }
@@ -40,5 +46,5 @@ vector<string> Admin::viewAllHouse() {
  * @return bool
  */
 bool Admin::compareUsernameandPassword(string username, string password) {
-    return false;
+    return (this->username.compare(username) && this->password.compare(password));
 }
