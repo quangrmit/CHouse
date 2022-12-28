@@ -3,6 +3,7 @@
  */
 
 #include "HouseDatabase.h"
+
 #include <iostream>
 
 /**
@@ -13,7 +14,7 @@
  * @param data
  * @return vector<string>
  */
-vector<string> HouseDatabase::readHouse(map<string, any> data) {
+vector<string> HouseDatabase::readHouse(map<string, string> data) {
     // if data is EMPTY, NOT NULL return all data
     vector<string> result;
     // check if data is empty
@@ -23,14 +24,14 @@ vector<string> HouseDatabase::readHouse(map<string, any> data) {
         }
 
     } else {
-        Date start = Date::string_to_date(std::any_cast<string>(data["start"]));
-        Date end = Date::string_to_date(std::any_cast<string>(data["end"]));
+        Date start = Date::string_to_date(data["start"]);
+        Date end = Date::string_to_date(data["end"]);
         for (int i = 0; i < houses.size(); i++) {
             if (start == houses[i]->getStartDate() && end == houses[i]->getEndDate()) {
                 if (data.find("city") == data.end()) {
                     result.push_back(houses[i]->toString());
                 } else {
-                    if (std::any_cast<string>(data["city"]) == houses[i]->getCity()) {
+                    if (data["city"] == houses[i]->getCity()) {
                         result.push_back(houses[i]->toString());
                     }
                 }
@@ -45,19 +46,19 @@ vector<string> HouseDatabase::readHouse(map<string, any> data) {
  * @param data
  * @return bool
  */
-bool HouseDatabase::createHouse(map<string, any> data) {
-    int hID = std::any_cast<int>(data["hID"]);
-    string description = std::any_cast<string>(data["description"]);
-    string city = std::any_cast<string>(data["city"]);
-    int houseRating = std::any_cast<int>(data["houseRating"]);
-    Date start = std::any_cast<Date>(data["start"]);
-    Date end = std::any_cast<Date>(data["end"]);
-    int consumingPoint = std::any_cast<int>(data["consumingPoint"]);
-    int minOccupierRating = std::any_cast<int>(data["minOccupierRating"]);
-    vector<vector<string>> reviews = std::any_cast<vector<vector<string>>>(data["reviews"]);
-    House* house = new House(hID, description, city, houseRating, start, end, consumingPoint, minOccupierRating, reviews);
+bool HouseDatabase::createHouse(map<string, string> data) {
+    try {
+        int hID = std::stoi(data["hID"]);
+        string description = data["description"];
+        string city = data["city"];
 
-    return false;
+        House* house = new House(hID, description, city);
+        houses.push_back(house);
+    } catch (std::bad_alloc) {
+        return false;
+    }
+
+    return true;
 }
 
 /**
