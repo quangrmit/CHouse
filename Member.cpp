@@ -27,6 +27,7 @@ Member::Member(const string &mId, const string &fullname, const string &username
                                                             credit(credit), occupierRating(occupierRating),
                                                             review(review) {};
 
+
 string Member::toString() {
 
     std::vector<string> reviewVec;

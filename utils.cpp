@@ -11,6 +11,7 @@ std::vector<std::string> split(std::string test, char delimiter) {
     }
     return seglist;
 }
+
 std::string join(std::vector<std::string> list, char joinChar) {
     std::string result = list[0];
     for (int i = 1; i < list.size(); i++) {
