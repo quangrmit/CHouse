@@ -7,6 +7,16 @@
 #define _CLI_H
 #include "Member.h"
 #include "Admin.h"
+#include "Date.h"
+#include "Guest.h"
+#include "Admin.h"
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::cin;
+using std::string;
+
 
 class CLI {
 public: 
