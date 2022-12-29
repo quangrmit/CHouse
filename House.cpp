@@ -52,9 +52,9 @@ House::House(string data) {
     House(std::stoi(dataList[0]), dataList[1], dataList[2], std::stoi(dataList[3]), startDate, endDate, cP, minORating, reviews);
 }
 // Needs reviewing
-House::House(int hId, const string &description, const string &city, int houseRating = -11,
-             const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = 0, int minOccupierRating = 0,
-             const vector<vector<string>> &reviews = {}) : hID(hId), houseRating(houseRating), description(description), city(city), start(start), end(anEnd), consumingPoint(consumingPoint), minOccupierRating(minOccupierRating), reviews(reviews){};
+House::House(int hId, const string &description, const string &city, int houseRating,
+             const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
+             const vector<vector<string>> &reviews) : hID(hId), houseRating(houseRating), description(description), city(city), start(start), end(anEnd), consumingPoint(consumingPoint), minOccupierRating(minOccupierRating), reviews(reviews){};
 string House::reviewToString() {
     vector<string> reviews;
     for (int i = 0; i < this->reviews.size(); i++) {
