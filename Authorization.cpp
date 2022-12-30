@@ -44,7 +44,7 @@ Member * Authorization::login(string username, string password) {
  * @param houseData
  * @return bool
  */
-bool Authorization::registerUser(map<string, any> userData, map<string, any> houseData) {
+bool Authorization::registerUser(map<string, string> userData, map<string, string> houseData) {
     Database * database = Database::getInstance();
     MemberDatabase * member = database->getMemberDatabase();
     HouseDatabase * house = database->getHouseDatabase();

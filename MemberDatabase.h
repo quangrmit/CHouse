@@ -22,12 +22,12 @@ public:
 /**
  * @param data
  */
-vector<string> readMember(map<string, any> data = {});
+vector<string> readMember(map<string, string> data = {});
     
 /**
  * @param data
  */
-bool createMember(map<string, any> data);
+bool createMember(map<string, string> data);
     
 /**
  * @param string mID

@@ -10,16 +10,15 @@
 
 #include <string>
 #include <vector>
-#include <any>
+// #include <any>
 #include <map>
 #include "Date.h"
-#include "Member.h"
-#include "Admin.h"
 #include "Database.h"
+#include "Admin.h"
 using std::string;
  
 using std::vector;
-using std::any;
+// using std::any;
 using std::map;
 using std::string;
 
@@ -40,7 +39,7 @@ Member * login(std::string username, std::string password);
  * 
  */
 
-bool registerUser(map<string, any> userData, map<string, any> houseData);
+bool registerUser(map<string, string> userData, map<string, string> houseData);
     
 /**
  * @param username

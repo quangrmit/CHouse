@@ -14,7 +14,7 @@
  * @param data
  * @return vector<string>
  */
-vector<string> RequestDatabase::readRequest(map<string, any> data) {
+vector<string> RequestDatabase::readRequest(map<string, string> data) {
     vector<string> result;
     return result;
 }
@@ -23,7 +23,7 @@ vector<string> RequestDatabase::readRequest(map<string, any> data) {
  * @param data
  * @return bool
  */
-bool RequestDatabase::createRequest(map<string, any> data) {
+bool RequestDatabase::createRequest(map<string, string> data) {
     return false;
 }
 

@@ -13,7 +13,7 @@
  * @param data
  * @return vector<string>
  */
-vector<string> HouseDatabase::readHouse(map<string, any> data) {
+vector<string> HouseDatabase::readHouse(map<string, string> data) {
     // if data is EMPTY, NOT NULL return all data
     vector<string> result;
     // check if data is empty
@@ -45,7 +45,7 @@ vector<string> HouseDatabase::readHouse(map<string, any> data) {
  * @param data
  * @return bool
  */
-bool HouseDatabase::createHouse(map<string, any> data) {
+bool HouseDatabase::createHouse(map<string, string> data) {
     return false;
 }
 

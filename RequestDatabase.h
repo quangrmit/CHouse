@@ -22,12 +22,12 @@ public:
 /**
  * @param data
  */
-vector<string> readRequest(map<string, any> data);
+vector<string> readRequest(map<string, string> data);
     
 /**
  * @param data
  */
-bool createRequest(map<string, any> data);
+bool createRequest(map<string, string> data);
     
 /**
  * @param rID

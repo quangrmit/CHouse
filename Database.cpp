@@ -51,7 +51,7 @@ void Database::updateFile() {
     if (!storage.is_open()) {
         throw std::runtime_error("Can't open file");
     }
-    map<string, any> data = {};
+    map<string, string> data = {};
 
     storage << header1 << "\n";
     vector<string> memberData = memberDatabase->readMember(data);
