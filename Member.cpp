@@ -2,55 +2,43 @@
  * Project Untitled
  */
 
-
 #include "Member.h"
+
 #include "utils.h"
 
-
 Member::Member(string data) {
-   std::vector<string> dataList = split(data,',');
-   std::vector<string> reviewList = split(dataList[8],';');
-   std::vector<std::vector<string>> reviews;
+    std::vector<string> dataList = split(data, ',');
+    std::vector<string> reviewList = split(dataList[8], ';');
+    std::vector<std::vector<string>> reviews;
 
-   for(string review : reviewList) {
-       reviews.push_back(split(review,'_'));
-   }
+    for (string review : reviewList) {
+        reviews.push_back(split(review, '_'));
+    }
 
-    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
-
+    Member(dataList[0], dataList[1], dataList[2], dataList[3], dataList[4], dataList[5], std::stoi(dataList[6]), std::stoi(dataList[7]), reviews);
 }
 
 Member::Member(const string &mId, const string &fullname, const string &username, const string &password,
-               const string &phonenumber, const string &hId, int credit, int occupierRating,
-               const vector<std::vector<string>> &review) : mID(mId), fullname(fullname), username(username),
-                                                            password(password), phonenumber(phonenumber), hID(hId),
-                                                            credit(credit), occupierRating(occupierRating),
-                                                            review(review) {};
-
+               const string &phonenumber, const string &hId, int credit, double occupierRating,
+               const vector<std::vector<string>> &review) : mID(mId), fullname(fullname), username(username), password(password), phonenumber(phonenumber), hID(hId), credit(credit), occupierRating(occupierRating), review(review){};
 
 string Member::toString() {
-
     std::vector<string> reviewVec;
     for (std::vector<string> element : review) {
-        reviewVec.push_back(join(element,'_'));
+        reviewVec.push_back(join(element, '_'));
     }
-    string reviewString = join(reviewVec,';');
-    return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
-                                                                                                          std::to_string(occupierRating)+","+reviewString;
+    string reviewString = join(reviewVec, ';');
+    return mID + "," + fullname + "," + username + "," + password + "," + phonenumber + "," + hID + "," + std::to_string(credit) + "," +
+           std::to_string(occupierRating) + "," + reviewString;
 }
-
-
-
 
 string Member::viewInfo() {
     return "";
 }
 
-
 bool Member::listhouse() {
     return false;
 }
-
 
 bool Member::unlisthouse() {
     return false;
@@ -62,18 +50,13 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
 }
 
 void Member::rateOccupier(string mID) {
-
 }
 
 void Member::rateHouse(string hID) {
-
 }
-
 
 void Member::requestStaying(Date start, Date end, string hID) {
-
 }
-
 
 bool Member::checkout() {
     return false;
@@ -100,7 +83,7 @@ void Member::setHid(const string &hId) {
     hID = hId;
 }
 
-int Member::getOccupierRating() const {
+double Member::getOccupierRating() const {
     return occupierRating;
 }
 
@@ -163,6 +146,3 @@ int Member::getCredit() const {
 void Member::setCredit(int credit) {
     Member::credit = credit;
 }
-
-
-

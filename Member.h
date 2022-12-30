@@ -2,26 +2,24 @@
  * Project Untitled
  */
 
-
-
-
 #ifndef _MEMBER_H
 #define _MEMBER_H
 
 #include <string>
 #include <vector>
+
 #include "Date.h"
-using std::vector;
 using std::string;
+using std::vector;
 
 class Member {
-public: 
-Member();
-Member(string data);
+   public:
+    Member();
+    Member(string data);
 
     Member(const string &mId, const string &fullname, const string &username, const string &password,
-           const string &phonenumber, const string &hId, int credit, int occupierRating,
-           const vector<std::vector<string>> &review);
+           const string &phonenumber, const string &hId, int credit = 500, double occupierRating = -11,
+           const vector<std::vector<string>> &review = {});
 
     int getCredit() const;
 
@@ -31,7 +29,7 @@ Member(string data);
 
     void setHid(const string &hId);
 
-    int getOccupierRating() const;
+    double getOccupierRating() const;
 
     void setOccupierRating(int occupierRating);
 
@@ -60,34 +58,30 @@ Member(string data);
     void setReview(const vector<std::vector<string>> &review);
 
     string viewInfo();
-    
-bool listhouse();
-    
-bool unlisthouse();
-    
 
-vector<string> searchHouse(Date start, Date end, string city);
+    bool listhouse();
 
-void rateOccupier(string mID);
-    
+    bool unlisthouse();
 
-void rateHouse(string hID);
-    
+    vector<string> searchHouse(Date start, Date end, string city);
 
-void requestStaying(Date start, Date end, string hID);
-    
-bool checkout();
-    
-vector<string> viewAllRequests();
-    
+    void rateOccupier(string mID);
 
-bool acceptRequest(string rID);
+    void rateHouse(string hID);
 
-bool compareUsernameandPassword(string username, string password);
+    void requestStaying(Date start, Date end, string hID);
 
-string toString();
+    bool checkout();
 
-private: 
+    vector<string> viewAllRequests();
+
+    bool acceptRequest(string rID);
+
+    bool compareUsernameandPassword(string username, string password);
+
+    string toString();
+
+   private:
     string mID;
     string fullname;
     string username;
@@ -95,8 +89,8 @@ private:
     string phonenumber;
     string hID;
     int credit;
-    int occupierRating;
+    double occupierRating;
     std::vector<std::vector<string>> review;
 };
 
-#endif //_MEMBER_H
+#endif  //_MEMBER_H

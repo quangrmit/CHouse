@@ -14,10 +14,55 @@
  */
 vector<string> MemberDatabase::readMember(map<string, string> data) {
     vector<string> result;
+    string emptyMark = "#";
+
+    string hID;
+    int credit;
+    double occupierRating;
+    string username;
+    string phonenumber;
     // Check if data is empty
     if (data.empty()) {
         for (int i = 0; i < members.size(); i++) {
             result.push_back(members[i]->toString());
+        }
+    } else {
+        if (data.count("hID") == 0) {
+            data["hID"] = emptyMark;
+        } else {
+            hID = data["hID"];
+        }
+        if (data.count("credit") == 0) {
+            data["credit"] = emptyMark;
+        } else {
+            credit = std::stoi(data["credit"]);
+        }
+        if (data.count("occupierRating") == 0) {
+            data["occupierRating"] = emptyMark;
+        } else {
+            occupierRating = std::stod(data["occupierRating"]);
+        }
+        if (data.count("username") == 0) {
+            data["username"] = emptyMark;
+        } else {
+            username = data["username"];
+        }
+        if (data.count("phonenumber") == 0) {
+            data["phonenumber"] = emptyMark;
+        } else {
+            phonenumber = data["phonenumber"];
+        }
+        for (Member* member : members) {
+            if (
+                (member->getHid() == hID || data["hID"] == emptyMark) &&
+                (member->getCredit() == credit || data["credit"] == emptyMark) &&
+                (member->getOccupierRating() == occupierRating || data["occupierRating"] == emptyMark) &&
+                (member->getUsername() == username || data["username"] == emptyMark) &&
+                (member->getPhonenumber() == phonenumber || data["phonenumber"] == emptyMark)
+
+            ) {
+                result.push_back(member->toString());
+            }
         }
     }
     return result;
@@ -35,10 +80,8 @@ bool MemberDatabase::createMember(map<string, string> data) {
         string password = data["password"];
         string phonenumber = data["phonenumber"];
         string hID = data["hID"];
-        int credit = 500;
-        int occupierRating = -11;
-        vector<vector<string>> review = {};
-        Member* member = new Member(mID, fullname, username, password, phonenumber, hID, credit, occupierRating, review);
+
+        Member* member = new Member(mID, fullname, username, password, phonenumber, hID);
         members.push_back(member);
 
     } catch (std::bad_alloc) {

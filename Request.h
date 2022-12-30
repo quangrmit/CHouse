@@ -2,27 +2,23 @@
  * Project Untitled
  */
 
-
 #ifndef _REQUEST_H
 #define _REQUEST_H
 
+#include "Date.h"
 #include "string"
 #include "vector"
-#include "Date.h"
 using std::string;
 using std::vector;
 
-
 class Request {
-public: 
+   public:
+    string toString();
 
-    
-string toString();
+    Request(string data);
 
-Request(string data);
-
-    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status,
-            bool close);
+    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status = -1,
+            bool close = false);
 
     const string &getRid() const;
 
@@ -52,7 +48,7 @@ Request(string data);
 
     void setClose(bool close);
 
-private:
+   private:
     string rID;
     string mID;
     string hID;
@@ -62,4 +58,4 @@ private:
     bool close;
 };
 
-#endif //_REQUEST_H
+#endif  //_REQUEST_H

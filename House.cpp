@@ -51,8 +51,8 @@ House::House(string data) {
 
     House(std::stoi(dataList[0]), dataList[1], dataList[2], std::stoi(dataList[3]), startDate, endDate, cP, minORating, reviews);
 }
-// Needs reviewing
-House::House(int hId, const string &description, const string &city, int houseRating,
+
+House::House(int hId, const string &description, const string &city, double houseRating,
              const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
              const vector<vector<string>> &reviews) : hID(hId), houseRating(houseRating), description(description), city(city), start(start), end(anEnd), consumingPoint(consumingPoint), minOccupierRating(minOccupierRating), reviews(reviews){};
 string House::reviewToString() {
@@ -63,7 +63,7 @@ string House::reviewToString() {
     return join(reviews, ';');
 }
 
-int House::getHouseRating() const {
+double House::getHouseRating() const {
     return houseRating;
 }
 
