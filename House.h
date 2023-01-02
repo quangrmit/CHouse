@@ -19,16 +19,18 @@ class House {
      * @param data
      */
     House(string data);
-   
-   House(int hId, const string &description, const string &city, int houseRating,
-          const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
-          const vector<vector<string>> &reviews);
 
+    //    House(int hId, const string &description, const string &city, int houseRating,
+    //           const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
+    //           const vector<vector<string>> &reviews);
+    House(int hId, const string &description, const string &city, double houseRating = -11,
+          const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = 0, int minOccupierRating = 0,
+          const vector<vector<string>> &reviews = {});
     const string &getHid() const;
 
     void setHid(const string &hId);
 
-    int getHouseRating() const;
+    double getHouseRating() const;
 
     void setHouseRating(int houseRating);
 
@@ -58,9 +60,8 @@ class House {
     void setReviews(vector<vector<string>> reviews);
 
    private:
-
     int hID;
-    int houseRating;
+    double houseRating;
     string description;
     string city;
     Date start;

@@ -23,17 +23,17 @@ class HouseDatabase {
     /**
      * @param data
      */
-    vector<string> readHouse(map<string, any> data);
+    vector<string> readHouse(map<string, string> data);
 
     /**
      * @param data
      */
-    bool createHouse(map<string, any> data);
+    bool createHouse(map<string, string> data);
 
     /**
      * @param hID
      */
-    House* findHouse(string hID);
+    House* findHouse(int hID);
 
     /**
      * @param data

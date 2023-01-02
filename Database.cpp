@@ -2,15 +2,14 @@
  * Project Untitled
  */
 
-
 #include "Database.h"
 /**
  * Database implementation
  */
-Database * Database::single = nullptr;
-MemberDatabase * Database::memberDatabase = nullptr;
-HouseDatabase * Database::houseDatabase = nullptr;
-RequestDatabase * Database::requestDatabase = nullptr;
+Database* Database::single = nullptr;
+MemberDatabase* Database::memberDatabase = nullptr;
+HouseDatabase* Database::houseDatabase = nullptr;
+RequestDatabase* Database::requestDatabase = nullptr;
 string Database::header1 = "";
 string Database::header2 = "";
 string Database::header3 = "";
@@ -39,8 +38,6 @@ void Database::loadFile() {
     houseDatabase = new HouseDatabase(houses);
 
     requestDatabase = new RequestDatabase(requests);
-    
-    
 }
 
 void Database::updateFile() {
@@ -49,7 +46,7 @@ void Database::updateFile() {
     if (!storage.is_open()) {
         throw std::runtime_error("Can't open file");
     }
-    map<string, any> data = {};
+    map<string, string> data = {};
 
     storage << header1 << "\n";
     vector<string> memberData = memberDatabase->readMember(data);
@@ -71,18 +68,14 @@ void Database::updateFile() {
         storage << requestData.at(i) << "\n";
     }
     storage << "\n";
-
-
-
 }
 Database::Database() {
     this->loadFile();
-
 }
 /**
  * @return Database *
  */
-Database * Database::getInstance() {
+Database* Database::getInstance() {
     if (single == nullptr) {
         single = new Database();
     }
@@ -92,21 +85,20 @@ Database * Database::getInstance() {
 /**
  * @return HouseDatabase *
  */
-HouseDatabase * Database::getHouseDatabase() {
+HouseDatabase* Database::getHouseDatabase() {
     return houseDatabase;
 }
 
 /**
  * @return MemberDatabase *
  */
-MemberDatabase * Database::getMemberDatabase() {
+MemberDatabase* Database::getMemberDatabase() {
     return memberDatabase;
 }
 
 /**
  * @return RequestDatabase *
  */
-RequestDatabase * Database::getRequestDatabase() {
+RequestDatabase* Database::getRequestDatabase() {
     return requestDatabase;
 }
-
