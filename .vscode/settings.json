@@ -56,8 +56,3 @@
         "xutility": "cpp"
     }
 }
-{
-    "files.associations": {
-        "iostream": "cpp"
-    }
-}
