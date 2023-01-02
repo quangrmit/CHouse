@@ -34,8 +34,15 @@ string Request::toString() {
 
      bool complete;
      (dataList[6]=="true") ? complete = true : complete = false;
+     this->rID = dataList[0];
+     this->mID = dataList[1];
+     this->hID = dataList[2];
+     this->start = startDate;
+     this->end = endDate;
+     this->status = std::stoi(dataList[5]);
+     this->close = complete;
 
-     Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),complete);
+    //  Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),complete);
 
 }
 

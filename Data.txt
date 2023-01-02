@@ -1,8 +1,8 @@
 mID,fullName,username,password,phoneNumber,hID,credit,o_rating,review
 1,Phu,Phu,123,1234578,1,80,10,10_good;10_too good;10_well done
 2,Quang,Quang,123,1234578,2,500,-10,-10_bad;-10_too bad;-10_bad
-3,Linh,Linh,123,1234578,3,90,100,5_"oke";5_"oke";5_"oke"
-4,Nguyen,Nguyen,123,1234578,4,40,0,0_"oke",0_"oke";0_"oke";0_"oke"
+3,Linh,Linh,123,1234578,3,90,5,5_oke;5_oke;5_oke
+4,Nguyen,Nguyen,123,1234578,4,40,0,0_oke;0_oke;0_oke;0_oke
 
 hID,description,city,h_rating,start,end,consuming_point,min_o_rating,reviews
 1,nice house,HCM,10,12/12/2022,01/01/2023,130,1,10_good;10_excellent
@@ -14,6 +14,3 @@ rID,mID,hID,start,end,status,close
 1,1,2,07/01/2023,09/02/2023,1,false
 2,3,2,07/01/2023,09/02/2023,0,true
 3,4,2,06/01/2023,07/01/2023,1,false
-
-
-

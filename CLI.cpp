@@ -40,7 +40,7 @@ void CLI::welcome() {
         switch(choice) {
             case 0:
                 cout << "Hope you have a nice day";
-                return;
+                exit(0);
             case 1: 
                 openGuestMenu();
                 break;

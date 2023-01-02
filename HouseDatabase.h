@@ -33,7 +33,7 @@ class HouseDatabase {
     /**
      * @param hID
      */
-    House* findHouse(string hID);
+    House* findHouse(int hID);
 
     /**
      * @param data

@@ -2,15 +2,14 @@
  * Project Untitled
  */
 
-
 #include "Database.h"
 /**
  * Database implementation
  */
-Database * Database::single = nullptr;
-MemberDatabase * Database::memberDatabase = nullptr;
-HouseDatabase * Database::houseDatabase = nullptr;
-RequestDatabase * Database::requestDatabase = nullptr;
+Database* Database::single = nullptr;
+MemberDatabase* Database::memberDatabase = nullptr;
+HouseDatabase* Database::houseDatabase = nullptr;
+RequestDatabase* Database::requestDatabase = nullptr;
 Admin * Database::admin = nullptr;
 string Database::header1 = "";
 string Database::header2 = "";
@@ -36,13 +35,12 @@ void Database::loadFile() {
 
     vector<string> requests = extractData(storage);
 
+
     memberDatabase = new MemberDatabase(users);
     houseDatabase = new HouseDatabase(houses);
 
     requestDatabase = new RequestDatabase(requests);
     admin = new Admin();
-    
-    
 }
 
 void Database::updateFile() {
@@ -73,22 +71,20 @@ void Database::updateFile() {
         storage << requestData.at(i) << "\n";
     }
     storage << "\n";
-
-
-
 }
 
 Admin * Database::getAdmin() {
     return admin;
 }
+
+
 Database::Database() {
     this->loadFile();
-
 }
 /**
  * @return Database *
  */
-Database * Database::getInstance() {
+Database* Database::getInstance() {
     if (single == nullptr) {
         single = new Database();
     }
@@ -98,21 +94,20 @@ Database * Database::getInstance() {
 /**
  * @return HouseDatabase *
  */
-HouseDatabase * Database::getHouseDatabase() {
+HouseDatabase* Database::getHouseDatabase() {
     return houseDatabase;
 }
 
 /**
  * @return MemberDatabase *
  */
-MemberDatabase * Database::getMemberDatabase() {
+MemberDatabase* Database::getMemberDatabase() {
     return memberDatabase;
 }
 
 /**
  * @return RequestDatabase *
  */
-RequestDatabase * Database::getRequestDatabase() {
+RequestDatabase* Database::getRequestDatabase() {
     return requestDatabase;
 }
-

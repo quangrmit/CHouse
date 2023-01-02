@@ -5,6 +5,7 @@
 
 #include "Member.h"
 #include "utils.h"
+#include <iostream>
 
 
 Member::Member(string data) {
@@ -15,25 +16,34 @@ Member::Member(string data) {
    for(string review : reviewList) {
        reviews.push_back(split(review,'_'));
    }
-
-    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
+   this->mID = dataList[0];
+   this->fullname = dataList[1];
+   this->username = dataList[2];
+   this->password = dataList[3];
+   this->phonenumber = dataList[4];
+   this->hID = dataList[5];
+   this->credit = std::stoi(dataList[6]);
+   this->occupierRating = std::stoi(dataList[7]);
+   this->review = reviews;
+//    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
 
 }
 
 Member::Member(const string &mId, const string &fullname, const string &username, const string &password,
                const string &phonenumber, const string &hId, int credit, int occupierRating,
-               const vector<std::vector<string>> &review) : mID(mId), fullname(fullname), username(username),
+               const vector<vector<string>> &review) : mID(mId), fullname(fullname), username(username),
                                                             password(password), phonenumber(phonenumber), hID(hId),
-                                                            credit(credit), occupierRating(occupierRating),
-                                                            review(review) {};
+                                                            credit(credit), occupierRating(occupierRating), review(review)
+                                                            {}
 
 
 string Member::toString() {
-
     std::vector<string> reviewVec;
     for (std::vector<string> element : review) {
+        string mid = join(element, '_');
         reviewVec.push_back(join(element,'_'));
     }
+    
     string reviewString = join(reviewVec,';');
     return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
                                                                                                           std::to_string(occupierRating)+","+reviewString;

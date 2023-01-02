@@ -21,8 +21,8 @@ string toString();
 
 Request(string data);
 
-    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status,
-            bool close);
+    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status=-1,
+            bool close=false);
 
     const string &getRid() const;
 
