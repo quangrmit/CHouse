@@ -23,6 +23,8 @@ class Date {
     bool operator>(Date d2);
     bool operator<(Date d2);
     bool operator==(Date d2);
+    bool operator>=(Date d2);
+    bool operator<=(Date d2);
     int operator-(Date d2);
     void setEmpty();
     bool isEmpty();

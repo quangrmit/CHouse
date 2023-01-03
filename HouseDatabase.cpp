@@ -27,7 +27,7 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
         Date start = Date::string_to_date(data["start"]);
         Date end = Date::string_to_date(data["end"]);
         for (int i = 0; i < houses.size(); i++) {
-            if (start == houses[i]->getStartDate() && end == houses[i]->getEndDate()) {
+            if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
                 if (data.find("city") == data.end()) {
                     result.push_back(houses[i]->toString());
                 } else {
@@ -48,7 +48,7 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
  */
 bool HouseDatabase::createHouse(map<string, string> data) {
     try {
-        int hID = std::stoi(data["hID"]);
+        int hID = houses.size() + 1;
         string description = data["description"];
         string city = data["city"];
 

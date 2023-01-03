@@ -74,7 +74,7 @@ vector<string> MemberDatabase::readMember(map<string, string> data) {
  */
 bool MemberDatabase::createMember(map<string, string> data) {
     try {
-        string mID = data["mID"];
+        string mID = std::to_string(members.size() + 1);
         string fullname = data["fullname"];
         string username = data["username"];
         string password = data["password"];
