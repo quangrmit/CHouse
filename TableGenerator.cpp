@@ -1,192 +1,196 @@
+/**
+ * Project Untitled
+ */
 
-#include "utils.h"
-#include <iostream>
-#include <fstream>
-#include <map>
-#include <unordered_map>
-#include <vector>
-#include <string>
-#include <sstream>
+#include "TableGenerator.h"
 
-using std::cout;
-using std::string;
-using std::cin;
-using std::vector;
-using std::stringstream;
-using std::map;
-using std::unordered_map;
-using std::getline;
+/**
+ * TableGenerator implementation
+ */
 
-#define PADDING_SIZE 1 
-#define NEW_LINE "n"
-#define TABLE_JOINT "+"
-#define TABLE_V_SPLsIT "|"
-#define TABLE_H_SPLIT "-"
+/**
+ * @param  {vector<string>} headerList          : 
+ * @param  {vector<vector<string>>} rowList     : 
+ * @param  {vector<int>} overRiddenHeaderHeight : 
+ * @return {string}                             : 
+ */
+string TableGenerator::generateTable(vector<string> headerList, vector<vector<string>> rowList, vector<int> overRiddenHeaderHeight) {
+    stringstream sstr;
+    int rowHeight = overRiddenHeaderHeight.size() > 0 ? overRiddenHeaderHeight[0] : 1;
+    map<int, int> columnMaxWidthMapping = getMaximumWidth(headerList, rowList);
+    sstr << newLine << newLine;
 
-class TableGenerator {
-private: 
-    int padding_size = 1;
-    string new_line = "\n";
-    string table_joint = "+";
-    string table_v_split = "|";
-    string table_h_split = TABLE_H_SPLIT;
+    createRowLines(sstr, headerList.size(), columnMaxWidthMapping);
+    sstr << newLine;
 
-public:
-    string generate_table(vector<string> header_list, vector<vector<string>> row_list, vector<int> over_ridden_header_height) {
-        stringstream sstr;
-        int row_height = over_ridden_header_height.size() > 0 ? over_ridden_header_height[0] : 1;
-        map<int, int> column_max_width_mapping = get_maximum_width(header_list, row_list);
-        sstr << new_line << new_line;
+    for (int headerIndex = 0; headerIndex < headerList.size(); headerIndex++) {
+        fillCell(sstr, headerList[headerIndex], headerIndex,columnMaxWidthMapping);
+    }
 
-        create_row_lines(sstr, header_list.size(), column_max_width_mapping);
-        sstr << new_line;
+    sstr << newLine;
+    createRowLines(sstr, headerList.size(), columnMaxWidthMapping);
 
-        for (int header_index = 0; header_index < header_list.size(); header_index++) {
-            fill_cell(sstr, header_list[header_index], header_index,column_max_width_mapping);
+    for(vector<string> row : rowList) {
+
+        for (int i = 0; i < rowHeight; i++) {
+            sstr << newLine;
         }
 
-        sstr << new_line;
-        create_row_lines(sstr, header_list.size(), column_max_width_mapping);
-
-        for(vector<string> row : row_list) {
-
-            for (int i = 0; i < row_height; i++) {
-                sstr << new_line;
-            }
-
-            for (int cell_index = 0; cell_index < row.size(); cell_index++) {
-                fill_cell(sstr, row[cell_index], cell_index, column_max_width_mapping);
-            }
+        for (int cellIndex = 0; cellIndex < row.size(); cellIndex++) {
+            fillCell(sstr, row[cellIndex], cellIndex, columnMaxWidthMapping);
         }
-        
-        sstr << new_line;
-        
-        create_row_lines(sstr, header_list.size(), column_max_width_mapping);
-        sstr << new_line;
-        sstr << new_line;
-
-        // cout << sstr.str();
-        // for (int i =0; i < header_list.size(); i++) {
-        //     cout << header_list[i] << "\n";
-        // }
-        return sstr.str();
     }
     
-    map<int, int> get_maximum_width(vector<string> header_list, vector<vector<string>> row_list) {
-        map<int, int> column_max_width_mapping = {};
+    sstr << newLine;
+    
+    createRowLines(sstr, headerList.size(), columnMaxWidthMapping);
+    sstr << newLine;
+    sstr << newLine;
 
-        for (int column_index = 0; column_index < header_list.size(); column_index++) {
-            // column_max_width_mapping.insert({column_index, 0});
-            column_max_width_mapping[column_index] = 0;
-        }
+    // cout << sstr.str();
+    // for (int i =0; i < header_list.size(); i++) {
+    //     cout << header_list[i] << "\n";
+    // }
+    return sstr.str();
+}
 
-        for (int column_index = 0; column_index < header_list.size(); column_index++) {
-            if (header_list[column_index].length() > column_max_width_mapping[column_index]) {
-                // column_max_width_mapping.insert({column_index, header_list[column_index].length()});
-                column_max_width_mapping[column_index] = header_list[column_index].length();
-            }
-        }
+/**
+ * @param  {vector<string>} headerList      : 
+ * @param  {vector<vector<string>>} rowList : 
+ * @return {map<int,}                       : 
+ */
+map<int, int> TableGenerator::getMaximumWidth(vector<string> headerList, vector<vector<string>> rowList) {
+    map<int, int> columnMaxWidthMapping = {};
 
-        for(vector<string> row: row_list) {
-
-            for (int column_index = 0; column_index < row.size(); column_index++) {
-
-                if (row[column_index].length() > column_max_width_mapping[column_index]) {
-                    // column_max_width_mapping.insert({column_index, row[column_index].length()});
-                    column_max_width_mapping[column_index] = row[column_index].length();
-                }
-            }
-        }
-
-        for (int column_index = 0; column_index < header_list.size(); column_index++) {
-
-            if (column_max_width_mapping[column_index] % 2 !=0) {
-                // column_max_width_mapping.insert({column_index,column_max_width_mapping[column_index] + 1});
-                column_max_width_mapping[column_index] = column_max_width_mapping[column_index] + 1;
-            }
-        }
-
-        // for (int i =0; i < column_max_width_mapping.size(); i++) {
-        //     cout << column_max_width_mapping[i];            
-        // }
-
-        return column_max_width_mapping;
+    for (int columnIndex = 0; columnIndex < headerList.size(); columnIndex++) {
+        // column_max_width_mapping.insert({column_index, 0});
+        columnMaxWidthMapping[columnIndex] = 0;
     }
 
-    void create_row_lines(stringstream& sstr, int header_list_size, map<int, int> column_max_width_mapping) {
-
-        for (int i =0; i < header_list_size; i++) {
-            if (i==0) {
-                sstr << table_joint;
-            }
-            for (int j = 0; j <column_max_width_mapping[i] + padding_size *2; j++) {
-                sstr << table_h_split;                    
-            }
-            sstr << table_joint;
-        }
-        // cout << "\nCreate row lines: " <<sstr.str();
-    }
-
-    int get_optimum_cell_padding(int cell_index, int data_length, map<int, int> column_max_width_mapping, int cell_padding_size){
-
-        if(data_length % 2 != 0 ) {
-            data_length++;
-        }
-
-        if (data_length < column_max_width_mapping[cell_index]) {
-            cell_padding_size = cell_padding_size + (column_max_width_mapping[cell_index] - data_length) /2;
-        }
-
-        return cell_padding_size;
-    }
-
-    void fill_space(stringstream& sstr, int length) {
-        for (int i =0; i < length; i++) {
-            sstr << " ";
+    for (int columnIndex = 0; columnIndex < headerList.size(); columnIndex++) {
+        if (headerList[columnIndex].length() > columnMaxWidthMapping[columnIndex]) {
+            // column_max_width_mapping.insert({column_index, header_list[column_index].length()});
+            columnMaxWidthMapping[columnIndex] = headerList[columnIndex].length();
         }
     }
 
-    void fill_cell(stringstream& sstr, string cell, int cell_index, map<int, int> column_max_width_mapping) {
-        int cell_padding_size = get_optimum_cell_padding(cell_index, cell.length(), column_max_width_mapping, padding_size);
+    for(vector<string> row: rowList) {
 
-        if(cell_index == 0) {
-            sstr << table_v_split;
+        for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
+
+            if (row[columnIndex].length() > columnMaxWidthMapping[columnIndex]) {
+                // column_max_width_mapping.insert({column_index, row[column_index].length()});
+                columnMaxWidthMapping[columnIndex] = row[columnIndex].length();
+            }
         }
-
-        fill_space(sstr, cell_padding_size);
-
-        sstr << cell;
-
-        if(cell.length() % 2 != 0 ) {
-            sstr << " ";
-        }
-
-        fill_space(sstr, cell_padding_size);
-
-        sstr << table_v_split;
-
-        // cout << "\nFill cell:" << sstr.str();
     }
-    // static void print_table(vector<>)
 
-    static void print_table(string header, vector<string>result) {
-        TableGenerator *table_generator  = new TableGenerator();
-        vector<string> headers_list = split(header, ',');
-        vector <vector<string>> rows_list = {};
-        for (int i =0; i < result.size(); i++) {
-            rows_list.push_back(split(result[i], ','));
+    for (int columnIndex = 0; columnIndex < headerList.size(); columnIndex++) {
+
+        if (columnMaxWidthMapping[columnIndex] % 2 !=0) {
+            // column_max_width_mapping.insert({column_index,column_max_width_mapping[column_index] + 1});
+            columnMaxWidthMapping[columnIndex] = columnMaxWidthMapping[columnIndex] + 1;
         }
-        cout << table_generator->generate_table(headers_list, rows_list, {});
-    }    
-};
+    }
 
-int main() {
-    string header = "ID, Name, Age, School";
-    vector<string> rows = {"01, Linh, 20, RMIT", "02, Quang, 19, RMIT", "03, Phu, 19, RMIT"};
-    TableGenerator *table_generator = new TableGenerator();
-    // stringstream sstr;
-    // table_generator->get_maximum_width(header, rows);
-    table_generator->print_table(header,rows);
-    cout << "Hello";
-    return 0;
+    // for (int i =0; i < column_max_width_mapping.size(); i++) {
+    //     cout << column_max_width_mapping[i];            
+    // }
+
+    return columnMaxWidthMapping;
+}
+
+/**
+ * @param  {stringstream} sstr          : 
+ * @param  {int} headerListSize         : 
+ * @param  {map<int} undefined          : 
+ * @param  {int>} columnMaxWidthMapping : 
+ */
+void TableGenerator:: createRowLines(stringstream& sstr, int headerListSize, map<int, int> columnMaxWidthMapping) {
+
+    for (int i =0; i < headerListSize; i++) {
+        if (i==0) {
+            sstr << tableJoint;
+        }
+        for (int j = 0; j <columnMaxWidthMapping[i] + paddingSize *2; j++) {
+            sstr << tableHSplit;                    
+        }
+        sstr << tableJoint;
+    }
+    // cout << "\nCreate row lines: " <<sstr.str();
+}
+
+/**
+ * @param  {int} cellIndex              : 
+ * @param  {int} dataLength             : 
+ * @param  {map<int} undefined          : 
+ * @param  {int>} columnMaxWidthMapping : 
+ * @param  {int} cellPaddingSize        : 
+ * @return {int}                        : 
+ */
+int TableGenerator::getOptimumCellPadding(int cellIndex, int dataLength, map<int, int> columnMaxWidthMapping, int cellPaddingSize){
+
+    if(dataLength % 2 != 0 ) {
+        dataLength++;
+    }
+
+    if (dataLength < columnMaxWidthMapping[cellIndex]) {
+        cellPaddingSize = cellPaddingSize + (columnMaxWidthMapping[cellIndex] - dataLength) /2;
+    }
+
+    return cellPaddingSize;
+}
+/** 
+ * @param  {stringstream} sstr : 
+ * @param  {int} length        : 
+ */
+
+void TableGenerator::fillSpace(stringstream& sstr, int length) {
+    for (int i =0; i < length; i++) {
+        sstr << " ";
+    }
+}
+
+/**
+ * @param  {stringstream} sstr          : 
+ * @param  {string} cell                : 
+ * @param  {int} cellIndex              : 
+ * @param  {map<int} undefined          : 
+ * @param  {int>} columnMaxWidthMapping : 
+ */
+void TableGenerator::fillCell(stringstream& sstr, string cell, int cellIndex, map<int, int> columnMaxWidthMapping) {
+    int cellPaddingSize = getOptimumCellPadding(cellIndex, cell.length(), columnMaxWidthMapping, paddingSize);
+
+    if(cellIndex == 0) {
+        sstr << tableVSplit;
+    }
+
+    fillSpace(sstr, cellPaddingSize);
+
+    sstr << cell;
+
+    if(cell.length() % 2 != 0 ) {
+        sstr << " ";
+    }
+
+    fillSpace(sstr, cellPaddingSize);
+
+    sstr << tableVSplit;
+
+    // cout << "\nFill cell:" << sstr.str();
+}
+
+/**
+ * 
+ * @param  {string} header                  : 
+ * @param  {vector<string>result} undefined : 
+ */
+void TableGenerator::printTable(string header, vector<string>result) {
+    TableGenerator *table_generator  = new TableGenerator();
+    vector<string> headersList = split(header, ',');
+    vector <vector<string>> rowsList = {};
+    for (int i =0; i < result.size(); i++) {
+        rowsList.push_back(split(result[i], ','));
+    }
+    cout << table_generator->generateTable(headersList, rowsList, {});
 }
