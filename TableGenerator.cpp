@@ -167,44 +167,9 @@ public:
 
         // cout << "\nFill cell:" << sstr.str();
     }
-
-    static void print_table(string file_name, int ID) {
-        TableGenerator *table_generator = new TableGenerator();
-        vector<string> header_list = {};
-        vector <vector<string>> rows_list = {};
-        std::fstream my_file;
-        my_file.open(file_name, std::ios::in);
-        if (!my_file) {
-            std::cerr << "Unable to open file \n";
-        } else {           
-            string header;
-            getline(my_file, header);
-            header_list = split(header, ',');
-
-            int count = 1;
-            string row;
-            while (getline(my_file, row)) {
-                vector<string> rows = split(row,',');
-                if(count == ID) {
-                    rows_list.push_back(rows);
-                    break;
-                } else {
-                    count++;
-                    continue;
-                }
-            }
-        }
-
-        cout << table_generator->generater_table(header_list, rows_list, {});
-        
-    }
-
     // static void print_table(vector<>)
 
-    static void print_table(string file_name) {
-        std::fstream my_file;
-        my_file.open(file_name, std::ios::in);
-
+    static void print_table(vector<string>result, string header) {
         TableGenerator *table_generator  = new TableGenerator();
         vector<string> headers_list = {};
         vector <string> rows_list = {};
