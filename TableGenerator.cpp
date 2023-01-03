@@ -32,7 +32,7 @@ private:
     string table_h_split = TABLE_H_SPLIT;
 
 public:
-    string generater_table(vector<string> header_list, vector<vector<string>> row_list, vector<int> over_ridden_header_height) {
+    string generate_table(vector<string> header_list, vector<vector<string>> row_list, vector<int> over_ridden_header_height) {
         stringstream sstr;
         int row_height = over_ridden_header_height.size() > 0 ? over_ridden_header_height[0] : 1;
         map<int, int> column_max_width_mapping = get_maximum_width(header_list, row_list);
@@ -169,21 +169,24 @@ public:
     }
     // static void print_table(vector<>)
 
-    static void print_table(vector<string>result, string header) {
+    static void print_table(string header, vector<string>result) {
         TableGenerator *table_generator  = new TableGenerator();
-        vector<string> headers_list = {};
-        vector <string> rows_list = {};
+        vector<string> headers_list = split(header, ',');
+        vector <vector<string>> rows_list = {};
+        for (int i =0; i < result.size(); i++) {
+            rows_list.push_back(split(result[i], ','));
+        }
+        cout << table_generator->generate_table(headers_list, rows_list, {});
     }    
 };
 
 int main() {
-    vector<string> header = {"ID","Name", "Age", "School"};
-    vector<vector<string>> rows = {{"01", "Linh", "20", "RMIT"}, {"02", "Quang", "19", "RMIT"}, {"03", "Phu", "19", "RMIT"}};
+    string header = "ID, Name, Age, School";
+    vector<string> rows = {"01, Linh, 20, RMIT", "02, Quang, 19, RMIT", "03, Phu, 19, RMIT"};
     TableGenerator *table_generator = new TableGenerator();
     // stringstream sstr;
     // table_generator->get_maximum_width(header, rows);
-    cout << table_generator->generater_table(header,rows,{});
-    
+    table_generator->print_table(header,rows);
     cout << "Hello";
     return 0;
 }
