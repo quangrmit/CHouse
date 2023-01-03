@@ -59,8 +59,8 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
             int status = std::stoi(data["status"]);
         }
         for (Request* request : requests) {
-            if ((start == request->getStart() || data["start"] == emptyMark) &&
-                (end == request->getAnEnd() || data["end"] == emptyMark) &&
+            if ((start <= request->getStart() || data["start"] == emptyMark) &&
+                (end >= request->getAnEnd() || data["end"] == emptyMark) &&
                 (hID == request->getHid() || data["hID"] == emptyMark) &&
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
@@ -80,7 +80,7 @@ bool RequestDatabase::createRequest(map<string, string> data) {
     try {
         string hID = data["hID"];
         string mID = data["mID"];
-        string rID = data["rID"];
+        string rID = std::to_string(requests.size() + 1);
         Date start = Date::string_to_date(data["start"]);
         Date end = Date::string_to_date(data["end"]);
 

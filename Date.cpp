@@ -1,7 +1,5 @@
 #include "Date.h"
 
-
-
 #include "utils.h"
 
 Date::Date() {}
@@ -65,7 +63,6 @@ bool Date::operator<(Date d2) {
     } else {
         return false;
     }
-
 }
 
 bool Date::operator==(Date d2) {
@@ -75,7 +72,19 @@ bool Date::operator==(Date d2) {
         return false;
     }
 }
-int Date::operator - (Date d2) {
+bool Date::operator>=(Date d2) {
+    if (*this > d2 || *this == d2) {
+        return true;
+    }
+    return false;
+}
+bool Date::operator<=(Date d2) {
+    if (*this < d2 || *this == d2) {
+        return true;
+    }
+    return false;
+}
+int Date::operator-(Date d2) {
     if (*this == d2) {
         return 0;
     }
