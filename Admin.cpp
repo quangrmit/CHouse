@@ -10,13 +10,14 @@
 
 
  Admin::Admin() {
-
+    this->username = "admin";
+    this->password = "123";
 }
 
 /**
  * @return vector<string>
  */
-vector<string> Admin::viewAllUser() {
+vector<string> Admin::viewAllHouse() {
     Database * database = Database::getInstance();
     HouseDatabase * houses = database->getHouseDatabase();
     vector<string> result = houses->readHouse({});
@@ -27,7 +28,7 @@ vector<string> Admin::viewAllUser() {
 /**
  * @return vector<string>
  */
-vector<string> Admin::viewAllHouse() {
+vector<string> Admin::viewAllUser() {
     Database * database = Database::getInstance();
     MemberDatabase * members = database->getMemberDatabase();
     vector<string> result = members->readMember({});

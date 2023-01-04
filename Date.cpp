@@ -3,6 +3,7 @@
 
 
 #include "utils.h"
+#include <iostream>
 
 Date::Date() {}
 Date::Date(int date, int month, int year) {
@@ -140,8 +141,14 @@ std::string Date::date_to_string(Date* dmy) {
     if (dmy->date < 10) {
         date = "0" + std::to_string(dmy->date);
     }
+    else {
+        date = std::to_string(dmy->date);
+    }
     if (dmy->month < 10) {
         month = "0" + std::to_string(dmy->month);
+    }
+    else {
+        month = std::to_string(dmy->month);
     }
     result = date + "/" + month + "/" + year;
 
@@ -152,6 +159,7 @@ Date Date::string_to_date(std::string str) {
     std::vector<std::string> list = split(str, '/');
     int date = std::stoi(list[0]);
     int month = std::stoi(list[1]);
+    
     int year = std::stoi(list[2]);
     return Date(date, month, year);
 }

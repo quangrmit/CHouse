@@ -23,14 +23,14 @@ class House {
     //    House(int hId, const string &description, const string &city, int houseRating,
     //           const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
     //           const vector<vector<string>> &reviews);
-    House(int hId, const string &description, const string &city, int houseRating = -11,
-          const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = 0, int minOccupierRating = 0,
+    House(string hId, const string &description, const string &city, double houseRating = -11,
+          const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = 0, double minOccupierRating = -11,
           const vector<vector<string>> &reviews = {});
-    const string &getHid() const;
+//     string getHid() const;
 
     void setHid(const string &hId);
 
-    int getHouseRating() const;
+    double getHouseRating() const;
 
     void setHouseRating(int houseRating);
 
@@ -42,12 +42,12 @@ class House {
 
     void setDescription(const string &description);
 
-    int getID();
+    string getID();
     string getCity();
     Date getStartDate();
     Date getEndDate();
     int getConsumingPoints();
-    int getMinOccupierRating();
+    double getMinOccupierRating();
     vector<vector<string>> getReviews();
     string reviewToString();
 
@@ -60,14 +60,14 @@ class House {
     void setReviews(vector<vector<string>> reviews);
 
    private:
-    int hID;
-    int houseRating;
+    string hID;
+    double houseRating;
     string description;
     string city;
     Date start;
     Date end;
     int consumingPoint;
-    int minOccupierRating;
+    double minOccupierRating;
     vector<vector<string>> reviews;
 };
 

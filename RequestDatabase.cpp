@@ -3,7 +3,7 @@
  */
 
 #include "RequestDatabase.h"
-
+#include <iostream>
 /**
  * RequestDatabase implementation
  */
@@ -23,6 +23,7 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
     string mID;
     string rID;
     int status;
+    bool close;
     if (data.empty()) {
         for (int i = 0; i < requests.size(); i++) {
             result.push_back(requests[i]->toString());
@@ -31,32 +32,38 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
         if (data.count("start") == 0) {
             data["start"] = emptyMark;
         } else {
-            Date start = Date::string_to_date(data["start"]);
+            start = Date::string_to_date(data["start"]);
         }
         if (data.count("end") == 0) {
             data["end"] = emptyMark;
         } else {
-            Date end = Date::string_to_date(data["end"]);
+            end = Date::string_to_date(data["end"]);
         }
         if (data.count("hID") == 0) {
             data["hID"] = emptyMark;
         } else {
-            string hID = data["hID"];
+            hID = data["hID"];
+
         }
         if (data.count("mID") == 0) {
             data["mID"] = emptyMark;
         } else {
-            string mID = data["mID"];
+            mID = data["mID"];
         }
         if (data.count("rID") == 0) {
             data["rID"] = emptyMark;
         } else {
-            string rID = data["rID"];
+            rID = data["rID"];
         }
         if (data.count("status") == 0) {
             data["status"] = emptyMark;
         } else {
-            int status = std::stoi(data["status"]);
+            status = std::stoi(data["status"]);
+        }
+        if (data.count("close") == 0) {
+            data["close"] = emptyMark;
+        } else {
+            close = (data["close"] == "false") ? false: true;
         }
         for (Request* request : requests) {
             if ((start == request->getStart() || data["start"] == emptyMark) &&
@@ -64,7 +71,8 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
                 (hID == request->getHid() || data["hID"] == emptyMark) &&
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
-                (status == request->getStatus() || data["status"] == emptyMark)) {
+                (close == request->isClose()|| data["close"] == emptyMark) &&
+                (request->getStatus() == status || data["status"] == emptyMark)) {
                 result.push_back(request->toString());
             }
         }

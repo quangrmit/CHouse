@@ -13,12 +13,12 @@
  */
 string House::toString() {
     string cP, minORating, startDate, endDate;
-    (consumingPoint == 11) ? cP = "" : cP = std::to_string(consumingPoint);
-    (minOccupierRating == -1) ? minORating = "" : minORating = std::to_string(minOccupierRating);
+    (consumingPoint == -1) ? cP = "" : cP = std::to_string(consumingPoint);
+    (minOccupierRating == -11) ? minORating = "" : minORating = std::to_string(minOccupierRating);
     (start.isEmpty()) ? startDate = "" : startDate = Date::date_to_string(&start);
     (end.isEmpty()) ? endDate = "" : endDate = Date::date_to_string(&end);
 
-    return std::to_string(this->hID) + "," + this->description + "," + this->city + "," + std::to_string(this->houseRating) + "," + startDate + "," + endDate + "," +
+    return this->hID + "," + this->description + "," + this->city + "," + std::to_string(this->houseRating) + "," + startDate + "," + endDate + "," +
            cP + "," + minORating + "," + reviewToString();
 }
 
@@ -45,10 +45,11 @@ House::House(string data) {
         reviews.push_back(split(review, '_'));
     }
 
-    int cP, minORating;
-    (dataList[6] == "") ? cP = 11 : cP = std::stoi(dataList[6]);
-    (dataList[7] == "") ? minORating = -1 : std::stoi(dataList[7]);
-    this->hID = std::stoi(dataList[0]);
+    int cP;
+    double minORating;
+    (dataList[6] == "") ? cP = -1 : cP = std::stoi(dataList[6]);
+    (dataList[7] == "") ? minORating = -11 : minORating =  std::stod(dataList[7]);
+    this->hID = dataList[0];
     this->description = dataList[1];
     this->city = dataList[2];
     this->houseRating = std::stoi(dataList[3]);
@@ -60,9 +61,9 @@ House::House(string data) {
 
     // House(std::stoi(dataList[0]), dataList[1], dataList[2], std::stoi(dataList[3]), startDate, endDate, cP, minORating, reviews);
 }
-// Needs reviewing
-House::House(int hId, const string &description, const string &city, int houseRating,
-             const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
+
+House::House(string hId, const string &description, const string &city, double houseRating,
+             const Date &start, const Date &anEnd, int consumingPoint, double minOccupierRating,
              const vector<vector<string>> &reviews) : hID(hId), houseRating(houseRating), description(description), city(city), start(start), end(anEnd), consumingPoint(consumingPoint), minOccupierRating(minOccupierRating), reviews(reviews){};
 string House::reviewToString() {
     vector<string> reviews;
@@ -72,7 +73,7 @@ string House::reviewToString() {
     return join(reviews, ';');
 }
 
-int House::getHouseRating() const {
+double House::getHouseRating() const {
     return houseRating;
 }
 
@@ -88,7 +89,7 @@ void House::setDescription(const string &description) {
     House::description = description;
 }
 
-int House::getID() {
+string House::getID() {
     return this->hID;
 }
 string House::getCity() {
@@ -105,7 +106,7 @@ Date House::getEndDate() {
 int House::getConsumingPoints() {
     return this->consumingPoint;
 }
-int House::getMinOccupierRating() {
+double House::getMinOccupierRating() {
     return this->minOccupierRating;
 }
 vector<vector<string>> House::getReviews() {
