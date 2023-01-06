@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include "Database.h"
 
 #include "Date.h"
 using std::string;
@@ -59,15 +60,15 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse();
+    bool listhouse(Date start, Date end , int consumingPoint);
 
     bool unlisthouse();
 
     vector<string> searchHouse(Date start, Date end, string city);
 
-    void rateOccupier(string mID);
+    void rateOccupier(string mID,int rating);
 
-    void rateHouse(string hID);
+    void rateHouse(string hID,int rating);
 
     void requestStaying(Date start, Date end, string hID);
 

@@ -36,26 +36,87 @@ string Member::viewInfo() {
     return "";
 }
 
-bool Member::listhouse() {
+bool Member::listhouse(Date start, Date end , int consumingPoint) {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(std::stoi(hID));
+
+    house->setStartDate(start);
+    house->setEndDate(end);
+    house->setConsumingPoint(consumingPoint);
+
+
+
     return false;
 }
 
+
 bool Member::unlisthouse() {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(std::stoi(hID));
+
+    Date empty;
+    empty.setEmpty();
+
+    house->setStartDate(empty);
+    house->setEndDate(empty);
+    house->setConsumingPoint(0);
+
     return false;
 }
 
 vector<string> Member::searchHouse(Date start, Date end, string city) {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
     vector<string> result;
+    map<string,string> filter;
+
+    filter["start"] = Date::date_to_string(&start);
+    filter["end"] = Date::date_to_string(&end);
+    filter["city"] = city;
+    result = hdb->readHouse(filter);
     return result;
 }
 
-void Member::rateOccupier(string mID) {
+void Member::rateOccupier(string mID,int rating) {
+    Database *db = Database::getInstance();
+    MemberDatabase *mdb = db->getMemberDatabase();
+    Member *member = mdb->findMember(mID);
+
+    int reviews = member->getReview().size();
+    double ORating = ((member->getOccupierRating()*reviews)+rating)/(reviews+1);
+
+    member->setOccupierRating(ORating);
+
 }
 
-void Member::rateHouse(string hID) {
+void Member::rateHouse(string hID,int rating) {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(std::stoi(hID));
+
+    int reviews = house->getReviews().size();
+    double HRating = ((house->getHouseRating()*reviews)+rating)/(reviews+1);
+
+    house->setHouseRating(HRating);
 }
 
 void Member::requestStaying(Date start, Date end, string hID) {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(std::stoi(hID));
+
+    map<string,string> filter;
+    filter["mID"] = mID;
+    filter["hID"] = hID;
+    filter["start"] = Date::date_to_string(&start);
+    filter["end"] = Date::date_to_string(&end);
+    filter["status"] = "-1";
+    filter["close"] = "false";
+
+    rdb->createRequest(filter);
 }
 
 bool Member::checkout() {
