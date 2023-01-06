@@ -13,8 +13,8 @@
  */
 string House::toString() {
     string cP, minORating, startDate, endDate;
-    (consumingPoint == 11) ? cP = "" : cP = std::to_string(consumingPoint);
-    (minOccupierRating == -1) ? minORating = "" : minORating = std::to_string(minOccupierRating);
+    (consumingPoint == 0) ? cP = "" : cP = std::to_string(consumingPoint);
+    (minOccupierRating == -11) ? minORating = "" : minORating = std::to_string(minOccupierRating);
     (start.isEmpty()) ? startDate = "" : startDate = Date::date_to_string(&start);
     (end.isEmpty()) ? endDate = "" : endDate = Date::date_to_string(&end);
 
@@ -61,6 +61,10 @@ string House::reviewToString() {
         reviews.push_back(join(this->reviews[i], '_'));
     }
     return join(reviews, ';');
+}
+
+void House::addReview(vector<string> review) {
+    this->reviews.push_back(review);
 }
 
 double House::getHouseRating() const {

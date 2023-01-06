@@ -60,7 +60,7 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse(Date start, Date end , int consumingPoint);
+    bool listhouse(Date start, Date end , int consumingPoint,int minOccupierRating=-11);
 
     bool unlisthouse();
 
@@ -68,11 +68,17 @@ class Member {
 
     void rateOccupier(string mID,int rating);
 
-    void rateHouse(string hID,int rating);
+    void rateHouse(string hID,double rating);
 
     void requestStaying(Date start, Date end, string hID);
 
-    bool checkout();
+    bool checkout(double point, string comment);
+
+    vector<string> viewUnreview();
+
+    void addReview(vector<string> review);
+
+    void reviewOccupier(string mID,double rating, string comment);
 
     vector<string> viewAllRequests();
 

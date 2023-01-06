@@ -33,10 +33,10 @@ string Member::toString() {
 }
 
 string Member::viewInfo() {
-    return "";
+    return this->toString();
 }
 
-bool Member::listhouse(Date start, Date end , int consumingPoint) {
+bool Member::listhouse(Date start, Date end , int consumingPoint, int minOccupierRating) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(std::stoi(hID));
@@ -44,10 +44,9 @@ bool Member::listhouse(Date start, Date end , int consumingPoint) {
     house->setStartDate(start);
     house->setEndDate(end);
     house->setConsumingPoint(consumingPoint);
+    house->setMinOccupierRating(minOccupierRating);
 
-
-
-    return false;
+    return true;
 }
 
 
@@ -56,14 +55,15 @@ bool Member::unlisthouse() {
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(std::stoi(hID));
 
-    Date empty;
+    Date empty = Date();
     empty.setEmpty();
 
     house->setStartDate(empty);
     house->setEndDate(empty);
     house->setConsumingPoint(0);
+    house->setMinOccupierRating(-11);
 
-    return false;
+    return true;
 }
 
 vector<string> Member::searchHouse(Date start, Date end, string city) {
@@ -84,19 +84,19 @@ void Member::rateOccupier(string mID,int rating) {
     MemberDatabase *mdb = db->getMemberDatabase();
     Member *member = mdb->findMember(mID);
 
-    int reviews = member->getReview().size();
+    double reviews = member->getReview().size();
     double ORating = ((member->getOccupierRating()*reviews)+rating)/(reviews+1);
 
     member->setOccupierRating(ORating);
 
 }
 
-void Member::rateHouse(string hID,int rating) {
+void Member::rateHouse(string hID,double rating) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(std::stoi(hID));
 
-    int reviews = house->getReviews().size();
+    double reviews = house->getReviews().size();
     double HRating = ((house->getHouseRating()*reviews)+rating)/(reviews+1);
 
     house->setHouseRating(HRating);
@@ -119,9 +119,64 @@ void Member::requestStaying(Date start, Date end, string hID) {
     rdb->createRequest(filter);
 }
 
-bool Member::checkout() {
+bool Member::checkout(double rating,string comment) {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+    HouseDatabase *hdb = db->getHouseDatabase();
+
+    map<string,string> filter;
+    filter["mID"] = mID;
+    filter["status"] ="1";
+    filter["close"] = "false";
+
+    vector<string> requests = rdb->readRequest(filter);
+    string rID = split(requests[0],',')[0];
+    string hID = split(requests[0],',')[2];
+    House *h = hdb->findHouse(std::stoi(hID));
+    Request *rq = rdb->findRequest(rID);
+    rq->setClose(true);
+
+    vector<string> review ={std::to_string(rating),comment};
+
+    h->addReview(review);
+    this->rateHouse(hID,rating);
+
     return false;
 }
+
+vector<string> Member::viewUnreview() {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+
+    map<string,string> filter;
+    filter["hID"] = this->hID;
+    filter["oReview"] = "false";
+    filter["close"] = "true";
+
+    vector<string> requests = rdb->readRequest(filter);
+    vector<string> unreviewOccupier;
+
+    for(string request : requests) {
+        unreviewOccupier.push_back(split(request,',')[1]);
+    }
+
+    return unreviewOccupier;
+}
+
+void Member::addReview(vector<string> review) {
+    this->review.push_back(review);
+}
+
+void Member::reviewOccupier(string mID,double rating, string comment) {
+    Database *db = Database::getInstance();
+    MemberDatabase *mdb = db->getMemberDatabase();
+    Member *mem = mdb->findMember(mID);
+
+    vector<string> review = {std::to_string(rating),comment};
+    mem->addReview(review);
+    rateOccupier(mID,rating);
+}
+
 
 vector<string> Member::viewAllRequests() {
     vector<string> result;

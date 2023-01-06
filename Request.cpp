@@ -16,10 +16,11 @@ using std::vector;
 
 string Request::toString() {
 
-    string closeString;
+    string closeString,reviewString;
     (close== true)? closeString="true":closeString="false";
+    (oReview== true)? reviewString="true":reviewString="false";
 
-    return rID+","+mID+","+hID+","+Date::date_to_string(&start)+","+Date::date_to_string(&end)+","+ std::to_string(status)+","+closeString;
+    return rID+","+mID+","+hID+","+Date::date_to_string(&start)+","+Date::date_to_string(&end)+","+ std::to_string(status)+","+reviewString+","+closeString;
 }
 
  Request::Request(string data) {
@@ -33,14 +34,17 @@ string Request::toString() {
 
 
      bool complete;
+     (dataList[7]=="true") ? complete = true : complete = false;
+
+     bool review;
      (dataList[6]=="true") ? complete = true : complete = false;
 
-     Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),complete);
+     Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),review,complete);
 
 }
 
 Request::Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd,
-                 int status, bool close) : rID(rId), mID(mId), hID(hId), start(start), end(anEnd), status(status),
+                 int status, bool oReview, bool close) : rID(rId), mID(mId), hID(hId), start(start), end(anEnd), status(status), oReview(oReview),
                                            close(close) {}
 
 
