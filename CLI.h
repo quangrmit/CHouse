@@ -10,6 +10,7 @@
 #include "Date.h"
 #include "Guest.h"
 #include "Admin.h"
+#include "TableGenerator.h"
 #include <iostream>
 #include <string>
 
