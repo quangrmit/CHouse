@@ -5,6 +5,9 @@
 #include "Admin.h"
 #include "string"
 #include "vector"
+#include "HouseDatabase.h"
+#include "Database.h"
+#include "Member.h"
 using std::string;
 using std::vector;
 /**
@@ -21,7 +24,11 @@ using std::vector;
  * @return vector<string>
  */
 vector<string> Admin::viewAllUser() {
-    vector<string> result;
+    vector<string>result;
+    vector<string>result;
+    Database *database  = Database::getInstance();
+    MemberDatabase *memberDatabase = database->getMemberDatabase();
+    result = memberDatabase->readMember({});
     return result;
 }
 
@@ -30,6 +37,9 @@ vector<string> Admin::viewAllUser() {
  */
 vector<string> Admin::viewAllHouse() {
     vector<string> result;
+    Database *database  = Database::getInstance();
+    HouseDatabase *houseDatabase = database->getHouseDatabase();
+    result = houseDatabase->readHouse({});
     return result;
 
 }
