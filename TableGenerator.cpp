@@ -179,13 +179,12 @@ void TableGenerator::fillCell(stringstream& sstr, string cell, int cellIndex, ma
 
     // cout << "\nFill cell:" << sstr.str();
 }
-
 /**
  * 
  * @param  {string} header                  : 
  * @param  {vector<string>result} undefined : 
  */
-void TableGenerator::printTable(string header, vector<string>result) {
+void printTable(string header, vector<string>result) {
     TableGenerator *table_generator  = new TableGenerator();
     vector<string> headersList = split(header, ',');
     vector <vector<string>> rowsList = {};

@@ -7,12 +7,18 @@
 #include "Guest.h"
 #include "Member.h"
 #include "Admin.h"
+#include "Database.h"
+
 
 using std::getline;
 /**
  * CLI implementation
  */
 
+TableGenerator *tableGenerator;
+string houseHeader = "HouseID,Description,City,House Rating,Start,End,Consuming Point,Min Occupier Rating,Reviews";
+string requestHeader = "Request ID,Member ID,House ID,Start,End,Status,Close";
+string memberHeader = "Member ID,Full Name,Username,Password,Phone Number,HouseID,Credit,Occupier Rating,Review";
 
 CLI::CLI() {
     cout << "EEET2482/COSC2082 ASSIGNMENT /n"
@@ -63,8 +69,8 @@ void CLI::openGuestMenu() {
 
         cin >> choice;
         switch (choice) {
-            case 1:
-                guest->viewAllHouse();
+            case 1:                
+            tableGenerator->printTable("ID,Description,City", guest->viewAllHouse());
                 break;
 
             case 2:
@@ -78,9 +84,8 @@ void CLI::openGuestMenu() {
 
 void CLI::openMemberMenu() {
     Member *member = new Member();
-    string mID, city, hID, start, end;
+    string mID, city, hID, start, end, rID;
     // Date start, end;
-
     int choice; 
     while (true) {
         cout << "1. View my information/n"
@@ -101,7 +106,7 @@ void CLI::openMemberMenu() {
     while (true) {
         switch (choice) {
             case 1:
-                member-> viewInfo();
+                tableGenerator->printTable(memberHeader,split(member-> viewInfo(),','));
                 break;
             
             case 2:
@@ -117,7 +122,8 @@ void CLI::openMemberMenu() {
                 getline(cin, start);
                 cout << "\nEnter the end of your searching stay:";
                 getline(cin, end);
-                member -> searchHouse(Date::string_to_date(start), Date::string_to_date(end), city);
+                tableGenerator->printTable(memberHeader,
+                member -> searchHouse(Date::string_to_date(start), Date::string_to_date(end), city));
                 break;
 
             case 5:
@@ -130,6 +136,26 @@ void CLI::openMemberMenu() {
                 cout << "Please enter the House ID you want to give reviews: ";
                 getline(cin, hID);  
                 member -> rateHouse(hID);
+
+            case 7:
+                cout << "Please enter the start of your stay: ";
+                getline(cin, start);
+                cout << "Please enter the end of your stay: ";
+                getline(cin, end);
+                cout << "Please enter the House ID of the house you want to stay: ";
+                getline(cin, hID);
+                member->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID);
+            
+            case 8:
+                member->checkout();
+
+            case 9:
+                tableGenerator->printTable(requestHeader, member->viewAllRequests());
+
+            case 10: 
+                cout << "Enter Request ID of the accepted request: ";
+                getline(cin, rID);
+                member->acceptRequest(rID);
 
             default: 
                 cout << "Invalid input. Please try another one! /n";
@@ -151,9 +177,9 @@ void CLI::openAdminMenu() {
     while (true) {
         switch (choice) {
             case 1:
-                admin->viewAllUser();
+                tableGenerator->printTable(memberHeader, admin->viewAllUser()) ;
             case 2:
-                admin -> viewAllHouse();            
+                tableGenerator->printTable(houseHeader,admin -> viewAllHouse());            
             default: 
                 cout << "Invalid input. Please try another one! /n";
         }
