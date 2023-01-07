@@ -24,7 +24,7 @@ class House {
     //           const Date &start, const Date &anEnd, int consumingPoint, int minOccupierRating,
     //           const vector<vector<string>> &reviews);
     House(string hId, const string &description, const string &city, double houseRating = -11,
-          const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = 0, double minOccupierRating = -11,
+          const Date &start = Date(), const Date &anEnd = Date(), int consumingPoint = -1, double minOccupierRating = -11,
           const vector<vector<string>> &reviews = {});
 //     string getHid() const;
 

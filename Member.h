@@ -1,17 +1,18 @@
 /**
  * Project Untitled
  */
+#include "Date.h"
+#include "Database.h"
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
 
 #ifndef _MEMBER_H
 #define _MEMBER_H
 
-#include <string>
-#include <vector>
 
-#include "Date.h"
-#include "Database.h"
-using std::string;
-using std::vector;
 
 class Member {
    public:

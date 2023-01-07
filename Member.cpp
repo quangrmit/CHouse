@@ -7,15 +7,22 @@
 #include "utils.h"
 #include <iostream>
 
+Member::Member() {}
 
 Member::Member(string data) {
     std::vector<string> dataList = split(data, ',');
-    std::vector<string> reviewList = split(dataList[8], ';');
+
     std::vector<std::vector<string>> reviews;
+
+    if (dataList.size() == 9) {
+    std::vector<string> reviewList = split(dataList[8], ';');
 
    for(string review : reviewList) {
        reviews.push_back(split(review,'_'));
    }
+
+    }
+
    this->mID = dataList[0];
    this->fullname = dataList[1];
    this->username = dataList[2];
@@ -25,7 +32,6 @@ Member::Member(string data) {
    this->credit = std::stoi(dataList[6]);
    this->occupierRating = std::stod(dataList[7]);
    this->review = reviews;
-//    Member(dataList[0],dataList[1],dataList[2],dataList[3],dataList[4],dataList[5],std::stoi(dataList[6]), std::stoi(dataList[7]),reviews);
 
 }
 
@@ -39,10 +45,14 @@ Member::Member(const string &mId, const string &fullname, const string &username
 
 string Member::toString() {
     std::vector<string> reviewVec;
+    string reviewString = "";
+    if (review.size() != 0) {
     for (std::vector<string> element : review) {
         reviewVec.push_back(join(element,'_'));
     }
-    string reviewString = join(reviewVec,';');
+    reviewString = join(reviewVec,';');
+
+    }
     return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
                                                                                                           std::to_string(occupierRating)+","+reviewString;
 }
@@ -63,6 +73,7 @@ bool Member::unlisthouse() {
 vector<string> Member::searchHouse(Date start, Date end, string city) {
 
     Database *db = Database::getInstance();
+
     HouseDatabase *hd = db->getHouseDatabase();
 
     map<string,string> filter;

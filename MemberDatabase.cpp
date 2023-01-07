@@ -83,12 +83,12 @@ vector<string> MemberDatabase::readMember(map<string, string> data) {
  */
 bool MemberDatabase::createMember(map<string, string> data) {
     try {
-        string mID = data["mID"];
+        string mID = std::to_string(members.size() + 1);
         string fullname = data["fullname"];
         string username = data["username"];
         string password = data["password"];
         string phonenumber = data["phonenumber"];
-        string hID = data["hID"];
+        string hID = mID;
 
         Member* member = new Member(mID, fullname, username, password, phonenumber, hID);
         members.push_back(member);

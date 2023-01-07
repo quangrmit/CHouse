@@ -27,8 +27,15 @@ string House::toString() {
  */
 House::House(string data) {
     std::vector<string> dataList = split(data, ',');
-    std::vector<string> reviewList = split(dataList[8], ';');
+
     std::vector<std::vector<string>> reviews;
+    if (dataList.size() == 9) {
+
+    std::vector<string> reviewList = split(dataList[8], ';');
+    for (string review : reviewList) {
+        reviews.push_back(split(review, '_'));
+    }
+    }
 
     Date startDate, endDate;
     if (dataList[4].empty()) {
@@ -41,9 +48,7 @@ House::House(string data) {
         std::vector<string> end = split(dataList[5], '/');
         endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
     }
-    for (string review : reviewList) {
-        reviews.push_back(split(review, '_'));
-    }
+    
 
     int cP;
     double minORating;
@@ -66,6 +71,9 @@ House::House(string hId, const string &description, const string &city, double h
              const Date &start, const Date &anEnd, int consumingPoint, double minOccupierRating,
              const vector<vector<string>> &reviews) : hID(hId), houseRating(houseRating), description(description), city(city), start(start), end(anEnd), consumingPoint(consumingPoint), minOccupierRating(minOccupierRating), reviews(reviews){};
 string House::reviewToString() {
+    if (this->reviews.size() == 0) {
+        return "";
+    }
     vector<string> reviews;
     for (int i = 0; i < this->reviews.size(); i++) {
         reviews.push_back(join(this->reviews[i], '_'));

@@ -93,8 +93,8 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
                 (house->getMinOccupierRating() == minRating || data["minRating"] == emptyMark) &&
                 (house->getHouseRating() == hRating || data["hRating"] == emptyMark) &&
                 (house->getConsumingPoints() == consumingPoint || data["consumingPoint"] == emptyMark) &&
-                (house->getStartDate() == start || data["start"] == emptyMark) &&
-                (house->getEndDate() == end || data["end"] == emptyMark) 
+                (start <= house->getStartDate() || data["start"] == emptyMark) &&
+                (end >= house->getEndDate() || data["end"] == emptyMark) 
 
             ) {
                 result.push_back(house->toString());
@@ -111,7 +111,7 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
  */
 bool HouseDatabase::createHouse(map<string, string> data) {
     try {
-        string hID = data["hID"];
+        string hID = std::to_string(houses.size() + 1);
         string description = data["description"];
         string city = data["city"];
 
