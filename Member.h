@@ -5,10 +5,13 @@
 #ifndef _MEMBER_H
 #define _MEMBER_H
 
+#include <map>
 #include <string>
 #include <vector>
 
+#include "Database.h"
 #include "Date.h"
+using std::map;
 using std::string;
 using std::vector;
 

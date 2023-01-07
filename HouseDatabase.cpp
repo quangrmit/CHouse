@@ -12,15 +12,14 @@
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<House*>
  */
-vector<string> HouseDatabase::readHouse(map<string, string> data) {
-    // if data is EMPTY, NOT NULL return all data
-    vector<string> result;
+vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
+    vector<House*> result;
     // check if data is empty
     if (data.empty()) {
         for (int i = 0; i < houses.size(); i++) {
-            result.push_back(houses[i]->toString());
+            result.push_back(houses[i]);
         }
 
     } else {
@@ -29,14 +28,29 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
         for (int i = 0; i < houses.size(); i++) {
             if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
                 if (data.find("city") == data.end()) {
-                    result.push_back(houses[i]->toString());
+                    result.push_back(houses[i]);
                 } else {
                     if (data["city"] == houses[i]->getCity()) {
-                        result.push_back(houses[i]->toString());
+                        result.push_back(houses[i]);
                     }
                 }
             }
         }
+    }
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> HouseDatabase::readHouse(map<string, string> data) {
+    // if data is EMPTY, NOT NULL return all data
+    vector<string> result;
+
+    vector<House*> housePointers = this->readHousePointers(data);
+    for (House* house : housePointers) {
+        result.push_back(house->toString());
     }
 
     return result;

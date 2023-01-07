@@ -64,14 +64,39 @@ bool Member::checkout() {
 
 vector<string> Member::viewAllRequests() {
     vector<string> result;
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    result = requestDatabase->readRequest({{"hID", this->hID}});
     return result;
 }
 
 bool Member::acceptRequest(string rID) {
-    return false;
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    Request *request = requestDatabase->findRequest(rID);
+    // Check if rID is valid (find function does not return nullptr)
+    if (request == nullptr) {
+        return false;
+    } else {
+        // Find request and set status to accepted (1)
+        request->setStatus(1);
+        // Find all other overlapping requests
+        vector<Request *> overlaps = requestDatabase->findOverlapRequests(request);
+        // Set overlapping requests to declined (0) and set close to true
+        for (Request *overlap : overlaps) {
+            overlap->setStatus(0);
+            overlap->setClose(true);
+        }
+
+        return true;
+    }
+    return true;
 }
 
 bool Member::compareUsernameandPassword(string username, string password) {
+    if (username == this->username && password == this->password) {
+        return true;
+    }
     return false;
 }
 

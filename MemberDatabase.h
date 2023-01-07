@@ -22,6 +22,10 @@ class MemberDatabase {
      * @param data
      */
     vector<string> readMember(map<string, string> data = {});
+    /**
+     * @param data
+     */
+    vector<Member*> readMemberPointers(map<string, string> data = {});
 
     /**
      * @param data
