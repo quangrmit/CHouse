@@ -50,6 +50,7 @@ class House {
     int getMinOccupierRating();
     vector<vector<string>> getReviews();
     string reviewToString();
+    void addReview(vector<string> review);
 
     void setID(int ID);
     void setCity(string city);
