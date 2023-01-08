@@ -3,30 +3,28 @@
  */
 
 #include "Admin.h"
+
+#include "Database.h"
+#include "HouseDatabase.h"
+#include "Member.h"
 #include "string"
 #include "vector"
-#include "HouseDatabase.h"
-#include "Database.h"
-#include "Member.h"
 using std::string;
 using std::vector;
 /**
  * Admin implementation
  */
 
-
-
- Admin::Admin() {
-
+Admin::Admin() {
 }
 
 /**
  * @return vector<string>
  */
 vector<string> Admin::viewAllUser() {
-    vector<string>result;
-    vector<string>result;
-    Database *database  = Database::getInstance();
+    vector<string> result;
+
+    Database *database = Database::getInstance();
     MemberDatabase *memberDatabase = database->getMemberDatabase();
     result = memberDatabase->readMember({});
     return result;
@@ -37,11 +35,10 @@ vector<string> Admin::viewAllUser() {
  */
 vector<string> Admin::viewAllHouse() {
     vector<string> result;
-    Database *database  = Database::getInstance();
+    Database *database = Database::getInstance();
     HouseDatabase *houseDatabase = database->getHouseDatabase();
     result = houseDatabase->readHouse({});
     return result;
-
 }
 
 /**

@@ -1,6 +1,7 @@
 /**
  * Project Untitled
  */
+#include "Member.h"
 
 #ifndef _MEMBERDATABASE_H
 #define _MEMBERDATABASE_H
@@ -8,8 +9,6 @@
 #include <map>
 #include <string>
 #include <vector>
-
-#include "Member.h"
 
 using std::any;
 using std::map;
