@@ -5,8 +5,11 @@
 #include "Database.h"
 #include <string>
 #include <vector>
-#include "Database.h"
 
+#include "Date.h"
+using std::cout;
+using std::endl;
+using std::map;
 using std::string;
 using std::vector;
 
@@ -62,15 +65,15 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse(Date start, Date end , int consumingPoint,int minOccupierRating=-11);
+    bool listhouse(Date start, Date end, int consumingPoint, int minOccupierRating = -11);
 
     bool unlisthouse();
 
     vector<string> searchHouse(Date start, Date end, string city);
 
-    void rateOccupier(string mID,int rating);
+    void rateOccupier(string mID, int rating);
 
-    void rateHouse(string hID,double rating);
+    void rateHouse(string hID, double rating);
 
     void requestStaying(Date start, Date end, string hID);
 
@@ -80,7 +83,7 @@ class Member {
 
     void addReview(vector<string> review);
 
-    void reviewOccupier(string mID,double rating, string comment);
+    void reviewOccupier(string mID, double rating, string comment);
 
     vector<string> viewAllRequests();
 

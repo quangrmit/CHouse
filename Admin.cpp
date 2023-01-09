@@ -33,7 +33,6 @@ vector<string> Admin::viewAllUser() {
     MemberDatabase * members = database->getMemberDatabase();
     vector<string> result = members->readMember({});
     return result;
-
 }
 
 /**
