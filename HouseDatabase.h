@@ -23,6 +23,10 @@ class HouseDatabase {
     /**
      * @param data
      */
+    vector<House*> readHousePointers(map<string, string> data);
+    /**
+     * @param data
+     */
     vector<string> readHouse(map<string, string> data);
 
     /**
@@ -33,7 +37,7 @@ class HouseDatabase {
     /**
      * @param hID
      */
-    House* findHouse(int hID);
+    House* findHouse(string hID);
 
     /**
      * @param data

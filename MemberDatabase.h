@@ -1,20 +1,20 @@
 /**
  * Project Untitled
  */
-
-#ifndef _MEMBERDATABASE_H
-#define _MEMBERDATABASE_H
-#include <any>
+#include "Member.h"
 #include <map>
 #include <string>
 #include <vector>
 
-#include "Member.h"
 
 using std::any;
 using std::map;
 using std::string;
 using std::vector;
+
+
+#ifndef _MEMBERDATABASE_H
+#define _MEMBERDATABASE_H
 
 class MemberDatabase {
    public:
@@ -22,6 +22,10 @@ class MemberDatabase {
      * @param data
      */
     vector<string> readMember(map<string, string> data = {});
+    /**
+     * @param data
+     */
+    vector<Member*> readMemberPointers(map<string, string> data = {});
 
     /**
      * @param data

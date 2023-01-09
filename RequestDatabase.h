@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+// #include "Date.h"
 #include "Request.h"
 
 using std::any;
@@ -18,6 +19,16 @@ using std::vector;
 
 class RequestDatabase {
    public:
+    /**
+     * @param data
+     */
+    vector<Request*> readRequestPointers(map<string, string> data);
+
+    /**
+     * @param request
+     */
+    vector<Request*> findOverlapRequests(Request* request);
+
     /**
      * @param data
      */

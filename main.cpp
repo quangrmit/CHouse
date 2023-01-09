@@ -1,11 +1,23 @@
-// #include "Database.h"
+#include "Database.h"
 #include "CLI.h"
+#include "utils.h"
 
+// testing only 
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <map>
+
+using namespace std;
+//
 int main() {
-    // Database * data = Database::getInstance();
-    // app.run()
-    //delete data;
-    // delete app; 
-    CLI *test = new CLI();
-    test->welcome();
+    // main code
+    Database * data = Database::getInstance();
+    CLI* session = new CLI();
+    data->updateFile();
+    delete data, session;
+    
+  
 }
+
+

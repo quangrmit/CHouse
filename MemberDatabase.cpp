@@ -3,28 +3,31 @@
  */
 
 #include "MemberDatabase.h"
-
+#include <iostream>
+using namespace std;
 /**
  * MemberDatabase implementation
  */
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<Member*>
  */
-vector<string> MemberDatabase::readMember(map<string, string> data) {
-    vector<string> result;
+vector<Member*> MemberDatabase::readMemberPointers(map<string, string> data) {
+    vector<Member*> result;
     string emptyMark = "#";
 
+    string mID;
     string hID;
     int credit;
     double occupierRating;
     string username;
     string phonenumber;
     // Check if data is empty
+
     if (data.empty()) {
         for (int i = 0; i < members.size(); i++) {
-            result.push_back(members[i]->toString());
+            result.push_back(members[i]);
         }
     } else {
         if (data.count("hID") == 0) {
@@ -52,18 +55,38 @@ vector<string> MemberDatabase::readMember(map<string, string> data) {
         } else {
             phonenumber = data["phonenumber"];
         }
+        if (data.count("mID") == 0) {
+            data["mID"] = emptyMark;
+        } else {
+            mID = data["mID"];
+        }
         for (Member* member : members) {
             if (
                 (member->getHid() == hID || data["hID"] == emptyMark) &&
                 (member->getCredit() == credit || data["credit"] == emptyMark) &&
                 (member->getOccupierRating() == occupierRating || data["occupierRating"] == emptyMark) &&
                 (member->getUsername() == username || data["username"] == emptyMark) &&
-                (member->getPhonenumber() == phonenumber || data["phonenumber"] == emptyMark)
+                (member->getPhonenumber() == phonenumber || data["phonenumber"] == emptyMark) &&
+                (member->getMid() == mID || data["mID"] == emptyMark) 
 
             ) {
-                result.push_back(member->toString());
+                result.push_back(member);
             }
         }
+
+    }
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> MemberDatabase::readMember(map<string, string> data) {
+    vector<string> result;
+    vector<Member*> memberPointers = this->readMemberPointers(data);
+    for (Member* member : memberPointers) {
+        result.push_back(member->toString());
     }
     return result;
 }
@@ -79,7 +102,7 @@ bool MemberDatabase::createMember(map<string, string> data) {
         string username = data["username"];
         string password = data["password"];
         string phonenumber = data["phonenumber"];
-        string hID = data["hID"];
+        string hID = mID;
 
         Member* member = new Member(mID, fullname, username, password, phonenumber, hID);
         members.push_back(member);
@@ -87,6 +110,7 @@ bool MemberDatabase::createMember(map<string, string> data) {
     } catch (std::bad_alloc) {
         return false;
     }
+    std::cout << members.size() << std::endl;
     return true;
 }
 
@@ -107,8 +131,11 @@ Member* MemberDatabase::findMember(string mID) {
  * @param data
  */
 MemberDatabase::MemberDatabase(vector<string> data) {
+    Member * member;
     for (int i = 0; i < data.size(); i++) {
-        Member member = Member(data[i]);
-        members.push_back(&member);
+        // Member member = Member(data[i]);
+
+        member = new Member(data[i]);
+        members.push_back(member);
     }
 }

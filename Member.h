@@ -1,17 +1,22 @@
 /**
  * Project Untitled
  */
+#include "Date.h"
+#include "Database.h"
+#include <string>
+#include <vector>
+
+#include "Date.h"
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
 
 #ifndef _MEMBER_H
 #define _MEMBER_H
 
-#include <string>
-#include <vector>
-#include "Database.h"
 
-#include "Date.h"
-using std::string;
-using std::vector;
 
 class Member {
    public:
@@ -32,7 +37,7 @@ class Member {
 
     double getOccupierRating() const;
 
-    void setOccupierRating(int occupierRating);
+    void setOccupierRating(double occupierRating);
 
     const string &getUsername() const;
 
@@ -60,19 +65,25 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse(Date start, Date end , int consumingPoint);
+    bool listhouse(Date start, Date end, int consumingPoint, int minOccupierRating = -11);
 
     bool unlisthouse();
 
     vector<string> searchHouse(Date start, Date end, string city);
 
-    void rateOccupier(string mID,int rating);
+    void rateOccupier(string mID, int rating);
 
-    void rateHouse(string hID,int rating);
+    void rateHouse(string hID, double rating);
 
     void requestStaying(Date start, Date end, string hID);
 
-    bool checkout();
+    bool checkout(double point, string comment);
+
+    vector<string> viewUnreview();
+
+    void addReview(vector<string> review);
+
+    void reviewOccupier(string mID, double rating, string comment);
 
     vector<string> viewAllRequests();
 

@@ -3,13 +3,7 @@
  */
 
 #include "Admin.h"
-#include "string"
-#include "vector"
-#include "HouseDatabase.h"
-#include "Database.h"
-#include "Member.h"
-using std::string;
-using std::vector;
+#include <iostream>
 /**
  * Admin implementation
  */
@@ -17,31 +11,28 @@ using std::vector;
 
 
  Admin::Admin() {
-
-}
-
-/**
- * @return vector<string>
- */
-vector<string> Admin::viewAllUser() {
-    vector<string>result;
-    vector<string>result;
-    Database *database  = Database::getInstance();
-    MemberDatabase *memberDatabase = database->getMemberDatabase();
-    result = memberDatabase->readMember({});
-    return result;
+    this->username = "admin";
+    this->password = "123";
 }
 
 /**
  * @return vector<string>
  */
 vector<string> Admin::viewAllHouse() {
-    vector<string> result;
-    Database *database  = Database::getInstance();
-    HouseDatabase *houseDatabase = database->getHouseDatabase();
-    result = houseDatabase->readHouse({});
+    Database * database = Database::getInstance();
+    HouseDatabase * houses = database->getHouseDatabase();
+    vector<string> result = houses->readHouse({});
     return result;
+}
 
+/**
+ * @return vector<string>
+ */
+vector<string> Admin::viewAllUser() {
+    Database * database = Database::getInstance();
+    MemberDatabase * members = database->getMemberDatabase();
+    vector<string> result = members->readMember({});
+    return result;
 }
 
 /**
@@ -50,8 +41,6 @@ vector<string> Admin::viewAllHouse() {
  * @return bool
  */
 bool Admin::compareUsernameandPassword(string username, string password) {
-    if (username == this->username and password == this->password) {
-        return true;
-    }
-    return false;
+    std::cout << this->username << this->password << std::endl;
+    return (this->username == username && this->password == password);
 }

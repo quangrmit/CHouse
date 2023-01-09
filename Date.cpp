@@ -1,8 +1,12 @@
 #include "Date.h"
 
 #include "utils.h"
+#include <iostream>
 
-Date::Date() {}
+Date::Date() {
+    empty = true;
+
+}
 Date::Date(int date, int month, int year) {
     if (year < MIN_YEAR) {
         std::cerr << "Invalid year";
@@ -34,6 +38,9 @@ Date::Date(int date, int month, int year) {
     this->year = year;
 }
 bool Date::operator>(Date d2) {
+    if (d2.isEmpty() || this->isEmpty())  {
+        return false;
+    }
     if (this->year > d2.year) {
         return true;
     } else if (this->year == d2.year) {
@@ -54,6 +61,7 @@ bool Date::operator>(Date d2) {
     }
 }
 bool Date::operator<(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (this->date != d2.date || this->month != d2.month || this->year != d2.year) {
         if (!(*this > d2)) {
             return true;
@@ -73,12 +81,14 @@ bool Date::operator==(Date d2) {
     }
 }
 bool Date::operator>=(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (*this > d2 || *this == d2) {
         return true;
     }
     return false;
 }
 bool Date::operator<=(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (*this < d2 || *this == d2) {
         return true;
     }
@@ -149,8 +159,14 @@ std::string Date::date_to_string(Date* dmy) {
     if (dmy->date < 10) {
         date = "0" + std::to_string(dmy->date);
     }
+    else {
+        date = std::to_string(dmy->date);
+    }
     if (dmy->month < 10) {
         month = "0" + std::to_string(dmy->month);
+    }
+    else {
+        month = std::to_string(dmy->month);
     }
     result = date + "/" + month + "/" + year;
 
@@ -161,6 +177,7 @@ Date Date::string_to_date(std::string str) {
     std::vector<std::string> list = split(str, '/');
     int date = std::stoi(list[0]);
     int month = std::stoi(list[1]);
+    
     int year = std::stoi(list[2]);
     return Date(date, month, year);
 }

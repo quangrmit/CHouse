@@ -1,17 +1,16 @@
 /**
  * Project Untitled
  */
-
-#include "string"
-#include "vector"
-using std::string;
-using std::vector;
-
-#ifndef _ADMIN_H
-#define _ADMIN_H
 #include <string>
 #include <vector>
 #include "Date.h"
+#include "Database.h"
+#include "MemberDatabase.h"
+#include "HouseDatabase.h"
+
+
+#ifndef _ADMIN_H
+#define _ADMIN_H
 using std::string;
 using std::vector;
 

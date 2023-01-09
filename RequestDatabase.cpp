@@ -3,17 +3,17 @@
  */
 
 #include "RequestDatabase.h"
-
+#include <iostream>
 /**
  * RequestDatabase implementation
  */
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<Request*>
  */
-vector<string> RequestDatabase::readRequest(map<string, string> data) {
-    vector<string> result;
+vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) {
+    vector<Request*> result;
     string emptyMark = "#";
     // vector<string> filters = {"start", "end", "hID", "mID", "rID", "status"};
     // Check if data is empty
@@ -23,50 +23,87 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
     string mID;
     string rID;
     int status;
+    bool close;
     if (data.empty()) {
         for (int i = 0; i < requests.size(); i++) {
-            result.push_back(requests[i]->toString());
+            result.push_back(requests[i]);
         }
     } else {
         if (data.count("start") == 0) {
             data["start"] = emptyMark;
         } else {
-            Date start = Date::string_to_date(data["start"]);
+            start = Date::string_to_date(data["start"]);
         }
         if (data.count("end") == 0) {
             data["end"] = emptyMark;
         } else {
-            Date end = Date::string_to_date(data["end"]);
+            end = Date::string_to_date(data["end"]);
         }
         if (data.count("hID") == 0) {
             data["hID"] = emptyMark;
         } else {
-            string hID = data["hID"];
+            hID = data["hID"];
+
         }
         if (data.count("mID") == 0) {
             data["mID"] = emptyMark;
         } else {
-            string mID = data["mID"];
+            mID = data["mID"];
         }
         if (data.count("rID") == 0) {
             data["rID"] = emptyMark;
         } else {
-            string rID = data["rID"];
+            rID = data["rID"];
         }
         if (data.count("status") == 0) {
             data["status"] = emptyMark;
         } else {
-            int status = std::stoi(data["status"]);
+            status = std::stoi(data["status"]);
+        }
+        if (data.count("close") == 0) {
+            data["close"] = emptyMark;
+        } else {
+            close = (data["close"] == "false") ? false: true;
         }
         for (Request* request : requests) {
-            if ((start <= request->getStart() || data["start"] == emptyMark) &&
-                (end >= request->getAnEnd() || data["end"] == emptyMark) &&
+            if ((start >= request->getStart() || data["start"] == emptyMark) &&
+                (end <= request->getAnEnd() || data["end"] == emptyMark) &&
                 (hID == request->getHid() || data["hID"] == emptyMark) &&
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
-                (status == request->getStatus() || data["status"] == emptyMark)) {
-                result.push_back(request->toString());
+                (close == request->isClose()|| data["close"] == emptyMark) &&
+                (request->getStatus() == status || data["status"] == emptyMark)) {
+                result.push_back(request);
             }
+        }
+    }
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> RequestDatabase::readRequest(map<string, string> data) {
+    vector<string> result;
+    vector<Request*> requestPointers = this->readRequestPointers(data);
+    for (Request* request : requestPointers) {
+        result.push_back(request->toString());
+    }
+    return result;
+}
+
+/**
+ * @param request
+ * @return vector<Request*>
+ */
+vector<Request*> RequestDatabase::findOverlapRequests(Request* request) {
+    vector<Request*> result;
+    Date startBase = request->getStart();
+    Date endBase = request->getAnEnd();
+    for (Request* other : requests) {
+        if (startBase <= other->getStart() || startBase <= other->getAnEnd() || endBase >= other->getStart() || endBase >= other->getAnEnd()) {
+            result.push_back(other);
         }
     }
     return result;
@@ -109,8 +146,10 @@ Request* RequestDatabase::findRequest(string rID) {
  * @param data
  */
 RequestDatabase::RequestDatabase(vector<string> data) {
+    Request * request;
     for (int i = 0; i < data.size(); i++) {
-        Request request = Request(data[i]);
-        requests.push_back(&request);
+        request = new Request(data[i]);
+        requests.push_back(request);
     }
+    
 }

@@ -10,6 +10,7 @@ Database* Database::single = nullptr;
 MemberDatabase* Database::memberDatabase = nullptr;
 HouseDatabase* Database::houseDatabase = nullptr;
 RequestDatabase* Database::requestDatabase = nullptr;
+Admin * Database::admin = nullptr;
 string Database::header1 = "";
 string Database::header2 = "";
 string Database::header3 = "";
@@ -34,10 +35,12 @@ void Database::loadFile() {
 
     vector<string> requests = extractData(storage);
 
+
     memberDatabase = new MemberDatabase(users);
     houseDatabase = new HouseDatabase(houses);
 
     requestDatabase = new RequestDatabase(requests);
+    admin = new Admin();
 }
 
 void Database::updateFile() {
@@ -69,6 +72,12 @@ void Database::updateFile() {
     }
     storage << "\n";
 }
+
+Admin * Database::getAdmin() {
+    return admin;
+}
+
+
 Database::Database() {
     this->loadFile();
 }

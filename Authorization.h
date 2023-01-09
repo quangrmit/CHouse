@@ -10,21 +10,25 @@
 
 #include <string>
 #include <vector>
-#include <any>
+#include "utils.h"
+// #include <any>
 #include <map>
 #include "Date.h"
-#include "Member.h"
+
+#include "Database.h"
 #include "Admin.h"
- using std::string;
+using std::string;
  
 using std::vector;
-using std::any;
+// using std::any;
 using std::map;
 using std::string;
 
 
 class Authorization {
 public: 
+
+Authorization();
     
 /**
  * @param username
@@ -37,7 +41,7 @@ Member * login(std::string username, std::string password);
  * 
  */
 
-bool registerUser(map<string, any> data);
+bool registerUser(map<string, string> userData, map<string, string> houseData);
     
 /**
  * @param username
