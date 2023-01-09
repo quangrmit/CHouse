@@ -95,14 +95,31 @@ bool Member::unlisthouse() {
 vector<string> Member::searchHouse(Date start, Date end, string city) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
-    vector<string> result;
+
     map<string, string> filter;
 
     filter["start"] = Date::date_to_string(&start);
     filter["end"] = Date::date_to_string(&end);
     filter["city"] = city;
-    result = hdb->readHouse(filter);
-    return result;
+
+
+    int totalDays = end-start;
+
+    vector<string> houseList = hdb->readHouse(filter);
+    vector<string> results;
+    for(string house: houseList) {
+        vector<string> data = split(house,',');
+        if(std::stod(data[6])*totalDays <= this->getCredit()) {
+            results.push_back(house);
+        }
+
+        if(std::stod(data[7])<=this->getOccupierRating()) {
+            results.push_back(house);
+        }
+
+    };
+
+    return results;
 }
 
 void Member::rateOccupier(string mID, int rating) {
@@ -160,6 +177,7 @@ bool Member::checkout(double rating, string comment) {
     Database *db = Database::getInstance();
     RequestDatabase *rdb = db->getRequestDatabase();
     HouseDatabase *hdb = db->getHouseDatabase();
+    MemberDatabase *mdb = db->getMemberDatabase();
 
     map<string, string> filter;
     filter["mID"] = mID;
@@ -169,16 +187,35 @@ bool Member::checkout(double rating, string comment) {
     vector<string> requests = rdb->readRequest(filter);
     string rID = split(requests[0], ',')[0];
     string hID = split(requests[0], ',')[2];
+
     House *h = hdb->findHouse(hID);
     Request *rq = rdb->findRequest(rID);
+    Member *m = mdb->findMember(mID);
+
+    map<string,string> filter2;
+    filter["hID"] = hID;
+
+    string ownerID = split(mdb->readMember(filter2)[0],',')[0];
+    Member *owner = mdb->findMember(ownerID);
+
+    Date start = rq->getStart();
+    Date end = rq->getAnEnd();
+    int totalDays = end-start;
+
+    m->setCredit(m->getCredit()-(h->getConsumingPoints()*totalDays));
+    owner->setCredit(owner->getCredit()+(h->getConsumingPoints()*totalDays));
+
+
     rq->setClose(true);
+
+
 
     vector<string> review = {std::to_string(rating), comment};
 
     h->addReview(review);
     this->rateHouse(hID, rating);
 
-    return false;
+    return true;
 }
 
 vector<string> Member::viewUnreview() {
