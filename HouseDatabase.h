@@ -4,7 +4,6 @@
 
 #ifndef _HOUSEDATABASE_H
 #define _HOUSEDATABASE_H
-#include <any>
 #include <map>
 #include <string>
 #include <vector>
@@ -13,7 +12,10 @@
 #include "House.h"
 #include "utils.h"
 
+<<<<<<< HEAD
 // using std::any;
+=======
+>>>>>>> 3361ee888b09229f55de6350e00d0c30f115af0f
 using std::map;
 using std::string;
 using std::vector;
