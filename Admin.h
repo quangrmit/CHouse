@@ -29,7 +29,7 @@ vector<string> viewAllHouse();
  * @param username
  * @param password
  */
-static bool compareUsernameandPassword(string username, string password);
+bool compareUsernameandPassword(string username, string password);
 private: 
     string username;
     string password;

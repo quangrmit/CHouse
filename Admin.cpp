@@ -50,5 +50,8 @@ vector<string> Admin::viewAllHouse() {
  * @return bool
  */
 bool Admin::compareUsernameandPassword(string username, string password) {
+    if (username == this->username and password == this->password) {
+        return true;
+    }
     return false;
 }
