@@ -17,14 +17,16 @@ using std::getline;
  * CLI implementation
  */
 
-TableGenerator *tableGenerator;
+TableGenerator *tableGenerator = new(std::nothrow) TableGenerator;
 vector<string> result;
+vector<string> space (10,"-");
+string sp = "\n" +join(space,'-') + "\n";
 string houseHeader = "HouseID,Description,City,House Rating,Start,End,Consuming Point,Min Occupier Rating,Reviews";
 string requestHeader = "Request ID,Member ID,House ID,Start,End,Status,Close";
 string memberHeader = "Member ID,Full Name,Username,Password,Phone Number,HouseID,Credit,Occupier Rating,Review";
 Authorization * authorize = new Authorization();
 CLI::CLI() {
-    cout << "EEET2482/COSC2082 ASSIGNMENT \n"
+    cout << "\n\nEEET2482/COSC2082 ASSIGNMENT \n"
           "VACATION HOUSE EXCHANGE APPLICATION \n\n"
           "Instructors: Mr. Linh Tran & Phong Ngo\n"
           "Group: Group Name\n"
@@ -41,9 +43,10 @@ void CLI::welcome() {
     int choice;
     while (true) {
         if (end) return;
-        cout << "Use the app as:\n 1.Guest \n 2.Member \n 3.Admin\n"
-            "Enter your choice: ";
+        cout << "\nUse the app as:\n 1.Guest \n 2.Member \n 3.Admin\n"
+            "Enter your choice: " ;
         cin >> choice;
+        cout << sp ;
         if (cin.fail()) {
             cout << "Please enter valid input \n";
             cin.clear();
@@ -71,6 +74,7 @@ void CLI::welcome() {
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
+        cout << sp;
     }    
 }
 
@@ -87,6 +91,7 @@ void CLI::openGuestMenu() {
                 "Enter your choice: ";
 
         cin >> choice;
+        cout << sp ;
         if (cin.fail()) {
             cout << "Please enter valid input \n";
             cin.clear();
@@ -98,36 +103,37 @@ void CLI::openGuestMenu() {
                 return;
             case 1:     
                 result = guest->viewAllHouse();
-                printVector(result);
-                // tableGenerator->printTable("ID,Description,City", result);
+                // printVector(result);
+                tableGenerator->printTable("ID,Description,City", result);
                 break;
 
             case 2:
                 cin.ignore(1, '\n');
                 cout << "Enter user detail: " << endl;
-                cout << "Enter fullname: ";
+                cout << "Fullname: ";
                 getline(cin, userData["fullname"]);
-                cout << "Enter username: ";
+                cout << "Username: ";
                 getline(cin, userData["username"]);
-                cout << "Enter password: ";
+                cout << "Password: ";
                 getline(cin, userData["password"]);
-                cout << "Enter phone number: ";
+                cout << "Phone number: ";
                 getline(cin, userData["phonenumber"]);
                 
                 cout << "Enter house detail: " << endl;
-                cout << "Enter description: ";
+                cout << "Description: ";
                 getline(cin, houseData["description"]);
-                cout << "enter city: ";
+                cout << "City: ";
                 getline(cin, houseData["city"]);
                 if (houseData["city"] != "Sai Gon" && houseData["city"] != "Ha Noi" && houseData["city"] != "Hue") {
-                    cout << "Our services only available in Sai Gon, Ha Noi or Hue" << endl;
+                    cout << "Our services only available in Sai Gon, Ha Noi or Hue" << endl << "\n";
                     break;
                 }
+                
                 if (authorize->registerUser(userData, houseData)) {
-                    cout << "Register succesfull" << endl;   
+                    cout << "Register succesfully!" << endl;   
                 }
                 else {
-                    cout << "Register failed successfully" << endl;
+                    cout << "Register failed!" << endl;
                 }
                 break;
 
@@ -135,6 +141,7 @@ void CLI::openGuestMenu() {
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
+        cout << "\n\n";
     }
 }
 
@@ -152,6 +159,7 @@ void CLI::openMemberMenu() {
     getline(cin, password);
     cout << endl;
     currentMember =  authorize->login(username, password);
+    cout << sp ;
     if (currentMember == nullptr) {
         cout << "Username or password is incorrect, please try again";
         return;
@@ -186,7 +194,10 @@ void CLI::openMemberMenu() {
             case 1:
                 result = split(currentMember-> viewInfo(),',');
                 cout << currentMember->viewInfo() << endl;
-                // tableGenerator->printTable(memberHeader, result);
+                for (int i =0; i < result.size(); i++) {
+                    cout << result[i] << "\n";
+                }
+                tableGenerator->printTable(memberHeader, result);
                 break;
             
             case 2:
@@ -208,13 +219,13 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Enter the start of your searching stay:";
                 getline(cin, start);
-                cout << "\nEnter the end of your searching stay:";
+                cout << "Enter the end of your searching stay:";
                 getline(cin, end);
-                cout << "\nEnter your wanted city:";
+                cout << "Enter your wanted city:";
                 getline(cin, city);
 
                 result = currentMember -> searchHouse(Date::string_to_date(start), Date::string_to_date(end), city);
-                // tableGenerator->printTable(memberHeader,result);
+                tableGenerator->printTable(houseHeader,result);
                 break;
 
             case 5:
@@ -238,9 +249,9 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Please enter the start of your stay: ";
                 getline(cin, start);
-                cout << "\nPlease enter the end of your stay: ";
+                cout << "Please enter the end of your stay: ";
                 getline(cin, end);
-                cout << "\nPlease enter the House ID of the house you want to stay: ";
+                cout << "Please enter the House ID of the house you want to stay: ";
                 getline(cin, hID);
                 currentMember->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID);
             
@@ -255,13 +266,15 @@ void CLI::openMemberMenu() {
 
             case 9:
                 result = currentMember->viewAllRequests();
-                // tableGenerator->printTable(requestHeader,result);
+                tableGenerator->printTable(requestHeader,result);
+                break;
 
             case 10: 
                 cin.ignore(1, '\n');
                 cout << "Enter Request ID of the accepted request: ";
                 getline(cin, rID);
                 currentMember->acceptRequest(rID);
+                break;
 
             default: 
                 cout << "Invalid input. Please try another one! \n";
@@ -281,6 +294,7 @@ void CLI::openAdminMenu() {
     cout << "Enter password: ";
     cin >> password;
     cout << endl;
+    cout << sp;
     currentAdmin =  authorize->loginAdmin(username, password);
     if (currentMember == nullptr) {
         cout << "Username or password is incorrect, please try again";
@@ -290,7 +304,8 @@ void CLI::openAdminMenu() {
     while (true) {
         cout << "0. Exit\n"
                 "1. View information of all users\n"
-                "2. View information of all houses\n";
+                "2. View information of all houses\n"
+                "Enter your choice: ";
         cin >> choice;
         if (cin.fail()) {
             cout << "Please enter valid input \n";
@@ -303,14 +318,14 @@ void CLI::openAdminMenu() {
                 return;
             case 1:
                 result = currentAdmin->viewAllUser();
-                printVector(result);
+                // printVector(result);
                 
-                // tableGenerator->printTable(memberHeader, result) ;
+                tableGenerator->printTable(memberHeader, result) ;
                 break;
             case 2:
                 result = currentAdmin -> viewAllHouse();
-                printVector(result);
-                // tableGenerator->printTable(houseHeader, result);  
+                // printVector(result);
+                tableGenerator->printTable(houseHeader, result);  
                 break;          
             default: 
                 cout << "Invalid input. Please try another one! \n";
