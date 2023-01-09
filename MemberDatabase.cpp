@@ -11,10 +11,10 @@ using namespace std;
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<Member*>
  */
-vector<string> MemberDatabase::readMember(map<string, string> data) {
-    vector<string> result;
+vector<Member*> MemberDatabase::readMemberPointers(map<string, string> data) {
+    vector<Member*> result;
     string emptyMark = "#";
 
     string mID;
@@ -27,7 +27,7 @@ vector<string> MemberDatabase::readMember(map<string, string> data) {
 
     if (data.empty()) {
         for (int i = 0; i < members.size(); i++) {
-            result.push_back(members[i]->toString());
+            result.push_back(members[i]);
         }
     } else {
         if (data.count("hID") == 0) {
@@ -70,9 +70,23 @@ vector<string> MemberDatabase::readMember(map<string, string> data) {
                 (member->getMid() == mID || data["mID"] == emptyMark) 
 
             ) {
-                result.push_back(member->toString());
+                result.push_back(member);
             }
         }
+
+    }
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> MemberDatabase::readMember(map<string, string> data) {
+    vector<string> result;
+    vector<Member*> memberPointers = this->readMemberPointers(data);
+    for (Member* member : memberPointers) {
+        result.push_back(member->toString());
     }
     return result;
 }
@@ -96,6 +110,7 @@ bool MemberDatabase::createMember(map<string, string> data) {
     } catch (std::bad_alloc) {
         return false;
     }
+    std::cout << members.size() << std::endl;
     return true;
 }
 

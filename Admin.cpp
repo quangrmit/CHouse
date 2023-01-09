@@ -3,6 +3,7 @@
  */
 
 #include "Admin.h"
+#include <iostream>
 /**
  * Admin implementation
  */
@@ -21,7 +22,6 @@ vector<string> Admin::viewAllHouse() {
     Database * database = Database::getInstance();
     HouseDatabase * houses = database->getHouseDatabase();
     vector<string> result = houses->readHouse({});
-    delete database, houses;
     return result;
 }
 
@@ -32,7 +32,6 @@ vector<string> Admin::viewAllUser() {
     Database * database = Database::getInstance();
     MemberDatabase * members = database->getMemberDatabase();
     vector<string> result = members->readMember({});
-    delete database, members;
     return result;
 
 }
@@ -43,5 +42,6 @@ vector<string> Admin::viewAllUser() {
  * @return bool
  */
 bool Admin::compareUsernameandPassword(string username, string password) {
-    return (this->username.compare(username) && this->password.compare(password));
+    std::cout << this->username << this->password << std::endl;
+    return (this->username == username && this->password == password);
 }

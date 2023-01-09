@@ -22,7 +22,8 @@ Member::Member(string data) {
    }
 
     }
-
+    double oRating;
+   (dataList[7] == "") ? oRating = -11: oRating  = std::stod(dataList[7]);
    this->mID = dataList[0];
    this->fullname = dataList[1];
    this->username = dataList[2];
@@ -30,7 +31,7 @@ Member::Member(string data) {
    this->phonenumber = dataList[4];
    this->hID = dataList[5];
    this->credit = std::stoi(dataList[6]);
-   this->occupierRating = std::stod(dataList[7]);
+   this->occupierRating = oRating;
    this->review = reviews;
 
 }
@@ -45,7 +46,8 @@ Member::Member(const string &mId, const string &fullname, const string &username
 
 string Member::toString() {
     std::vector<string> reviewVec;
-    string reviewString = "";
+    string reviewString = "", oRating = "";
+    (occupierRating == -11) ? oRating = "" : oRating = std::to_string(occupierRating);
     if (review.size() != 0) {
     for (std::vector<string> element : review) {
         reviewVec.push_back(join(element,'_'));
@@ -54,63 +56,190 @@ string Member::toString() {
 
     }
     return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
-                                                                                                          std::to_string(occupierRating)+","+reviewString;
+                                                                                                          oRating+","+reviewString;
 }
 
 string Member::viewInfo() {
-    return "";
+    return this->toString();
 }
 
-bool Member::listhouse() {
-        
-    return false;
+bool Member::listhouse(Date start, Date end , int consumingPoint, int minOccupierRating) {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(hID);
+
+    house->setStartDate(start);
+    house->setEndDate(end);
+    house->setConsumingPoint(consumingPoint);
+    house->setMinOccupierRating(minOccupierRating);
+
+    return true;
 }
+
 
 bool Member::unlisthouse() {
-    return false;
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(hID);
+
+    Date empty = Date();
+    empty.setEmpty();
+
+    house->setStartDate(empty);
+    house->setEndDate(empty);
+    house->setConsumingPoint(0);
+    house->setMinOccupierRating(-11);
+
+    return true;
 }
 
 vector<string> Member::searchHouse(Date start, Date end, string city) {
-
     Database *db = Database::getInstance();
-
-    HouseDatabase *hd = db->getHouseDatabase();
-
+    HouseDatabase *hdb = db->getHouseDatabase();
+    vector<string> result;
     map<string,string> filter;
-    Date *startDate = &start;
-    Date *endDate = &end;
-    filter["start"] = Date::date_to_string(startDate);
-    filter["end"] = Date::date_to_string(endDate);
+
+    filter["start"] = Date::date_to_string(&start);
+    filter["end"] = Date::date_to_string(&end);
     filter["city"] = city;
-
-    vector<string> result = hd->readHouse(filter);
-
+    result = hdb->readHouse(filter);
     return result;
 }
 
-void Member::rateOccupier(string mID) {
+void Member::rateOccupier(string mID,int rating) {
+    Database *db = Database::getInstance();
+    MemberDatabase *mdb = db->getMemberDatabase();
+    Member *member = mdb->findMember(mID);
+
+    double reviews = member->getReview().size();
+    double ORating = ((member->getOccupierRating()*reviews)+rating)/(reviews+1);
+
+    member->setOccupierRating(ORating);
+
 }
 
-void Member::rateHouse(string hID) {
+void Member::rateHouse(string hID,double rating) {
+    Database *db = Database::getInstance();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(hID);
+
+    double reviews = house->getReviews().size();
+    double HRating = ((house->getHouseRating()*reviews)+rating)/(reviews+1);
+
+    house->setHouseRating(HRating);
 }
 
 void Member::requestStaying(Date start, Date end, string hID) {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+    HouseDatabase *hdb = db->getHouseDatabase();
+    House *house = hdb->findHouse(hID);
+
+    map<string,string> filter;
+    filter["mID"] = mID;
+    filter["hID"] = hID;
+    filter["start"] = Date::date_to_string(&start);
+    filter["end"] = Date::date_to_string(&end);
+    filter["status"] = "-1";
+    filter["close"] = "false";
+
+    rdb->createRequest(filter);
 }
 
-bool Member::checkout() {
+bool Member::checkout(double rating,string comment) {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+    HouseDatabase *hdb = db->getHouseDatabase();
+
+    map<string,string> filter;
+    filter["mID"] = mID;
+    filter["status"] ="1";
+    filter["close"] = "false";
+
+    vector<string> requests = rdb->readRequest(filter);
+    string rID = split(requests[0],',')[0];
+    string hID = split(requests[0],',')[2];
+    House *h = hdb->findHouse(hID);
+    Request *rq = rdb->findRequest(rID);
+    rq->setClose(true);
+
+    vector<string> review ={std::to_string(rating),comment};
+
+    h->addReview(review);
+    this->rateHouse(hID,rating);
+
     return false;
 }
 
+vector<string> Member::viewUnreview() {
+    Database *db = Database::getInstance();
+    RequestDatabase *rdb = db->getRequestDatabase();
+
+    map<string,string> filter;
+    filter["hID"] = this->hID;
+    filter["oReview"] = "false";
+    filter["close"] = "true";
+
+    vector<string> requests = rdb->readRequest(filter);
+    vector<string> unreviewOccupier;
+
+    for(string request : requests) {
+        unreviewOccupier.push_back(split(request,',')[1]);
+    }
+
+    return unreviewOccupier;
+}
+
+void Member::addReview(vector<string> review) {
+    this->review.push_back(review);
+}
+
+void Member::reviewOccupier(string mID,double rating, string comment) {
+    Database *db = Database::getInstance();
+    MemberDatabase *mdb = db->getMemberDatabase();
+    Member *mem = mdb->findMember(mID);
+
+    vector<string> review = {std::to_string(rating),comment};
+    mem->addReview(review);
+    rateOccupier(mID,rating);
+}
+
+
 vector<string> Member::viewAllRequests() {
     vector<string> result;
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    result = requestDatabase->readRequest({{"hID", this->hID}});
     return result;
 }
 
 bool Member::acceptRequest(string rID) {
-    return false;
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    Request *request = requestDatabase->findRequest(rID);
+    // Check if rID is valid (find function does not return nullptr)
+    if (request == nullptr) {
+        return false;
+    } else {
+        // Find request and set status to accepted (1)
+        request->setStatus(1);
+        // Find all other overlapping requests
+        vector<Request *> overlaps = requestDatabase->findOverlapRequests(request);
+        // Set overlapping requests to declined (0) and set close to true
+        for (Request *overlap : overlaps) {
+            overlap->setStatus(0);
+            overlap->setClose(true);
+        }
+
+        return true;
+    }
+    return true;
 }
 
 bool Member::compareUsernameandPassword(string username, string password) {
+    if (username == this->username && password == this->password) {
+        return true;
+    }
     return false;
 }
 

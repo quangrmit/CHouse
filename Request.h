@@ -17,7 +17,7 @@ class Request {
 
     Request(string data);
 
-    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status = -1,
+    Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd, int status = -1,bool oReview =false ,
             bool close = false);
 
     const string &getRid() const;
@@ -55,6 +55,7 @@ class Request {
     Date start;
     Date end;
     int status;
+    bool oReview;
     bool close;
 };
 

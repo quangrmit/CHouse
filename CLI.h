@@ -10,11 +10,14 @@
 #include "Date.h"
 #include "Guest.h"
 #include "Admin.h"
+#include "TableGenerator.h"
+#include "Authorization.h"
 #include <iostream>
 #include <string>
 
 using std::cout;
 using std::cin;
+using std::endl;
 using std::string;
 
 

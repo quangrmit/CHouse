@@ -32,7 +32,8 @@ Member * Authorization::login(string username, string password) {
             break;
         }
     }
-    delete mid, database, members;
+    // delete mid, database, members;
+
     if (id.empty()) return nullptr;
     return members->findMember(id);
 
@@ -50,7 +51,7 @@ bool Authorization::registerUser(map<string, string> userData, map<string, strin
     HouseDatabase * house = database->getHouseDatabase();
     bool result1 = member->createMember(userData);
     bool result2 = house->createHouse(houseData);
-    delete member, house;
+    // delete database, member, house;
     if (result1 && result2) return true;
     return false;
 }
@@ -63,7 +64,6 @@ bool Authorization::registerUser(map<string, string> userData, map<string, strin
 Admin * Authorization::loginAdmin(string username, string password) {
     Database * database = Database::getInstance();
     Admin * result = database->getAdmin();
-    delete database;
     if (result->compareUsernameandPassword(username, password)) {
         return result;
     }

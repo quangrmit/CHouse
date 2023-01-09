@@ -24,7 +24,7 @@ vector<string> Guest::viewAllHouse() {
     vector<string>houseList = houseDatabase->readHouse(data);
     for (int i =0; i < houseList.size(); i++) {
         vector<string>temp = split(houseList[i], ',');
-        vector<string>houseDisplay = {temp[0], temp[1], temp[2]};
+        vector<string>houseDisplay = {temp[0], temp[1], temp[2], temp[3]};
         result.push_back(join(houseDisplay,','));        
     }
     return result;

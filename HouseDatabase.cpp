@@ -12,11 +12,10 @@
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<House*>
  */
-vector<string> HouseDatabase::readHouse(map<string, string> data) {
-    // if data is EMPTY, NOT NULL return all data
-    vector<string> result;
+vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
+    vector<House*> result;
     // check if data is empty
     string emptyMark;
     string hID;
@@ -28,25 +27,9 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
 
     if (data.empty()) {
         for (int i = 0; i < houses.size(); i++) {
-            result.push_back(houses[i]->toString());
+            result.push_back(houses[i]);
         }
-
-    } 
-    // else {
-        // Date start = Date::string_to_date(data["start"]);
-        // Date end = Date::string_to_date(data["end"]);
-        // for (int i = 0; i < houses.size(); i++) {
-        //     if (start == houses[i]->getStartDate() && end == houses[i]->getEndDate()) {
-        //         if (data.find("city") == data.end()) {
-        //             result.push_back(houses[i]->toString());
-        //         } else {
-        //             if (data["city"] == houses[i]->getCity()) {
-        //                 result.push_back(houses[i]->toString());
-        //             }
-        //         }
-        //     }
-        // }
-    // }
+    }
     else {
         if (data.count("hID") == 0) {
             data["hID"] = emptyMark;
@@ -93,13 +76,45 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
                 (house->getMinOccupierRating() == minRating || data["minRating"] == emptyMark) &&
                 (house->getHouseRating() == hRating || data["hRating"] == emptyMark) &&
                 (house->getConsumingPoints() == consumingPoint || data["consumingPoint"] == emptyMark) &&
-                (start <= house->getStartDate() || data["start"] == emptyMark) &&
-                (end >= house->getEndDate() || data["end"] == emptyMark) 
+                (house->getStartDate() <= start || data["start"] == emptyMark) &&
+                (house->getEndDate() >= end || data["end"] == emptyMark) 
 
             ) {
-                result.push_back(house->toString());
+                result.push_back(house);
             }
         }
+    }
+    // } else {
+    //     Date start = Date::string_to_date(data["start"]);
+    //     Date end = Date::string_to_date(data["end"]);
+    //     for (int i = 0; i < houses.size(); i++) {
+    //         if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
+    //             if (data.find("city") == data.end()) {
+    //                 result.push_back(houses[i]);
+    //             } else {
+    //                 if (data["city"] == houses[i]->getCity()) {
+    //                     std::cout << "Hello world" << std::endl;
+    //                     result.push_back(houses[i]);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> HouseDatabase::readHouse(map<string, string> data) {
+    // if data is EMPTY, NOT NULL return all data
+    vector<string> result;
+
+    vector<House*> housePointers = this->readHousePointers(data);
+    for (House* house : housePointers) {
+        result.push_back(house->toString());
     }
 
     return result;
@@ -120,6 +135,7 @@ bool HouseDatabase::createHouse(map<string, string> data) {
     } catch (std::bad_alloc) {
         return false;
     }
+    std::cout << houses.size() << std::endl;
 
     return true;
 }

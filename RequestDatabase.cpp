@@ -10,10 +10,10 @@
 
 /**
  * @param data
- * @return vector<string>
+ * @return vector<Request*>
  */
-vector<string> RequestDatabase::readRequest(map<string, string> data) {
-    vector<string> result;
+vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) {
+    vector<Request*> result;
     string emptyMark = "#";
     // vector<string> filters = {"start", "end", "hID", "mID", "rID", "status"};
     // Check if data is empty
@@ -26,7 +26,7 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
     bool close;
     if (data.empty()) {
         for (int i = 0; i < requests.size(); i++) {
-            result.push_back(requests[i]->toString());
+            result.push_back(requests[i]);
         }
     } else {
         if (data.count("start") == 0) {
@@ -66,15 +66,44 @@ vector<string> RequestDatabase::readRequest(map<string, string> data) {
             close = (data["close"] == "false") ? false: true;
         }
         for (Request* request : requests) {
-            if ((start <= request->getStart() || data["start"] == emptyMark) &&
-                (end >= request->getAnEnd() || data["end"] == emptyMark) &&
+            if ((start >= request->getStart() || data["start"] == emptyMark) &&
+                (end <= request->getAnEnd() || data["end"] == emptyMark) &&
                 (hID == request->getHid() || data["hID"] == emptyMark) &&
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
                 (close == request->isClose()|| data["close"] == emptyMark) &&
                 (request->getStatus() == status || data["status"] == emptyMark)) {
-                result.push_back(request->toString());
+                result.push_back(request);
             }
+        }
+    }
+    return result;
+}
+
+/**
+ * @param data
+ * @return vector<string>
+ */
+vector<string> RequestDatabase::readRequest(map<string, string> data) {
+    vector<string> result;
+    vector<Request*> requestPointers = this->readRequestPointers(data);
+    for (Request* request : requestPointers) {
+        result.push_back(request->toString());
+    }
+    return result;
+}
+
+/**
+ * @param request
+ * @return vector<Request*>
+ */
+vector<Request*> RequestDatabase::findOverlapRequests(Request* request) {
+    vector<Request*> result;
+    Date startBase = request->getStart();
+    Date endBase = request->getAnEnd();
+    for (Request* other : requests) {
+        if (startBase <= other->getStart() || startBase <= other->getAnEnd() || endBase >= other->getStart() || endBase >= other->getAnEnd()) {
+            result.push_back(other);
         }
     }
     return result;

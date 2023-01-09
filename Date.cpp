@@ -5,6 +5,7 @@
 
 Date::Date() {
     empty = true;
+
 }
 Date::Date(int date, int month, int year) {
     if (year < MIN_YEAR) {
@@ -37,6 +38,9 @@ Date::Date(int date, int month, int year) {
     this->year = year;
 }
 bool Date::operator>(Date d2) {
+    if (d2.isEmpty() || this->isEmpty())  {
+        return false;
+    }
     if (this->year > d2.year) {
         return true;
     } else if (this->year == d2.year) {
@@ -57,6 +61,7 @@ bool Date::operator>(Date d2) {
     }
 }
 bool Date::operator<(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (this->date != d2.date || this->month != d2.month || this->year != d2.year) {
         if (!(*this > d2)) {
             return true;
@@ -76,12 +81,14 @@ bool Date::operator==(Date d2) {
     }
 }
 bool Date::operator>=(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (*this > d2 || *this == d2) {
         return true;
     }
     return false;
 }
 bool Date::operator<=(Date d2) {
+    if (d2.isEmpty() || this->isEmpty()) return false;
     if (*this < d2 || *this == d2) {
         return true;
     }
