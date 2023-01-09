@@ -42,3 +42,14 @@ std::vector<std::string> extractData(std::ifstream& data) {
     }
     return result;
 }
+// code reference: https://stackoverflow.com/questions/3108454/validation-for-phone-number-and-mobile-number
+bool validPhoneNumber(std::string phonenumber) {
+    // for mobile phone with 10 digits
+    if (phonenumber.size() != 10) return false; 
+    if (phonenumber.at(0) != '0') return false;
+    for (int i = 0; i < phonenumber.size(); i++) {
+        if (phonenumber.at(i) < '0' || phonenumber.at(i) > '9') return false;
+    }
+
+    return true;
+}

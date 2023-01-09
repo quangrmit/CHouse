@@ -49,6 +49,11 @@ bool Authorization::registerUser(map<string, string> userData, map<string, strin
     Database * database = Database::getInstance();
     MemberDatabase * member = database->getMemberDatabase();
     HouseDatabase * house = database->getHouseDatabase();
+    if (userData.count("fullname") == 0 || userData.count("username") == 0 || userData.count("password") == 0 || userData.count("phonenumber") == 0) return false;
+    if (houseData.count("description") == 0 || houseData.count("city") == 0) return false;
+    // city can only be sai gon, hue or ha noi
+    if (houseData["city"] != "Sai Gon" && houseData["city"] != "Ha Noi" && houseData["city"] != "Hue") return false;
+    if (!validPhoneNumber(userData["phonenumber"])) return false;
     bool result1 = member->createMember(userData);
     bool result2 = house->createHouse(houseData);
     // delete database, member, house;

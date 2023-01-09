@@ -113,17 +113,18 @@ void CLI::openGuestMenu() {
                 getline(cin, userData["password"]);
                 cout << "Enter phone number: ";
                 getline(cin, userData["phonenumber"]);
-
+                
                 cout << "Enter house detail: " << endl;
                 cout << "Enter description: ";
                 getline(cin, houseData["description"]);
                 cout << "enter city: ";
                 getline(cin, houseData["city"]);
-
-                cout<< houseData["city"];
+                if (houseData["city"] != "Sai Gon" && houseData["city"] != "Ha Noi" && houseData["city"] != "Hue") {
+                    cout << "Our services only available in Sai Gon, Ha Noi or Hue" << endl;
+                    break;
+                }
                 if (authorize->registerUser(userData, houseData)) {
-                    cout << "Register succesfull" << endl;
-                    
+                    cout << "Register succesfull" << endl;   
                 }
                 else {
                     cout << "Register failed successfully" << endl;
@@ -139,15 +140,16 @@ void CLI::openGuestMenu() {
 
 void CLI::openMemberMenu() {
     // Member *member = new Member();
-    string mID, city, hID, start, end, rID;
+    string mID, city, hID, start, end, rID, comment, point;
     int consumingPoint, rating;
     string username, password;
     // Date start, end;
     int choice; 
+    cin.ignore(1, '\n');
     cout << "Enter username: ";
-    cin >> username;
+    getline(cin, username);
     cout << "Enter password: ";
-    cin >> password;
+    getline(cin, password);
     cout << endl;
     currentMember =  authorize->login(username, password);
     if (currentMember == nullptr) {
@@ -188,6 +190,7 @@ void CLI::openMemberMenu() {
                 break;
             
             case 2:
+                cin.ignore(1, '\n');
                 cout << "Enter the start of the house:";
                 getline(cin, start);
                 cout << "\nEnter the end of the house:";
@@ -202,6 +205,7 @@ void CLI::openMemberMenu() {
                 break;
             
             case 4: 
+                cin.ignore(1, '\n');
                 cout << "Enter the start of your searching stay:";
                 getline(cin, start);
                 cout << "\nEnter the end of your searching stay:";
@@ -214,6 +218,7 @@ void CLI::openMemberMenu() {
                 break;
 
             case 5:
+                cin.ignore(1, '\n');
                 cout << "Please enter the Member ID you want to give reviews: ";
                 getline(cin, mID);
                 cout << "\nEnter the rating:";
@@ -222,6 +227,7 @@ void CLI::openMemberMenu() {
                 break;
             
             case 6:
+                cin.ignore(1, '\n');
                 cout << "Please enter the House ID you want to give reviews: ";
                 getline(cin, hID);  
                 cout << "\nEnter the rating: ";
@@ -229,6 +235,7 @@ void CLI::openMemberMenu() {
                 currentMember -> rateHouse(hID, rating);
 
             case 7:
+                cin.ignore(1, '\n');
                 cout << "Please enter the start of your stay: ";
                 getline(cin, start);
                 cout << "\nPlease enter the end of your stay: ";
@@ -239,13 +246,19 @@ void CLI::openMemberMenu() {
             
             case 8:
                 // input checkout paramter
-                // currentMember->checkout();
+                cin.ignore(1, '\n');
+                cout << "Please enter point";
+                getline(cin, point);
+                cout << "Please enter comment";
+                getline(cin, comment);
+                currentMember->checkout(std::stod(point), comment);
 
             case 9:
                 result = currentMember->viewAllRequests();
                 // tableGenerator->printTable(requestHeader,result);
 
             case 10: 
+                cin.ignore(1, '\n');
                 cout << "Enter Request ID of the accepted request: ";
                 getline(cin, rID);
                 currentMember->acceptRequest(rID);
