@@ -4,8 +4,9 @@
 
 #include "Member.h"
 
-#include "utils.h"
 #include <iostream>
+
+#include "utils.h"
 
 Member::Member() {}
 
@@ -15,48 +16,54 @@ Member::Member(string data) {
     std::vector<std::vector<string>> reviews;
 
     if (dataList.size() == 9) {
-    std::vector<string> reviewList = split(dataList[8], ';');
+        std::vector<string> reviewList = split(dataList[8], ';');
 
-   for(string review : reviewList) {
-       reviews.push_back(split(review,'_'));
-   }
-
+        for (string review : reviewList) {
+            reviews.push_back(split(review, '_'));
+        }
     }
     double oRating;
-   (dataList[7] == "") ? oRating = -11: oRating  = std::stod(dataList[7]);
-   this->mID = dataList[0];
-   this->fullname = dataList[1];
-   this->username = dataList[2];
-   this->password = dataList[3];
-   this->phonenumber = dataList[4];
-   this->hID = dataList[5];
-   this->credit = std::stoi(dataList[6]);
-   this->occupierRating = oRating;
-   this->review = reviews;
-
+    (dataList[7] == "") ? oRating = -11 : oRating = std::stod(dataList[7]);
+    this->mID = dataList[0];
+    this->fullname = dataList[1];
+    this->username = dataList[2];
+    this->password = dataList[3];
+    this->phonenumber = dataList[4];
+    this->hID = dataList[5];
+    this->credit = std::stoi(dataList[6]);
+    this->occupierRating = oRating;
+    this->review = reviews;
 }
 
 Member::Member(const string &mId, const string &fullname, const string &username, const string &password,
                const string &phonenumber, const string &hId, int credit, double occupierRating,
-               const vector<vector<string>> &review) : mID(mId), fullname(fullname), username(username),
-                                                            password(password), phonenumber(phonenumber), hID(hId),
-                                                            credit(credit), occupierRating(occupierRating), review(review)
-                                                            {}
-
+               const vector<vector<string>> &review) : mID(mId), fullname(fullname), username(username), password(password), phonenumber(phonenumber), hID(hId), credit(credit), occupierRating(occupierRating), review(review) {}
 
 string Member::toString() {
     std::vector<string> reviewVec;
     string reviewString = "", oRating = "";
     (occupierRating == -11) ? oRating = "" : oRating = std::to_string(occupierRating);
     if (review.size() != 0) {
-    for (std::vector<string> element : review) {
-        reviewVec.push_back(join(element,'_'));
+        for (std::vector<string> element : review) {
+            reviewVec.push_back(join(element, '_'));
+        }
+        reviewString = join(reviewVec, ';');
     }
-    reviewString = join(reviewVec,';');
-
+    return mID + "," + fullname + "," + username + "," + password + "," + phonenumber + "," + hID + "," + std::to_string(credit) + "," +
+           oRating + "," + reviewString;
+}
+string Member::censoredToString() {
+    std::vector<string> reviewVec;
+    string reviewString = "", oRating = "";
+    (occupierRating == -11) ? oRating = "" : oRating = std::to_string(occupierRating);
+    if (review.size() != 0) {
+        for (std::vector<string> element : review) {
+            reviewVec.push_back(join(element, '_'));
+        }
+        reviewString = join(reviewVec, ';');
     }
-    return mID+","+fullname+","+username+","+password+","+phonenumber+","+hID+","+ std::to_string(credit)+","+
-                                                                                                          oRating+","+reviewString;
+    return mID + "," + fullname + "," + username + "," + phonenumber + "," + hID + "," + std::to_string(credit) + "," +
+           oRating + "," + reviewString;
 }
 
 string Member::viewInfo() {
@@ -95,14 +102,31 @@ bool Member::unlisthouse() {
 vector<string> Member::searchHouse(Date start, Date end, string city) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
-    vector<string> result;
+
     map<string, string> filter;
 
     filter["start"] = Date::date_to_string(&start);
     filter["end"] = Date::date_to_string(&end);
     filter["city"] = city;
-    result = hdb->readHouse(filter);
-    return result;
+
+
+    int totalDays = end-start;
+
+    vector<string> houseList = hdb->readHouse(filter);
+    vector<string> results;
+    for(string house: houseList) {
+        vector<string> data = split(house,',');
+        if(std::stod(data[6])*totalDays <= this->getCredit()) {
+            results.push_back(house);
+        }
+
+        if(std::stod(data[7])<=this->getOccupierRating()) {
+            results.push_back(house);
+        }
+
+    };
+
+    return results;
 }
 
 void Member::rateOccupier(string mID, double rating) {
@@ -160,6 +184,7 @@ bool Member::checkout(double rating, string comment) {
     Database *db = Database::getInstance();
     RequestDatabase *rdb = db->getRequestDatabase();
     HouseDatabase *hdb = db->getHouseDatabase();
+    MemberDatabase *mdb = db->getMemberDatabase();
 
     map<string, string> filter;
     filter["mID"] = mID;
@@ -169,16 +194,35 @@ bool Member::checkout(double rating, string comment) {
     vector<string> requests = rdb->readRequest(filter);
     string rID = split(requests[0], ',')[0];
     string hID = split(requests[0], ',')[2];
+
     House *h = hdb->findHouse(hID);
     Request *rq = rdb->findRequest(rID);
+    Member *m = mdb->findMember(mID);
+
+    map<string,string> filter2;
+    filter["hID"] = hID;
+
+    string ownerID = split(mdb->readMember(filter2)[0],',')[0];
+    Member *owner = mdb->findMember(ownerID);
+
+    Date start = rq->getStart();
+    Date end = rq->getAnEnd();
+    int totalDays = end-start;
+
+    m->setCredit(m->getCredit()-(h->getConsumingPoints()*totalDays));
+    owner->setCredit(owner->getCredit()+(h->getConsumingPoints()*totalDays));
+
+
     rq->setClose(true);
+
+
 
     vector<string> review = {std::to_string(rating), comment};
 
     h->addReview(review);
     this->rateHouse(hID, rating);
 
-    return false;
+    return true;
 }
 
 vector<string> Member::viewUnreview() {
@@ -220,6 +264,54 @@ vector<string> Member::viewAllRequests() {
     RequestDatabase *requestDatabase = database->getRequestDatabase();
     result = requestDatabase->readRequest({{"hID", this->hID}});
     return result;
+}
+string Member::viewRequestMemberInfo(string rID) {
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    MemberDatabase *memberDatabase = database->getMemberDatabase();
+    // Check if rID is valid (exists in request)
+    Request *request = requestDatabase->findRequest(rID);
+    if (request == nullptr) {
+        std::cout << "Invalid rID" << std::endl;
+        return "Invalid rID";
+    } else if (request->isClose() == true) {
+        std::cout << "Request has been closed" << std::endl;
+        return "Request closed";
+    } else {
+        Member *member = memberDatabase->findMember(request->getMid());
+        return member->censoredToString();
+    }
+}
+
+vector<string> Member::viewMyRequests() {
+    // Function to view all outcoming requests, including all statuses and closed/unclosed
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+
+    vector<string> myRequests = requestDatabase->readRequest({{"mID", this->mID}});
+    return myRequests;
+}
+
+void Member::cancelRequest(string rID) {
+    Database *database = Database::getInstance();
+    RequestDatabase *requestDatabase = database->getRequestDatabase();
+    vector<Request *> myRequests = requestDatabase->readRequestPointers({{"mID", this->mID}, {"close", "false"}});
+    Request *toBeCanceled;
+    bool reqValid = false;
+
+    // Check if rID is valid (in list of myRequests)
+    for (int i = 0; i < myRequests.size(); i++) {
+        if (myRequests[i]->getRid() == rID) {
+            reqValid = true;
+            toBeCanceled = myRequests[i];
+            break;
+        }
+    }
+    if (reqValid) {
+        toBeCanceled->setClose(true);
+    } else {
+        std::cout << "Invalid request ID" << std::endl;
+    }
 }
 
 bool Member::acceptRequest(string rID) {

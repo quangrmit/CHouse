@@ -1,22 +1,19 @@
 /**
  * Project Untitled
  */
-#include "Date.h"
-#include "Database.h"
 #include <string>
 #include <vector>
 
+#include "Database.h"
 #include "Date.h"
 using std::cout;
 using std::endl;
-using std::map;
+
 using std::string;
 using std::vector;
 
 #ifndef _MEMBER_H
 #define _MEMBER_H
-
-
 
 class Member {
    public:
@@ -75,11 +72,17 @@ class Member {
 
     void rateHouse(string hID, double rating);
 
+    vector<string> viewMyRequests();
+
     void requestStaying(Date start, Date end, string hID);
+
+    void cancelRequest(string rID);
 
     bool checkout(double point, string comment);
 
     vector<string> viewUnreview();
+
+    string viewRequestMemberInfo(string rID);
 
     void addReview(vector<string> review);
 
@@ -92,6 +95,7 @@ class Member {
     bool compareUsernameandPassword(string username, string password);
 
     string toString();
+    string censoredToString();
 
    private:
     string mID;

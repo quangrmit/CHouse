@@ -30,6 +30,7 @@ A project by Greenie
 ## Known bugs
 * Table generator not working
 * When creating new members, house ID can't be known
+* Date can't subtract 2 dates from different years
 
 ## Small notes
 * Member will have 500 credit point when first register
