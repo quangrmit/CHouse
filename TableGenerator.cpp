@@ -18,8 +18,7 @@ string TableGenerator::generateTable(vector<string> headerList, vector<vector<st
     stringstream sstr;
     int rowHeight = overRiddenHeaderHeight.size() > 0 ? overRiddenHeaderHeight[0] : 1;
     map<int, int> columnMaxWidthMapping = getMaximumWidth(headerList, rowList);
-    sstr << newLine << newLine;
-
+    sstr<< newLine;
     createRowLines(sstr, headerList.size(), columnMaxWidthMapping);
     sstr << newLine;
 
@@ -40,17 +39,16 @@ string TableGenerator::generateTable(vector<string> headerList, vector<vector<st
             fillCell(sstr, row[cellIndex], cellIndex, columnMaxWidthMapping);
         }
     }
-    
     sstr << newLine;
     
     createRowLines(sstr, headerList.size(), columnMaxWidthMapping);
-    sstr << newLine;
-    sstr << newLine;
+    
 
     // cout << sstr.str();
     // for (int i =0; i < header_list.size(); i++) {
     //     cout << header_list[i] << "\n";
     // }
+    sstr << newLine << newLine;
     return sstr.str();
 }
 
@@ -184,12 +182,17 @@ void TableGenerator::fillCell(stringstream& sstr, string cell, int cellIndex, ma
  * @param  {string} header                  : 
  * @param  {vector<string>result} undefined : 
  */
-void printTable(string header, vector<string>result) {
-    TableGenerator *table_generator  = new TableGenerator();
+void TableGenerator::printTable(string header, vector<string>result) {
+    // TableGenerator *table_generator  = new TableGenerator();
     vector<string> headersList = split(header, ',');
     vector <vector<string>> rowsList = {};
     for (int i =0; i < result.size(); i++) {
         rowsList.push_back(split(result[i], ','));
     }
-    cout << table_generator->generateTable(headersList, rowsList, {});
+    cout << this->generateTable(headersList, rowsList, {});
 }
+
+// int main() {
+//     TableGenerator *tableGenerator = new(std::nothrow) TableGenerator;
+//     tableGenerator->printTable("House ID,Description,City", {"01,NICE HOUSE,HCM", "02,GOOD HOUSE,HANOI"});
+// }
