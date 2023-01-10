@@ -25,6 +25,7 @@ class Date {
     bool operator==(Date d2);
     bool operator>=(Date d2);
     bool operator<=(Date d2);
+    int rdn(int d, int m, int y);
     int operator-(Date d2);
     void setEmpty();
     bool isEmpty();

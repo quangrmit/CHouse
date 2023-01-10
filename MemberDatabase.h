@@ -1,17 +1,15 @@
 /**
  * Project Untitled
  */
-#include "Member.h"
 #include <map>
 #include <string>
 #include <vector>
 
+#include "Member.h"
 
-using std::any;
 using std::map;
 using std::string;
 using std::vector;
-
 
 #ifndef _MEMBERDATABASE_H
 #define _MEMBERDATABASE_H
