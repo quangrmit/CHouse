@@ -65,13 +65,13 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse(Date start, Date end, int consumingPoint, int minOccupierRating = -11);
+    bool listhouse(Date start, Date end, int consumingPoint, double minOccupierRating = -11);
 
     bool unlisthouse();
 
     vector<string> searchHouse(Date start, Date end, string city);
 
-    void rateOccupier(string mID, int rating);
+    void rateOccupier(string mID, double rating);
 
     void rateHouse(string hID, double rating);
 

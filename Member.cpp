@@ -63,7 +63,7 @@ string Member::viewInfo() {
     return this->toString();
 }
 
-bool Member::listhouse(Date start, Date end, int consumingPoint, int minOccupierRating) {
+bool Member::listhouse(Date start, Date end, int consumingPoint, double minOccupierRating) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(hID);
@@ -105,7 +105,7 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
     return result;
 }
 
-void Member::rateOccupier(string mID, int rating) {
+void Member::rateOccupier(string mID, double rating) {
     Database *db = Database::getInstance();
     MemberDatabase *mdb = db->getMemberDatabase();
     Member *member = mdb->findMember(mID);

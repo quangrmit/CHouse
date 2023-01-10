@@ -5,8 +5,9 @@ A project by Greenie
 ### High-priority
 * Validate input data from all methods in Member class
 * Add credit points to house owner and minus credit points from occupier when check out
-* Filter out houses search result if occupier not have enough credit points, or min occupier rating is larger than occupier rating
+* Filter out houses search result if occupier not have enough credit points, or min occupier rating is larger than occupier rating; filter out house that are unlist 
 * Add method to Member to allow member to view specific member detail if exist in request (unclosed request)
+* Check all members method
 
 
 ### Mid-priority
