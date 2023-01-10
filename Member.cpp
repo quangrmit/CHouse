@@ -337,6 +337,20 @@ bool Member::acceptRequest(string rID) {
     return true;
 }
 
+string Member::viewHouseReviews(string hID) {
+    string reviews;
+    Database *database = Database::getInstance();
+    HouseDatabase *HouseDatabase = database->getHouseDatabase();
+    House *house = HouseDatabase->findHouse(hID);
+    if (house == nullptr) {
+        cout << "Invalid House ID." << std::endl;
+        return "Invalid House ID.";
+    } else {
+       reviews = house->reviewToString();
+       return reviews;
+    }
+}
+
 bool Member::compareUsernameandPassword(string username, string password) {
     if (username == this->username && password == this->password) {
         return true;

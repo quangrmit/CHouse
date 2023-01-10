@@ -92,6 +92,8 @@ class Member {
 
     bool acceptRequest(string rID);
 
+    string viewHouseReviews(string hID);
+
     bool compareUsernameandPassword(string username, string password);
 
     string toString();
