@@ -20,9 +20,9 @@ using std::getline;
 TableGenerator *tableGenerator = new(std::nothrow) TableGenerator;
 vector<string> result;
 vector<string> space (10,"-");
-string sp = "\n" +join(space,'-') + "\n";
+string sp = "\n" + join(space,'-') + "\n";
 string houseHeader = "HouseID,Description,City,House Rating,Start,End,Consuming Point,Min Occupier Rating,Reviews";
-string requestHeader = "Request ID,Member ID,House ID,Start,End,Status,Close";
+string requestHeader = "Request ID,Member ID,House ID,Start,End,Status,Occupier Review,Close";
 string memberHeader = "Member ID,Full Name,Username,Password,Phone Number,HouseID,Credit,Occupier Rating,Review";
 Authorization * authorize = new Authorization();
 CLI::CLI() {
@@ -59,14 +59,17 @@ void CLI::welcome() {
                 end = true;
                 break;
             case 1: 
+                cout << "This is your menu \n";
                 openGuestMenu();
                 break;
 
             case 2:
+                cout << "This is your menu \n";
                 openMemberMenu();
                 break;
             
             case 3: 
+                cout << "This is your menu \n";
                 openAdminMenu();
                 break;
 
@@ -91,7 +94,7 @@ void CLI::openGuestMenu() {
                 "Enter your choice: ";
 
         cin >> choice;
-        cout << sp ;
+        // cout << sp ;
         if (cin.fail()) {
             cout << "Please enter valid input \n";
             cin.clear();
@@ -279,6 +282,7 @@ void CLI::openMemberMenu() {
                 currentMember->checkout(std::stod(point), comment);
 
             case 10:
+
                 result = currentMember->viewAllRequests();
                 tableGenerator->printTable(requestHeader,result);
                 break;
