@@ -29,8 +29,7 @@ vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
         for (int i = 0; i < houses.size(); i++) {
             result.push_back(houses[i]);
         }
-    }
-    else {
+    } else {
         if (data.count("hID") == 0) {
             data["hID"] = emptyMark;
         } else {
@@ -60,14 +59,13 @@ vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
         if (data.count("start") == 0) {
             data["start"] = emptyMark;
         } else {
-            start = Date::string_to_date(data["start"]);
+            start = Date::stringToDate(data["start"]);
         }
         if (data.count("end") == 0) {
             data["end"] = emptyMark;
         } else {
-            end = Date::string_to_date(data["end"]);
+            end = Date::stringToDate(data["end"]);
         }
-
 
         for (House* house : houses) {
             if (
@@ -77,7 +75,7 @@ vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
                 (house->getHouseRating() == hRating || data["hRating"] == emptyMark) &&
                 (house->getConsumingPoints() == consumingPoint || data["consumingPoint"] == emptyMark) &&
                 (house->getStartDate() <= start || data["start"] == emptyMark) &&
-                (house->getEndDate() >= end || data["end"] == emptyMark) 
+                (house->getEndDate() >= end || data["end"] == emptyMark)
 
             ) {
                 result.push_back(house);
@@ -118,8 +116,8 @@ vector<string> HouseDatabase::readHouse(map<string, string> data) {
         }
 
     } else {
-        Date start = Date::string_to_date(data["start"]);
-        Date end = Date::string_to_date(data["end"]);
+        Date start = Date::stringToDate(data["start"]);
+        Date end = Date::stringToDate(data["end"]);
         for (int i = 0; i < houses.size(); i++) {
             if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
                 if (data.find("city") == data.end()) {
@@ -173,7 +171,7 @@ House* HouseDatabase::findHouse(string hID) {
  * @param data
  */
 HouseDatabase::HouseDatabase(vector<string> data) {
-    House * house;
+    House* house;
     for (int i = 0; i < data.size(); i++) {
         house = new House(data[i]);
 

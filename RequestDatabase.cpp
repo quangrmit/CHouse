@@ -3,6 +3,7 @@
  */
 
 #include "RequestDatabase.h"
+
 #include <iostream>
 /**
  * RequestDatabase implementation
@@ -32,18 +33,17 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
         if (data.count("start") == 0) {
             data["start"] = emptyMark;
         } else {
-            start = Date::string_to_date(data["start"]);
+            start = Date::stringToDate(data["start"]);
         }
         if (data.count("end") == 0) {
             data["end"] = emptyMark;
         } else {
-            end = Date::string_to_date(data["end"]);
+            end = Date::stringToDate(data["end"]);
         }
         if (data.count("hID") == 0) {
             data["hID"] = emptyMark;
         } else {
             hID = data["hID"];
-
         }
         if (data.count("mID") == 0) {
             data["mID"] = emptyMark;
@@ -63,7 +63,7 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
         if (data.count("close") == 0) {
             data["close"] = emptyMark;
         } else {
-            close = (data["close"] == "false") ? false: true;
+            close = (data["close"] == "false") ? false : true;
         }
         for (Request* request : requests) {
             if ((start >= request->getStart() || data["start"] == emptyMark) &&
@@ -71,7 +71,7 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
                 (hID == request->getHid() || data["hID"] == emptyMark) &&
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
-                (close == request->isClose()|| data["close"] == emptyMark) &&
+                (close == request->isClose() || data["close"] == emptyMark) &&
                 (request->getStatus() == status || data["status"] == emptyMark)) {
                 result.push_back(request);
             }
@@ -102,7 +102,7 @@ vector<Request*> RequestDatabase::findOverlapRequests(Request* request) {
     Date startBase = request->getStart();
     Date endBase = request->getAnEnd();
     for (Request* other : requests) {
-        if (startBase <= other->getStart() || startBase <= other->getAnEnd() || endBase >= other->getStart() || endBase >= other->getAnEnd()) {
+        if (!(startBase > other->getAnEnd() || endBase < other->getStart()) && other->getHid() == request->getHid()) {
             result.push_back(other);
         }
     }
@@ -118,8 +118,8 @@ bool RequestDatabase::createRequest(map<string, string> data) {
         string hID = data["hID"];
         string mID = data["mID"];
         string rID = std::to_string(requests.size() + 1);
-        Date start = Date::string_to_date(data["start"]);
-        Date end = Date::string_to_date(data["end"]);
+        Date start = Date::stringToDate(data["start"]);
+        Date end = Date::stringToDate(data["end"]);
 
         Request* request = new Request(rID, mID, hID, start, end);
         requests.push_back(request);
@@ -146,10 +146,9 @@ Request* RequestDatabase::findRequest(string rID) {
  * @param data
  */
 RequestDatabase::RequestDatabase(vector<string> data) {
-    Request * request;
+    Request* request;
     for (int i = 0; i < data.size(); i++) {
         request = new Request(data[i]);
         requests.push_back(request);
     }
-    
 }
