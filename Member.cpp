@@ -302,7 +302,7 @@ vector<string> Member::viewMyRequests() {
     return myRequests;
 }
 
-void Member::cancelRequest(string rID) {
+bool Member::cancelRequest(string rID) {
     Database *database = Database::getInstance();
     RequestDatabase *requestDatabase = database->getRequestDatabase();
     vector<Request *> myRequests = requestDatabase->readRequestPointers({{"mID", this->mID}, {"close", "false"}});
@@ -321,7 +321,9 @@ void Member::cancelRequest(string rID) {
         toBeCanceled->setClose(true);
     } else {
         std::cout << "Invalid request ID" << std::endl;
+        return false;
     }
+    return true;
 }
 
 bool Member::acceptRequest(string rID) {
@@ -350,6 +352,20 @@ bool Member::acceptRequest(string rID) {
     }
     request->setStatus(1);
     return true;
+}
+
+string Member::viewHouseReviews(string hID) {
+    string reviews;
+    Database *database = Database::getInstance();
+    HouseDatabase *HouseDatabase = database->getHouseDatabase();
+    House *house = HouseDatabase->findHouse(hID);
+    if (house == nullptr) {
+        cout << "Invalid House ID." << std::endl;
+        return "Invalid House ID.";
+    } else {
+       reviews = house->reviewToString();
+       return reviews;
+    }
 }
 
 bool Member::compareUsernameandPassword(string username, string password) {

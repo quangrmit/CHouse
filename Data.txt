@@ -6,7 +6,7 @@ mID,fullName,username,password,phoneNumber,hID,credit,occupierRating,review
 5,another,uno,123,123345,5,500,,
 
 hID,description,city,h_rating,start,end,consuming_point,min_o_rating,reviews
-1,nice house,HCM,10.000000,,,,,10_good;10_excellent
+1,nice house,HCM,10.000000,07/09/2023,08/09/2023,100,1.000000,10_good;10_excellent
 2,not bad house,HCM,3.000000,06/01/2023,10/02/2023,200,8.000000,0_quite bad;6.000000_interesting house
 3,mid house,Hue,5.000000,,,,,5_nice engouh;5_oke
 4,ok house,Hue,7.000000,,,,,7_comfortable house;7_uncomfortable house

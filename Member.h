@@ -76,7 +76,7 @@ class Member {
 
     bool requestStaying(Date start, Date end, string hID);
 
-    void cancelRequest(string rID);
+    bool cancelRequest(string rID);
 
     bool checkout(double point, string comment);
 
@@ -91,6 +91,8 @@ class Member {
     vector<string> viewAllRequests();
 
     bool acceptRequest(string rID);
+
+    string viewHouseReviews(string hID);
 
     bool compareUsernameandPassword(string username, string password);
 
