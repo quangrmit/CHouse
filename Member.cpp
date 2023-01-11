@@ -70,7 +70,7 @@ string Member::viewInfo() {
     return this->toString();
 }
 
-bool Member::listhouse(Date start, Date end, int consumingPoint, int minOccupierRating) {
+bool Member::listhouse(Date start, Date end, int consumingPoint, double minOccupierRating) {
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(hID);
@@ -78,6 +78,7 @@ bool Member::listhouse(Date start, Date end, int consumingPoint, int minOccupier
     house->setStartDate(start);
     house->setEndDate(end);
     house->setConsumingPoint(consumingPoint);
+    std::cout << minOccupierRating;
     house->setMinOccupierRating(minOccupierRating);
 
     return true;
@@ -93,7 +94,7 @@ bool Member::unlisthouse() {
 
     house->setStartDate(empty);
     house->setEndDate(empty);
-    house->setConsumingPoint(0);
+    house->setConsumingPoint(-1);
     house->setMinOccupierRating(-11);
 
     return true;
@@ -104,7 +105,6 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
     HouseDatabase *hdb = db->getHouseDatabase();
 
     map<string, string> filter;
-
     filter["start"] = Date::dateToString(&start);
     filter["end"] = Date::dateToString(&end);
     filter["city"] = city;
@@ -115,11 +115,8 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
     vector<string> results;
     for (string house : houseList) {
         vector<string> data = split(house, ',');
-        if (std::stod(data[6]) * totalDays <= this->getCredit()) {
-            results.push_back(house);
-        }
-
-        if (std::stod(data[7]) <= this->getOccupierRating()) {
+        if (data[4] == "") continue;
+        if (std::stod(data[6]) * totalDays <= this->getCredit() && std::stod(data[7]) <= this->getOccupierRating()) {
             results.push_back(house);
         }
     };
@@ -127,7 +124,7 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
     return results;
 }
 
-void Member::rateOccupier(string mID, int rating) {
+void Member::rateOccupier(string mID, double rating) {
     Database *db = Database::getInstance();
     MemberDatabase *mdb = db->getMemberDatabase();
     Member *member = mdb->findMember(mID);
@@ -144,12 +141,11 @@ void Member::rateHouse(string hID, double rating) {
     House *house = hdb->findHouse(hID);
 
     double reviews = house->getReviews().size();
-    double HRating = ((house->getHouseRating() * reviews) + rating) / (reviews + 1);
-
+    double HRating = (double)((house->getHouseRating() * reviews) + rating) / (double)(reviews + 1);
     house->setHouseRating(HRating);
 }
 
-void Member::requestStaying(Date start, Date end, string hID) {
+bool Member::requestStaying(Date start, Date end, string hID) {
     Database *db = Database::getInstance();
     RequestDatabase *rdb = db->getRequestDatabase();
     HouseDatabase *hdb = db->getHouseDatabase();
@@ -175,7 +171,9 @@ void Member::requestStaying(Date start, Date end, string hID) {
         rdb->createRequest(filter);
     } else {
         std::cout << "Invalid request!!" << std::endl;
+        return false;
     }
+    return true;
 }
 
 bool Member::checkout(double rating, string comment) {
@@ -190,6 +188,7 @@ bool Member::checkout(double rating, string comment) {
     filter["close"] = "false";
 
     vector<string> requests = rdb->readRequest(filter);
+    if (requests.size() == 0) return false;
     string rID = split(requests[0], ',')[0];
     string hID = split(requests[0], ',')[2];
 
@@ -198,7 +197,7 @@ bool Member::checkout(double rating, string comment) {
     Member *m = mdb->findMember(mID);
 
     map<string, string> filter2;
-    filter["hID"] = hID;
+    filter2["hID"] = hID;
 
     string ownerID = split(mdb->readMember(filter2)[0], ',')[0];
     Member *owner = mdb->findMember(ownerID);
@@ -214,9 +213,8 @@ bool Member::checkout(double rating, string comment) {
 
     vector<string> review = {std::to_string(rating), comment};
 
-    h->addReview(review);
     this->rateHouse(hID, rating);
-
+    h->addReview(review);
     return true;
 }
 
@@ -234,6 +232,7 @@ vector<string> Member::viewUnreview() {
 
     for (string request : requests) {
         unreviewOccupier.push_back(split(request, ',')[1]);
+        unreviewOccupier.push_back("From Request: " + request);
     }
 
     return unreviewOccupier;
@@ -243,14 +242,20 @@ void Member::addReview(vector<string> review) {
     this->review.push_back(review);
 }
 
-void Member::reviewOccupier(string mID, double rating, string comment) {
+bool Member::reviewOccupier(string rID, string mID, double rating, string comment) {
     Database *db = Database::getInstance();
     MemberDatabase *mdb = db->getMemberDatabase();
-    Member *mem = mdb->findMember(mID);
+    RequestDatabase *rdb = db->getRequestDatabase();
+    Request *r = rdb->findRequest(rID);
+    r->setOReview(true);
 
+    Member *mem = mdb->findMember(mID);
+    if (mem == nullptr) return false;
     vector<string> review = {std::to_string(rating), comment};
-    mem->addReview(review);
+
     rateOccupier(mID, rating);
+    mem->addReview(review);
+    return true;
 }
 
 vector<string> Member::viewAllRequests() {
@@ -289,7 +294,7 @@ vector<string> Member::viewMyRequests() {
     return myRequests;
 }
 
-void Member::cancelRequest(string rID) {
+bool Member::cancelRequest(string rID) {
     Database *database = Database::getInstance();
     RequestDatabase *requestDatabase = database->getRequestDatabase();
     vector<Request *> myRequests = requestDatabase->readRequestPointers({{"mID", this->mID}, {"close", "false"}});
@@ -308,7 +313,9 @@ void Member::cancelRequest(string rID) {
         toBeCanceled->setClose(true);
     } else {
         std::cout << "Invalid request ID" << std::endl;
+        return false;
     }
+    return true;
 }
 
 bool Member::acceptRequest(string rID) {
@@ -316,21 +323,27 @@ bool Member::acceptRequest(string rID) {
     RequestDatabase *requestDatabase = database->getRequestDatabase();
     Request *request = requestDatabase->findRequest(rID);
     // Check if rID is valid (find function does not return nullptr)
+
     if (request == nullptr) {
         return false;
-    } else {
-        // Find request and set status to accepted (1)
-        // Find all other overlapping requests
-        vector<Request *> overlaps = requestDatabase->findOverlapRequests(request);
-        // Set overlapping requests to declined (0) and set close to true
-        for (Request *overlap : overlaps) {
-            overlap->setStatus(0);
-            overlap->setClose(true);
-        }
-        request->setStatus(1);
-
-        return true;
     }
+    if (request->getHid() != this->getHid()) {
+        return false;
+    }
+    if (request->isClose()) {
+        return false;
+    }
+    // Find request and set status to accepted (1)
+
+    // Find all other overlapping requests
+    vector<Request *> overlaps = requestDatabase->findOverlapRequests(request);
+    // Set overlapping requests to declined (0) and set close to true
+    for (Request *overlap : overlaps) {
+        overlap->setStatus(0);
+        overlap->setClose(true);
+    }
+    request->setStatus(1);
+    request->setClose(false);
     return true;
 }
 

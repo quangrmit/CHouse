@@ -89,7 +89,7 @@ double House::getHouseRating() const {
     return houseRating;
 }
 
-void House::setHouseRating(int houseRating) {
+void House::setHouseRating(double houseRating) {
     House::houseRating = houseRating;
 }
 
@@ -135,13 +135,13 @@ void House::setStartDate(Date date) {
     this->start = date;
 }
 void House::setEndDate(Date date) {
-    this->end = end;
+    this->end = date;
 }
 
 void House::setConsumingPoint(int consumingPoints) {
     this->consumingPoint = consumingPoints;
 }
-void House::setMinOccupierRating(int rating) {
+void House::setMinOccupierRating(double rating) {
     this->minOccupierRating = rating;
 }
 void House::setReviews(vector<vector<string>> reviews) {

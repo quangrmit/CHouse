@@ -4,15 +4,13 @@ A project by Greenie
 ## To-do list
 ### High-priority
 * Validate input data from all methods in Member class
-* Add credit points to house owner and minus credit points from occupier when check out
-* Filter out houses search result if occupier not have enough credit points, or min occupier rating is larger than occupier rating
-* Add method to Member to allow member to view specific member detail if exist in request (unclosed request)
+* Table generator for view all unreview request,
 
 
 ### Mid-priority
 
-* Add cancel request method to member
-* Add seperate view house reviews method to Member
+* Add cancel request to CLI
+* Add view member detail to CLI
 * snake case -> camel case
 
 ## Should-do list
@@ -22,14 +20,12 @@ A project by Greenie
 * Explain how data file is organized in report
 * Add delete pointers where possible
 * Automatically unlist house if date has been expired 
-* Allow admin to search house, member
-* Allow guest to search house
-* Proof-reading report
+
 
 ## Known bugs
-* Table generator not working
-* When creating new members, house ID can't be known
 * Date can't subtract 2 dates from different years
+* Member can accept request that aren't matched with the list date
+* checkout can only work if user only have one approve request
 
 ## Small notes
 * Member will have 500 credit point when first register

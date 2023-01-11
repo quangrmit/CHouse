@@ -82,22 +82,6 @@ vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
             }
         }
     }
-    // } else {
-    //     Date start = Date::string_to_date(data["start"]);
-    //     Date end = Date::string_to_date(data["end"]);
-    //     for (int i = 0; i < houses.size(); i++) {
-    //         if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
-    //             if (data.find("city") == data.end()) {
-    //                 result.push_back(houses[i]);
-    //             } else {
-    //                 if (data["city"] == houses[i]->getCity()) {
-    //                     std::cout << "Hello world" << std::endl;
-    //                     result.push_back(houses[i]);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
     return result;
 }
@@ -109,28 +93,10 @@ vector<House*> HouseDatabase::readHousePointers(map<string, string> data) {
 vector<string> HouseDatabase::readHouse(map<string, string> data) {
     // if data is EMPTY, NOT NULL return all data
     vector<string> result;
-
-    if (data.empty()) {
-        for (int i = 0; i < houses.size(); i++) {
-            result.push_back(houses[i]->toString());
-        }
-
-    } else {
-        Date start = Date::stringToDate(data["start"]);
-        Date end = Date::stringToDate(data["end"]);
-        for (int i = 0; i < houses.size(); i++) {
-            if (start <= houses[i]->getStartDate() && end >= houses[i]->getEndDate()) {
-                if (data.find("city") == data.end()) {
-                    result.push_back(houses[i]->toString());
-                } else {
-                    if (data["city"] == houses[i]->getCity()) {
-                        result.push_back(houses[i]->toString());
-                    }
-                }
-            }
-        }
+    vector<House*> housePointers = this->readHousePointers(data);
+    for (House* house : housePointers) {
+        result.push_back(house->toString());
     }
-
     return result;
 }
 

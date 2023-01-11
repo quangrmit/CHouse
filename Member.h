@@ -62,21 +62,21 @@ class Member {
 
     string viewInfo();
 
-    bool listhouse(Date start, Date end, int consumingPoint, int minOccupierRating = -11);
+    bool listhouse(Date start, Date end, int consumingPoint, double minOccupierRating = -11);
 
     bool unlisthouse();
 
     vector<string> searchHouse(Date start, Date end, string city);
 
-    void rateOccupier(string mID, int rating);
+    void rateOccupier(string mID, double rating);
 
     void rateHouse(string hID, double rating);
 
     vector<string> viewMyRequests();
 
-    void requestStaying(Date start, Date end, string hID);
+    bool requestStaying(Date start, Date end, string hID);
 
-    void cancelRequest(string rID);
+    bool cancelRequest(string rID);
 
     bool checkout(double point, string comment);
 
@@ -86,7 +86,7 @@ class Member {
 
     void addReview(vector<string> review);
 
-    void reviewOccupier(string mID, double rating, string comment);
+    bool reviewOccupier(string rID, string mID, double rating, string comment);
 
     vector<string> viewAllRequests();
 
