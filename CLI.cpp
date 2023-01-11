@@ -199,11 +199,11 @@ void CLI::openMemberMenu() {
                 return;
 
             case 1:
-                result.push_back(currentMember->viewInfo());
-                cout << currentMember->viewInfo() << endl;
-                for (int i =0; i < result.size(); i++) {
-                    cout << result[i] << "\n";
-                }
+                result= {currentMember->viewInfo()};
+                // cout << currentMember->viewInfo() << endl;
+                // for (int i =0; i < result.size(); i++) {
+                //     cout << result[i] << "\n";
+                // }
                 tableGenerator->printTable(memberHeader, result);
                 break;
             
