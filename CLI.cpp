@@ -43,7 +43,7 @@ void CLI::welcome() {
     int choice;
     while (true) {
         if (end) return;
-        cout << "\nUse the app as:\n 1.Guest \n 2.Member \n 3.Admin\n"
+        cout << "\nUse the app as:\n 0.Exit \n 1.Guest \n 2.Member \n 3.Admin\n"
             "Enter your choice: " ;
         cin >> choice;
         cout << sp ;
@@ -150,6 +150,7 @@ void CLI::openMemberMenu() {
     string mID, city, hID, start, end, rID, comment, point;
     int consumingPoint, rating;
     string username, password;
+    double minORating = -11;
     // Date start, end;
     int choice; 
     cin.ignore(1, '\n');
@@ -169,7 +170,7 @@ void CLI::openMemberMenu() {
 
         cout << "0. Exit\n"
                 "1. View my information\n"
-                "2. List house available to be occupied\n"
+                "2. List house \n"
                 "3. Unlist house\n"
                 "4. Search house\n"
                 "5. Rate my occupier\n"
@@ -178,6 +179,8 @@ void CLI::openMemberMenu() {
                 "8. Check out\n"
                 "9. View all requests to my listed house \n"
                 "10. Accept a request\n"
+                "12. View unreview occupier\n" 
+                "13. Review occupier\n"
                 "Enter your choice: ";
 
         cin >> choice;
@@ -208,7 +211,15 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "\nEnter the consuming point: ";
                 cin >> consumingPoint;
-                currentMember->listhouse(Date::string_to_date( start),Date::string_to_date(end),consumingPoint);
+                cout << "\nEnter minimum occupier rating (optional): ";
+                cin >> minORating;
+
+                if (currentMember->listhouse(Date::string_to_date( start),Date::string_to_date(end),consumingPoint, minORating)) {
+                    cout << "\nList house successfully" << endl;
+                }
+                else {
+                    cout << "\n List house failed" << endl;
+                }
                 break;
 
             case 3: 
@@ -244,7 +255,7 @@ void CLI::openMemberMenu() {
                 cout << "\nEnter the rating: ";
                 cin >> rating;
                 currentMember -> rateHouse(hID, rating);
-
+                break;
             case 7:
                 cin.ignore(1, '\n');
                 cout << "Please enter the start of your stay: ";
@@ -253,17 +264,28 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Please enter the House ID of the house you want to stay: ";
                 getline(cin, hID);
-                currentMember->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID);
-            
+                if (currentMember->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID)) {
+                    cout << "Request successfully" << endl;
+                }
+                else {
+                    cout << "Request failed" << endl;
+                }
+                break;
             case 8:
                 // input checkout paramter
                 cin.ignore(1, '\n');
-                cout << "Please enter point";
+                cout << "Please enter point: ";
                 getline(cin, point);
-                cout << "Please enter comment";
+                cout << "Please enter comment: ";
                 getline(cin, comment);
-                currentMember->checkout(std::stod(point), comment);
-
+                if (currentMember->checkout(std::stod(point), comment)) {
+                    cout << "Checkout successfully" << endl;
+                }
+                else {
+                    cout << "You aren't occupy any house yet" << endl;
+                }
+                
+                break;
             case 9:
                 result = currentMember->viewAllRequests();
                 tableGenerator->printTable(requestHeader,result);
@@ -273,9 +295,36 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Enter Request ID of the accepted request: ";
                 getline(cin, rID);
-                currentMember->acceptRequest(rID);
+                if (currentMember->acceptRequest(rID)) {
+                    cout << "Accept successfully" << endl;
+                }else {
+                    cout << "Accept failed" << endl;
+                }
                 break;
+            case 12:
+                cin.ignore(1, '\n');
+                result = currentMember->viewUnreview();
+                printVector(result);
+                break;
+            case 13:
+                cin.ignore(1, '\n');
+                cout << "Please enter rID of the request";
+                getline(cin, rID);
 
+                cout << "Please enter mID of review occupier: ";
+                getline(cin, mID);
+                cout << "Please enter point: ";
+                getline(cin, point);
+                cout << "Please enter comment: ";
+                getline(cin, comment);
+                if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {
+                    cout << "Review successfully" << endl;
+                }
+                else {
+                    cout << "Review failed" << endl;
+                }
+                break;
+                
             default: 
                 cout << "Invalid input. Please try another one! \n";
                 break;

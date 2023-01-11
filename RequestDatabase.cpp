@@ -101,8 +101,9 @@ vector<Request*> RequestDatabase::findOverlapRequests(Request* request) {
     vector<Request*> result;
     Date startBase = request->getStart();
     Date endBase = request->getAnEnd();
+    string hid = request->getHid();
     for (Request* other : requests) {
-        if (startBase <= other->getStart() || startBase <= other->getAnEnd() || endBase >= other->getStart() || endBase >= other->getAnEnd()) {
+        if (!(startBase > other->getAnEnd() || endBase < other->getStart()) && other->getHid() == hid) {
             result.push_back(other);
         }
     }

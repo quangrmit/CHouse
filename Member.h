@@ -74,7 +74,7 @@ class Member {
 
     vector<string> viewMyRequests();
 
-    void requestStaying(Date start, Date end, string hID);
+    bool requestStaying(Date start, Date end, string hID);
 
     void cancelRequest(string rID);
 
@@ -86,7 +86,7 @@ class Member {
 
     void addReview(vector<string> review);
 
-    void reviewOccupier(string mID, double rating, string comment);
+    bool reviewOccupier(string rID, string mID, double rating, string comment);
 
     vector<string> viewAllRequests();
 

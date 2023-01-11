@@ -37,7 +37,7 @@ string Request::toString() {
      (dataList[7]=="true") ? complete = true : complete = false;
 
      bool review;
-     (dataList[6]=="true") ? complete = true : complete = false;
+     (dataList[6]=="true") ? review = true : review = false;
      this->rID = dataList[0];
      this->mID = dataList[1];
      this->hID = dataList[2];
@@ -45,6 +45,7 @@ string Request::toString() {
      this->end = endDate;
      this->status = std::stoi(dataList[5]);
      this->close = complete;
+     this->oReview = review;
 
     //  Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),complete);
 
@@ -111,3 +112,6 @@ void Request::setRid(const string &rId) {
     rID = rId;
 }
 
+void Request::setOReview(bool oReview) {
+    this->oReview  = oReview;
+}

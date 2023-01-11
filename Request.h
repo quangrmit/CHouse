@@ -48,6 +48,8 @@ class Request {
 
     void setClose(bool close);
 
+    void setOReview(bool oReview);
+
    private:
     string rID;
     string mID;

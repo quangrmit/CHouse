@@ -32,7 +32,7 @@ class House {
 
     double getHouseRating() const;
 
-    void setHouseRating(int houseRating);
+    void setHouseRating(double houseRating);
 
     const string &getLocation() const;
 
@@ -57,7 +57,7 @@ class House {
     void setStartDate(Date date);
     void setEndDate(Date date);
     void setConsumingPoint(int consumingPoints);
-    void setMinOccupierRating(int rating);
+    void setMinOccupierRating(double rating);
     void setReviews(vector<vector<string>> reviews);
 
    private:
