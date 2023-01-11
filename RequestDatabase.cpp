@@ -24,6 +24,7 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
     string rID;
     int status;
     bool close;
+    bool oReview;
     if (data.empty()) {
         for (int i = 0; i < requests.size(); i++) {
             result.push_back(requests[i]);
@@ -62,8 +63,14 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
         }
         if (data.count("close") == 0) {
             data["close"] = emptyMark;
-        } else {
+        }
+        else {
             close = (data["close"] == "false") ? false: true;
+        }
+        if (data.count("oReview") == 0) {
+            data["oReview"] = emptyMark;
+        } else {
+            oReview = (data["oReview"] == "false") ? false: true;
         }
         for (Request* request : requests) {
             if ((start >= request->getStart() || data["start"] == emptyMark) &&
@@ -72,6 +79,7 @@ vector<Request*> RequestDatabase::readRequestPointers(map<string, string> data) 
                 (mID == request->getMid() || data["mID"] == emptyMark) &&
                 (rID == request->getRid() || data["rID"] == emptyMark) &&
                 (close == request->isClose()|| data["close"] == emptyMark) &&
+                (oReview == request->getOReview()|| data["oReview"] == emptyMark) &&
                 (request->getStatus() == status || data["status"] == emptyMark)) {
                 result.push_back(request);
             }
@@ -103,7 +111,7 @@ vector<Request*> RequestDatabase::findOverlapRequests(Request* request) {
     Date endBase = request->getAnEnd();
     string hid = request->getHid();
     for (Request* other : requests) {
-        if (!(startBase > other->getAnEnd() || endBase < other->getStart()) && other->getHid() == hid) {
+        if ((!(startBase > other->getAnEnd() || endBase < other->getStart()) && other->getHid() == hid) && !other->isClose()){
             result.push_back(other);
         }
     }

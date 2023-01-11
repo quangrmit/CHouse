@@ -351,6 +351,7 @@ bool Member::acceptRequest(string rID) {
         overlap->setClose(true);
     }
     request->setStatus(1);
+    request->setClose(false);
     return true;
 }
 

@@ -115,3 +115,7 @@ void Request::setRid(const string &rId) {
 void Request::setOReview(bool oReview) {
     this->oReview  = oReview;
 }
+
+bool Request::getOReview(){
+    return this->oReview;
+};

@@ -18,6 +18,7 @@ using std::getline;
  */
 
 TableGenerator *tableGenerator = new(std::nothrow) TableGenerator;
+Database *db = Database::getInstance();
 vector<string> result;
 vector<string> space (10,"-");
 string sp = "\n" + join(space,'-') + "\n";
@@ -170,21 +171,19 @@ void CLI::openMemberMenu() {
     }
     cout << "Welcome " << currentMember->getFullname() << endl;
     while (true) {
-
+        db->updateFile();
         cout << "0. Exit\n"
                 "1. View my information\n"
                 "2. List house \n"
                 "3. Unlist house\n"
                 "4. Search house\n"
                 "5. View a specific house's reviews\n"
-                "6. Rate my occupier\n"
-                "7. Rate my occupied house\n"
-                "8. Request to occupy a new house\n"
-                "9. Check out\n"
-                "10. View all requests to my listed house \n"
-                "11. Accept a request\n"
-                "12. View unreview occupier\n" 
-                "13. Review occupier\n"
+                "6. Request to occupy a new house\n"
+                "7. Check out\n"
+                "8. View all requests to my listed house \n"
+                "9. Accept a request\n"
+                "10. View unreview occupier\n"
+                "11. Review occupier\n"
                 "Enter your choice: ";
 
         cin >> choice;
@@ -209,9 +208,9 @@ void CLI::openMemberMenu() {
             
             case 2:
                 cin.ignore(1, '\n');
-                cout << "Enter the start of the house:";
+                cout << "Enter the start date of the house:";
                 getline(cin, start);
-                cout << "\nEnter the end of the house:";
+                cout << "\nEnter the end date of the house:";
                 getline(cin, end);
                 cout << "\nEnter the consuming point: ";
                 cin >> consumingPoint;
@@ -228,6 +227,7 @@ void CLI::openMemberMenu() {
 
             case 3: 
                 currentMember -> unlisthouse();
+                cout<<"Unlist successfully!"<<endl;
                 break;
             
             case 4: 
@@ -258,23 +258,6 @@ void CLI::openMemberMenu() {
 
             case 6:
                 cin.ignore(1, '\n');
-                cout << "Please enter the Member ID you want to give reviews: ";
-                getline(cin, mID);
-                cout << "\nEnter the rating:";
-                cin >> rating;
-                currentMember -> rateOccupier(mID, rating);
-                break;
-            
-            case 7:
-                cin.ignore(1, '\n');
-                cout << "Please enter the House ID you want to give reviews: ";
-                getline(cin, hID);  
-                cout << "\nEnter the rating: ";
-                cin >> rating;
-                currentMember -> rateHouse(hID, rating);
-                break;
-            case 8:
-                cin.ignore(1, '\n');
                 cout << "Please enter the start of your stay: ";
                 getline(cin, start);
                 cout << "Please enter the end of your stay: ";
@@ -288,7 +271,7 @@ void CLI::openMemberMenu() {
                     cout << "Request failed" << endl;
                 }
                 break;
-            case 9:
+            case 7:
                 // input checkout paramter
                 cin.ignore(1, '\n');
                 cout << "Please enter point: ";
@@ -303,12 +286,12 @@ void CLI::openMemberMenu() {
                 }
                 
                 break;
-            case 10:
+            case 8:
                 result = currentMember->viewAllRequests();
                 tableGenerator->printTable(requestHeader,result);
                 break;
 
-            case 11: 
+            case 9:
                 cin.ignore(1, '\n');
                 cout << "Enter Request ID of the accepted request: ";
                 getline(cin, rID);
@@ -318,12 +301,12 @@ void CLI::openMemberMenu() {
                     cout << "Accept failed" << endl;
                 }
                 break;
-            case 12:
+            case 10:
                 cin.ignore(1, '\n');
                 result = currentMember->viewUnreview();
                 printVector(result);
                 break;
-            case 13:
+            case 11:
                 cin.ignore(1, '\n');
                 cout << "Please enter rID of the request";
                 getline(cin, rID);

@@ -15,6 +15,8 @@
 #include <iostream>
 #include <string>
 
+#include "Database.h"
+
 using std::cout;
 using std::cin;
 using std::endl;
