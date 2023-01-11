@@ -107,7 +107,7 @@ void CLI::openGuestMenu() {
             case 1:     
                 result = guest->viewAllHouse();
                 // printVector(result);
-                tableGenerator->printTable("ID,Description,City", result);
+                tableGenerator->printTable("ID,Description,City,House Rating", result);
                 break;
 
             case 2:
