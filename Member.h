@@ -82,7 +82,7 @@ class Member {
 
     vector<string> viewUnreview();
 
-    string viewRequestMemberInfo(string rID);
+    string viewRequesterInfo(string rID);
 
     void addReview(vector<string> review);
 
