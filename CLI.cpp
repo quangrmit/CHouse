@@ -270,11 +270,10 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Please enter the House ID of the house you want to stay: ";
                 getline(cin, hID);
-                int intHiD;
+                int intHid;
                 try {
-                    intHiD = std::stoi(hID);
-                    hID = std::to_string(intHiD);
-
+                    intHid = std::stoi(hID);
+                    hID = std::to_string(intHid);
                     if (currentMember->requestStaying(Date::stringToDate(start), Date::stringToDate(end), hID)) {
                         cout << "Request successfully" << endl;
                     }
@@ -283,9 +282,7 @@ void CLI::openMemberMenu() {
                     }
                 }
                 catch (std::exception e){
-
                     cout << "Request failed" << endl;
-
                 }
 
                 break;
@@ -335,7 +332,6 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Please enter rID of the request: ";
                 getline(cin, rID);
-
                 cout << "Please enter mID of review occupier: ";
                 getline(cin, mID);
                 cout << "Please enter point: ";
@@ -344,11 +340,23 @@ void CLI::openMemberMenu() {
                     cout << "No point enter" << endl;
                     break;
                 }
-                cout << "Please enter comment: ";
-                getline(cin, comment);
-                if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {
-                    cout << "Review successfully" << endl;
-                } else {
+                try {
+                    int intRid,intMid;
+                    intRid = std::stoi(rID);
+                    intMid = std::stoi(mID);
+
+                    rID = std::to_string(intRid);
+                    mID = std::to_string(intMid);
+
+                    cout << "Please enter comment: ";
+                    getline(cin, comment);
+                    if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {
+                        cout << "Review successfully" << endl;
+                    } else {
+                        cout << "Review failed" << endl;
+                    }
+                }
+                catch (std::exception e) {
                     cout << "Review failed" << endl;
                 }
                 break;

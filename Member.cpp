@@ -171,12 +171,11 @@ bool Member::requestStaying(Date start, Date end, string hID) {
     House *house = hdb->findHouse(hID);
     bool reqValid = true;
     // Validate start end date
-    if (start.isEmpty() || end.isEmpty() || hID == "") return false;
+    if (start.isEmpty() || end.isEmpty() || hID == "") reqValid = false;
     // If start < end then not valid
     if(house == nullptr) {
         reqValid = false;
-    }
-    if (start > end) {
+    } else if (start > end) {
         reqValid = false;
     } else if (start < house->getStartDate() || end > house->getEndDate()) {
         reqValid = false;
@@ -272,6 +271,7 @@ bool Member::reviewOccupier(string rID, string mID, double rating, string commen
     MemberDatabase *mdb = db->getMemberDatabase();
     RequestDatabase *rdb = db->getRequestDatabase();
     Request *r = rdb->findRequest(rID);
+    if(r== nullptr) return false;
     if (r->getHid() != this->getHid()) return false;
     if (r->getMid() != mID) return false;
     // User hasn't checkout
