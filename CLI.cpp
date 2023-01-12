@@ -22,7 +22,7 @@ vector<string> space(10, "-");
 string sp = "\n" + join(space, '-') + "\n";
 string houseHeader = "HouseID,Description,City,House Rating,Start,End,Consuming Point,Min Occupier Rating,Reviews";
 string requestHeader = "Request ID,Member ID,House ID,Start,End,Status,Occupier Review,Close";
-string memberHeader = "Member ID,Full Name,Username,Password,Phone Number,HouseID,Credit,Occupier Rating,Review";
+string memberHeader = "Member ID,Full Name,Username,Password,Phone Number,HouseID,Credit,Occupier Rating,Reviews";
 Authorization *authorize = new Authorization();
 CLI::CLI() {
     cout << "\n\nEEET2482/COSC2082 ASSIGNMENT \n"
@@ -188,6 +188,7 @@ void CLI::openMemberMenu() {
                 "Enter your choice: ";
 
         cin >> choice;
+        cout << sp;
         if (cin.fail()) {
             cout << "Please enter valid input \n";
             cin.clear();
@@ -205,11 +206,11 @@ void CLI::openMemberMenu() {
 
             case 2:
                 cin.ignore(1, '\n');
-                cout << "Enter the start date of the house:";
+                cout << "Enter the start date of the house: ";
                 getline(cin, start);
-                cout << "\nEnter the end date of the house:";
+                cout << "Enter the end date of the house: ";
                 getline(cin, end);
-                cout << "\nEnter the consuming point: ";
+                cout << "Enter the consuming point: ";
                 getline(cin, cPoint);
                 if (cPoint != "") consumingPoint = std::stoi(cPoint); 
                 cout << "\nEnter minimum occupier rating (optional): ";
@@ -225,7 +226,8 @@ void CLI::openMemberMenu() {
 
             case 3:
                 currentMember->unlisthouse();
-                cout << "Unlist house successfully";
+                cout << "Unlist house successfully" ;
+                
                 break;
 
             case 4:
@@ -246,12 +248,18 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Please enter the House ID you want to view reviews: ";
                 getline(cin, hID);
-                if (currentMember->viewHouseReviews(hID) == "Invalid House ID") {
+                if (currentMember->viewHouseReviews(hID) == "Invalid House ID.") {
                     cout << currentMember->viewHouseReviews(hID);
                 } else {
-                    result.push_back(hID + "," + currentMember->viewHouseReviews(hID));
+                    result = {hID + "," + currentMember->viewHouseReviews(hID)};
                     tableGenerator->printTable("HouseID,Reviews", result);
                 }
+                // if (currentMember->viewHouseReviews(hID) == "Invalid House ID") {
+                //     cout << "Invalid House ID\n";
+                // } else {
+                //     result= {hID + "," + currentMember->viewHouseReviews(hID)};
+                //     tableGenerator->printTable("HouseID,Reviews", result);
+                // }
                 break;
 
             case 6:
@@ -288,7 +296,7 @@ void CLI::openMemberMenu() {
                 } else {
                     cout << "You aren't occupy any house yet" << endl;
                 }
-
+                
                 break;
             case 8:
                 result = currentMember->viewAllRequests();
@@ -308,11 +316,11 @@ void CLI::openMemberMenu() {
             case 10:
                 cin.ignore(1, '\n');
                 result = currentMember->viewUnreview();
-                printVector(result);
+                tableGenerator->printTable("From Request, Unreviewed Occupier ID,House ID,Start,End,Status,Occupier Review,Close", result);
                 break;
             case 11:
                 cin.ignore(1, '\n');
-                cout << "Please enter rID of the request";
+                cout << "Please enter rID of the request: ";
                 getline(cin, rID);
 
                 cout << "Please enter mID of review occupier: ";
@@ -346,13 +354,19 @@ void CLI::openMemberMenu() {
                 cout << "Enter Request ID of the requester you want to view: ";
                 getline(cin, rID);
                 result = {currentMember->viewRequesterInfo(rID)};
-                tableGenerator->printTable(memberHeader, result);
+                if (result[0] == "Invalid rID" || result[0] == "Request closed") {
+                    cout << currentMember->viewRequesterInfo(rID);                
+                } else {
+                    tableGenerator->printTable("Requester ID,Full Name, Username,Phone Number,HouseID,Credit, Occupier Rating,Reviews", result);                    
+                }
                 break;
 
             default:
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
+        cout<<sp;
+
     }
 }
 
@@ -403,5 +417,6 @@ void CLI::openAdminMenu() {
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
+        cout << sp;
     }
 }

@@ -250,8 +250,8 @@ vector<string> Member::viewUnreview() {
     vector<string> unreviewOccupier;
 
     for (string request : requests) {
-        unreviewOccupier.push_back(split(request, ',')[1]);
-        unreviewOccupier.push_back("From Request: " + request);
+        // unreviewOccupier.push_back(split(request, ',')[1]);
+        unreviewOccupier.push_back(request);
     }
 
     return unreviewOccupier;
@@ -300,10 +300,10 @@ string Member::viewRequesterInfo(string rID) {
     // Check if rID is valid (exists in request)
     Request *request = requestDatabase->findRequest(rID);
     if (request == nullptr) {
-        std::cout << "Invalid rID" << std::endl;
+        // std::cout << "Invalid rID" << std::endl;
         return "Invalid rID";
     } else if (request->isClose() == true) {
-        std::cout << "Request has been closed" << std::endl;
+        // std::cout << "Request has been closed" << std::endl;
         return "Request closed";
     } else {
         Member *member = memberDatabase->findMember(request->getMid());
@@ -337,6 +337,7 @@ bool Member::cancelRequest(string rID) {
     }
     if (reqValid) {
         toBeCanceled->setClose(true);
+        cout << "Cancel successfuly!";
     } else {
         std::cout << "Invalid request ID" << std::endl;
         return false;
@@ -391,12 +392,12 @@ string Member::viewHouseReviews(string hID) {
     HouseDatabase *HouseDatabase = database->getHouseDatabase();
     House *house = HouseDatabase->findHouse(hID);
     if (house == nullptr) {
-        cout << "Invalid House ID." << std::endl;
-        return "Invalid House ID.";
+        // cout << "Invalid House ID." << std::endl;
+        reviews = "Invalid House ID.";
     } else {
         reviews = house->reviewToString();
-        return reviews;
     }
+    return reviews;
 }
 
 bool Member::compareUsernameandPassword(string username, string password) {
