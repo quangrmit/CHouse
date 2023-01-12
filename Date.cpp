@@ -94,7 +94,6 @@ bool Date::operator<=(Date d2) {
     }
     return false;
 }
-// https://stackoverflow.com/questions/14218894/number-of-days-between-two-dates-c
 int Date::rdn(int d, int m, int y) {
     if (m < 3)
         y--, m += 12;
@@ -104,7 +103,7 @@ int Date::rdn(int d, int m, int y) {
 int Date::operator-(Date d2) {
     return rdn(this->date, this->month, this->year) - rdn(d2.date, d2.month, d2.year) + 1;
 }
-std::string Date::date_to_string(Date* dmy) {
+std::string Date::dateToString(Date* dmy) {
     std::string result = "";
     std::string date;
     std::string month;
@@ -124,7 +123,8 @@ std::string Date::date_to_string(Date* dmy) {
     return result;
 }
 
-Date Date::string_to_date(std::string str) {
+Date Date::stringToDate(std::string str) {
+    if (str == "") return Date();
     std::vector<std::string> list = split(str, '/');
     int date = std::stoi(list[0]);
     int month = std::stoi(list[1]);

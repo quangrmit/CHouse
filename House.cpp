@@ -15,9 +15,9 @@ string House::toString() {
     string cP, minORating, startDate, endDate, hRating;
     (consumingPoint == -1) ? cP = "" : cP = std::to_string(consumingPoint);
     (minOccupierRating == -11) ? minORating = "" : minORating = std::to_string(minOccupierRating);
-    (houseRating == -11) ? hRating = "": hRating = std::to_string(houseRating);
-    (start.isEmpty()) ? startDate = "" : startDate = Date::date_to_string(&start);
-    (end.isEmpty()) ? endDate = "" : endDate = Date::date_to_string(&end);
+    (houseRating == -11) ? hRating = "" : hRating = std::to_string(houseRating);
+    (start.isEmpty()) ? startDate = "" : startDate = Date::dateToString(&start);
+    (end.isEmpty()) ? endDate = "" : endDate = Date::dateToString(&end);
 
     return this->hID + "," + this->description + "," + this->city + "," + hRating + "," + startDate + "," + endDate + "," +
            cP + "," + minORating + "," + reviewToString();
@@ -31,11 +31,10 @@ House::House(string data) {
 
     std::vector<std::vector<string>> reviews;
     if (dataList.size() == 9) {
-
-    std::vector<string> reviewList = split(dataList[8], ';');
-    for (string review : reviewList) {
-        reviews.push_back(split(review, '_'));
-    }
+        std::vector<string> reviewList = split(dataList[8], ';');
+        for (string review : reviewList) {
+            reviews.push_back(split(review, '_'));
+        }
     }
 
     Date startDate, endDate;
@@ -49,13 +48,12 @@ House::House(string data) {
         std::vector<string> end = split(dataList[5], '/');
         endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
     }
-    
 
     int cP;
     double minORating, hRating;
     (dataList[6] == "") ? cP = -1 : cP = std::stoi(dataList[6]);
-    (dataList[7] == "") ? minORating = -11 : minORating =  std::stod(dataList[7]);
-    (dataList[3] == "") ? hRating = -11: hRating = std::stod(dataList[3]);
+    (dataList[7] == "") ? minORating = -11 : minORating = std::stod(dataList[7]);
+    (dataList[3] == "") ? hRating = -11 : hRating = std::stod(dataList[3]);
     this->hID = dataList[0];
     this->description = dataList[1];
     this->city = dataList[2];

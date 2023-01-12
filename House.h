@@ -49,6 +49,7 @@ class House {
     int getConsumingPoints();
     double getMinOccupierRating();
     vector<vector<string>> getReviews();
+
     string reviewToString();
     void addReview(vector<string> review);
 

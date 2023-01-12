@@ -2,59 +2,52 @@
  * Project Untitled
  */
 
-
 #include "Request.h"
-#include "string"
-#include "vector"
-#include "utils.h"
+
 #include "Date.h"
+#include "string"
+#include "utils.h"
+#include "vector"
 
 using std::string;
 using std::vector;
 
-
-
 string Request::toString() {
+    string closeString, reviewString;
+    (close == true) ? closeString = "true" : closeString = "false";
+    (oReview == true) ? reviewString = "true" : reviewString = "false";
 
-    string closeString,reviewString;
-    (close== true)? closeString="true":closeString="false";
-    (oReview== true)? reviewString="true":reviewString="false";
-
-    return rID+","+mID+","+hID+","+Date::date_to_string(&start)+","+Date::date_to_string(&end)+","+ std::to_string(status)+","+reviewString+","+closeString;
+    return rID + "," + mID + "," + hID + "," + Date::dateToString(&start) + "," + Date::dateToString(&end) + "," + std::to_string(status) + "," + reviewString + "," + closeString;
 }
 
- Request::Request(string data) {
-     std::vector<string> dataList = split(data,',');
+Request::Request(string data) {
+    std::vector<string> dataList = split(data, ',');
 
-     std::vector<string> start = split(dataList[3],'/');
-     Date startDate = Date(std::stoi(start[0]), std::stoi(start[1]), std::stoi(start[2]));
+    std::vector<string> start = split(dataList[3], '/');
+    Date startDate = Date(std::stoi(start[0]), std::stoi(start[1]), std::stoi(start[2]));
 
-     std::vector<string> end = split(dataList[4],'/');
-     Date endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
+    std::vector<string> end = split(dataList[4], '/');
+    Date endDate = Date(std::stoi(end[0]), std::stoi(end[1]), std::stoi(end[2]));
 
+    bool complete;
+    (dataList[7] == "true") ? complete = true : complete = false;
 
-     bool complete;
-     (dataList[7]=="true") ? complete = true : complete = false;
-
-     bool review;
-     (dataList[6]=="true") ? review = true : review = false;
-     this->rID = dataList[0];
-     this->mID = dataList[1];
-     this->hID = dataList[2];
-     this->start = startDate;
-     this->end = endDate;
-     this->status = std::stoi(dataList[5]);
-     this->close = complete;
-     this->oReview = review;
+    bool review;
+    (dataList[6] == "true") ? review = true : review = false;
+    this->rID = dataList[0];
+    this->mID = dataList[1];
+    this->hID = dataList[2];
+    this->start = startDate;
+    this->end = endDate;
+    this->status = std::stoi(dataList[5]);
+    this->close = complete;
+    this->oReview = review;
 
     //  Request(dataList[0],dataList[1],dataList[2],startDate,endDate, std::stoi(dataList[5]),complete);
-
 }
 
 Request::Request(const string &rId, const string &mId, const string &hId, const Date &start, const Date &anEnd,
-                 int status, bool oReview, bool close) : rID(rId), mID(mId), hID(hId), start(start), end(anEnd), status(status), oReview(oReview),
-                                           close(close) {}
-
+                 int status, bool oReview, bool close) : rID(rId), mID(mId), hID(hId), start(start), end(anEnd), status(status), oReview(oReview), close(close) {}
 
 const string &Request::getMid() const {
     return mID;
@@ -113,9 +106,9 @@ void Request::setRid(const string &rId) {
 }
 
 void Request::setOReview(bool oReview) {
-    this->oReview  = oReview;
+    this->oReview = oReview;
 }
 
-bool Request::getOReview(){
+bool Request::getOReview() {
     return this->oReview;
 };

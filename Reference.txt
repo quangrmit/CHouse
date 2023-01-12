@@ -1,1 +1,2 @@
 https://stackoverflow.com/questions/18728754/checking-cin-input-stream-produces-an-integer
+https://stackoverflow.com/questions/14218894/number-of-days-between-two-dates-c
