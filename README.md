@@ -14,7 +14,6 @@ A project by Greenie
 * snake case -> camel case
 
 ## Should-do list
-* member is confirmed to be automatically occupy a house (should have a method to start occupy a house)
 * allow member to review anytime
 * Remove cin, cout in member
 * Explain how data file is organized in report

@@ -272,7 +272,7 @@ vector<string> Member::viewAllRequests() {
     vector<string> result;
     Database *database = Database::getInstance();
     RequestDatabase *requestDatabase = database->getRequestDatabase();
-    result = requestDatabase->readRequest({{"hID", this->hID}});
+    result = requestDatabase->readRequest({{"hID", this->hID}, {"close", "false"}});
     return result;
 }
 string Member::viewRequestMemberInfo(string rID) {

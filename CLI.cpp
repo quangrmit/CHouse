@@ -201,9 +201,7 @@ void CLI::openMemberMenu() {
             case 1:
                 result.push_back(currentMember->viewInfo());
                 cout << currentMember->viewInfo() << endl;
-                for (int i =0; i < result.size(); i++) {
-                    cout << result[i] << "\n";
-                }
+
                 tableGenerator->printTable(memberHeader, result);
                 break;
             
@@ -215,6 +213,8 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "\nEnter the consuming point: ";
                 cin >> consumingPoint;
+                cout << "Do you want to enter occupier rating";
+                
                 cout << "\nEnter minimum occupier rating (optional): ";
                 cin >> minORating;
 
@@ -227,7 +227,7 @@ void CLI::openMemberMenu() {
                 break;
 
             case 3: 
-                currentMember -> unlisthouse();
+                currentMember -> unlisthouse(); 
                 break;
             
             case 4: 
