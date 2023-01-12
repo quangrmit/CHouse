@@ -21,10 +21,14 @@ A project by Greenie
 * Automatically unlist house if date has been expired 
 
 
-## Known bugs
+## Accepted bugs - constraints
 * Date can't subtract 2 dates from different years
-* Member can accept request that aren't matched with the list date
+* Member can accept request that aren't matched with the future list date
 * checkout can only work if user only have one approve request
+* Can't check double before parsing
+* string to date can cause throw stoi error 
+* Can't catch date constructor cerr
+
 
 ## Small notes
 * Member will have 500 credit point when first register

@@ -150,9 +150,9 @@ void CLI::openGuestMenu() {
 void CLI::openMemberMenu() {
     // Member *member = new Member();
     string mID, city, hID, start, end, rID, comment, point;
-    int consumingPoint, rating;
-    string username, password;
-    double minORating = -11;
+    int consumingPoint = 0, rating;
+    string username, password, cPoint;
+    string minORating;
     // Date start, end;
     int choice;
     cin.ignore(1, '\n');
@@ -200,10 +200,6 @@ void CLI::openMemberMenu() {
 
             case 1:
                 result = {currentMember->viewInfo()};
-                // cout << currentMember->viewInfo() << endl;
-                // for (int i =0; i < result.size(); i++) {
-                //     cout << result[i] << "\n";
-                // }
                 tableGenerator->printTable(memberHeader, result);
                 break;
 
@@ -214,21 +210,22 @@ void CLI::openMemberMenu() {
                 cout << "\nEnter the end date of the house:";
                 getline(cin, end);
                 cout << "\nEnter the consuming point: ";
-                cin >> consumingPoint;
-                cout << "Do you want to enter occupier rating";
-                
+                getline(cin, cPoint);
+                if (cPoint != "") consumingPoint = std::stoi(cPoint); 
                 cout << "\nEnter minimum occupier rating (optional): ";
-                cin >> minORating;
+                getline(cin, minORating);
+                if (minORating == "") minORating = "-11";
 
-                if (currentMember->listhouse(Date::stringToDate(start), Date::stringToDate(end), consumingPoint, minORating)) {
+                if (currentMember->listhouse(Date::stringToDate(start), Date::stringToDate(end), consumingPoint, std::stod(minORating))) {
                     cout << "\nList house successfully" << endl;
                 } else {
-                    cout << "\n List house failed" << endl;
+                    cout << "\nList house failed" << endl;
                 }
                 break;
 
             case 3:
                 currentMember->unlisthouse();
+                cout << "Unlist house successfully";
                 break;
 
             case 4:
@@ -276,8 +273,16 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Please enter point: ";
                 getline(cin, point);
+                if (point == "") {
+                    cout << "No point provided" << endl;
+                    break;
+                }
                 cout << "Please enter comment: ";
                 getline(cin, comment);
+                if (comment == "") {
+                    cout << "No comment provided" << endl;
+                    break;
+                }
                 if (currentMember->checkout(std::stod(point), comment)) {
                     cout << "Checkout successfully" << endl;
                 } else {
@@ -314,6 +319,10 @@ void CLI::openMemberMenu() {
                 getline(cin, mID);
                 cout << "Please enter point: ";
                 getline(cin, point);
+                if (point == "") {
+                    cout << "No point enter" << endl;
+                    break;
+                }
                 cout << "Please enter comment: ";
                 getline(cin, comment);
                 if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {

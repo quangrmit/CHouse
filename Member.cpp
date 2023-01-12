@@ -74,7 +74,9 @@ bool Member::listhouse(Date start, Date end, int consumingPoint, double minOccup
     Database *db = Database::getInstance();
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(hID);
-
+    if (start > end) return false;
+    if (consumingPoint <= 0) return false;
+    if ((minOccupierRating < -10 && minOccupierRating != -11) || minOccupierRating > 10) return false;
     house->setStartDate(start);
     house->setEndDate(end);
     house->setConsumingPoint(consumingPoint);
@@ -105,18 +107,35 @@ vector<string> Member::searchHouse(Date start, Date end, string city) {
     HouseDatabase *hdb = db->getHouseDatabase();
 
     map<string, string> filter;
-    filter["start"] = Date::dateToString(&start);
-    filter["end"] = Date::dateToString(&end);
-    filter["city"] = city;
-
-    int totalDays = end - start;
+    vector<string> results;
+    if (start > end) return results;
+    if (!start.isEmpty()) {
+        filter["start"] = Date::dateToString(&start);
+    }
+    if (!end.isEmpty()) {
+        filter["end"] = Date::dateToString(&end);
+    }
+    if (city != "") {
+        filter["city"] = city;
+    }
+    int totalDays = -1;
+    if (!end.isEmpty() && !start.isEmpty()) {
+        totalDays = end - start;
+    }
 
     vector<string> houseList = hdb->readHouse(filter);
-    vector<string> results;
+    
     for (string house : houseList) {
         vector<string> data = split(house, ',');
-        if (data[4] == "") continue;
-        if (std::stod(data[6]) * totalDays <= this->getCredit() && std::stod(data[7]) <= this->getOccupierRating()) {
+        if (data[4] == "" || data[6] == "") continue;
+        if (data[7] == "") {
+            results.push_back(house);
+            continue;
+        } 
+        if (totalDays == -1 && std::stod(data[7]) <= this->getOccupierRating()) {
+            results.push_back(house);
+        }
+        else if (std::stod(data[6]) * totalDays <= this->getCredit() && std::stod(data[7]) <= this->getOccupierRating()) {
             results.push_back(house);
         }
     };
@@ -152,7 +171,7 @@ bool Member::requestStaying(Date start, Date end, string hID) {
     House *house = hdb->findHouse(hID);
     bool reqValid = true;
     // Validate start end date
-
+    if (start.isEmpty() || end.isEmpty() || hID == "") return false;
     // If start < end then not valid
     if (start > end) {
         reqValid = false;
@@ -188,7 +207,7 @@ bool Member::checkout(double rating, string comment) {
     filter["close"] = "false";
 
     vector<string> requests = rdb->readRequest(filter);
-    if (requests.size() == 0) return false;
+    if (requests.size() != 1) return false;
     string rID = split(requests[0], ',')[0];
     string hID = split(requests[0], ',')[2];
 
@@ -243,10 +262,17 @@ void Member::addReview(vector<string> review) {
 }
 
 bool Member::reviewOccupier(string rID, string mID, double rating, string comment) {
+    if (rID == "" || mID == "" || comment == "") return false;
     Database *db = Database::getInstance();
     MemberDatabase *mdb = db->getMemberDatabase();
     RequestDatabase *rdb = db->getRequestDatabase();
     Request *r = rdb->findRequest(rID);
+    if (r->getHid() != this->getHid()) return false;
+    if (r->getMid() != mID) return false;
+    // User hasn't checkout
+    if (!r->isClose()) return false;
+    //
+    if (r->getOReview()) return false;
     r->setOReview(true);
 
     Member *mem = mdb->findMember(mID);
@@ -319,9 +345,14 @@ bool Member::cancelRequest(string rID) {
 }
 
 bool Member::acceptRequest(string rID) {
+    if (rID == "") return false;
     Database *database = Database::getInstance();
     RequestDatabase *requestDatabase = database->getRequestDatabase();
     Request *request = requestDatabase->findRequest(rID);
+    
+    HouseDatabase *house = database->getHouseDatabase();
+    House * ownerHouse = house->findHouse(this->getHid());
+    
     // Check if rID is valid (find function does not return nullptr)
 
     if (request == nullptr) {
@@ -331,6 +362,13 @@ bool Member::acceptRequest(string rID) {
         return false;
     }
     if (request->isClose()) {
+        return false;
+    }
+    if (ownerHouse->getStartDate().isEmpty()) return false;
+    // check if request date is correct
+    Date start = request->getStart();
+    Date end = request->getAnEnd();
+    if (start < ownerHouse->getStartDate() || end > ownerHouse->getEndDate() || start > ownerHouse->getEndDate() || end < ownerHouse->getStartDate() ) {
         return false;
     }
     // Find request and set status to accepted (1)

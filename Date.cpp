@@ -124,6 +124,7 @@ std::string Date::dateToString(Date* dmy) {
 }
 
 Date Date::stringToDate(std::string str) {
+    if (str == "") return Date();
     std::vector<std::string> list = split(str, '/');
     int date = std::stoi(list[0]);
     int month = std::stoi(list[1]);
