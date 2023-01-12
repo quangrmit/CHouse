@@ -264,12 +264,23 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Please enter the House ID of the house you want to stay: ";
                 getline(cin, hID);
-                if (currentMember->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID)) {
-                    cout << "Request successfully" << endl;
+                int intHiD;
+                try {
+                    intHiD = std::stoi(hID);
+                    hID = std::to_string(intHiD);
+
+                    if (currentMember->requestStaying(Date::string_to_date(start), Date::string_to_date(end), hID)) {
+                        cout << "Request successfully" << endl;
+                    }
+                    else {
+                        cout << "Request failed" << endl;
+                    }
                 }
-                else {
+                catch (std::exception e){
                     cout << "Request failed" << endl;
+
                 }
+
                 break;
             case 7:
                 // input checkout paramter

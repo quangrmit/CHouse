@@ -157,9 +157,14 @@ bool Member::requestStaying(Date start, Date end, string hID) {
     // Validate start end date
 
     // If start < end then not valid
+    if(house == nullptr) {
+        reqValid = false;
+    }
     if (start > end) {
         reqValid = false;
     } else if (start < house->getStartDate() || end > house->getEndDate()) {
+        reqValid = false;
+    } else if (house->getStartDate().isEmpty()) {
         reqValid = false;
     }
     if (reqValid) {
