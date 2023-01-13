@@ -1,20 +1,25 @@
 mID,fullName,username,password,phoneNumber,hID,credit,occupierRating,review
-1,Mai Phu,Phu,123,1234578,1,8000,10.000000,10_good;10_too good;10_well done
+1,Mai Phu,Phu,123,1234578,1,20500,10.000000,10_good;10_too good;10_well done
 2,Quang,Quang,123,1234578,2,900,-10.000000,-10_bad;-10_too bad;-10_bad
 3,Linh,Linh,123,1234578,3,90,5.000000,5_oke;5_oke;5_oke
 4,Nguyen,Nguyen,123,1234578,4,-360,2.000000,0_oke;0_oke;0_oke;0_oke;10.000000_noice
 5,nnkl,linh,123,0123456789,5,500,,
+6,Mai Gia Phu,phu,123,0903137194,6,100,,
 
 hID,description,city,h_rating,start,end,consuming_point,min_o_rating,reviews
-1,nice house,HCM,10.000000,01/01/2023,01/01/2024,100,9.000000,10_good;10_excellent
+1,nice house,HCM,9.250000,01/01/2023,01/01/2024,100,9.000000,10_good;10_excellent;10.000000_pretty nice;7.000000_quite nice
 2,not bad house,HCM,5.000000,06/01/2022,10/10/2023,200,8.000000,0_quite bad;10.000000_very nice
 3,mid house,Hue,5.000000,,,,,5_nice engouh;5_oke
 4,ok house,Hue,7.000000,,,,,7_comfortable house;7_uncomfortable house
 5,pink,Sai Gon,,,,,,
+6,vila,Sai Gon,,,,,,
 
 rID,mID,hID,start,end,status,oReview,close
 1,1,2,07/01/2023,09/02/2023,1,false,true
 2,3,2,07/01/2023,09/02/2023,0,true,true
 3,4,2,06/01/2023,07/01/2023,1,true,true
 4,1,2,31/08/2022,02/09/2022,1,false,false
+5,6,2,01/01/2023,01/05/2023,-1,false,false
+6,6,1,01/01/2023,01/05/2023,1,false,true
+7,6,1,01/01/2023,04/01/2023,1,false,true
 

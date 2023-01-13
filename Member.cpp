@@ -169,6 +169,7 @@ bool Member::requestStaying(Date start, Date end, string hID) {
     HouseDatabase *hdb = db->getHouseDatabase();
     House *house = hdb->findHouse(hID);
     bool reqValid = true;
+    int totalDays = end - start;
     // Validate start end date
     if (start.isEmpty() || end.isEmpty() || hID == "") reqValid = false;
     // If start < end then not valid
@@ -179,6 +180,8 @@ bool Member::requestStaying(Date start, Date end, string hID) {
     } else if (start < house->getStartDate() || end > house->getEndDate()) {
         reqValid = false;
     } else if (house->getStartDate().isEmpty()) {
+        reqValid = false;
+    } else if(house->getConsumingPoints()*totalDays>credit) {
         reqValid = false;
     }
     if (reqValid) {
