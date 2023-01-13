@@ -118,7 +118,7 @@ void CLI::openGuestMenu() {
                 getline(cin, userData["username"]);
                 cout << "Password: ";
                 getline(cin, userData["password"]);
-                cout << "Phone number: ";
+                cout << "Phone number (10 digits and start with 0): ";
                 getline(cin, userData["phonenumber"]);
 
                 cout << "Enter house detail: " << endl;
@@ -212,7 +212,7 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Enter the consuming point: ";
                 getline(cin, cPoint);
-                if (cPoint != "") consumingPoint = std::stoi(cPoint); 
+                if (cPoint != "") consumingPoint = std::stoi(cPoint);
                 cout << "\nEnter minimum occupier rating (optional): ";
                 getline(cin, minORating);
                 if (minORating == "") minORating = "-11";
@@ -226,8 +226,8 @@ void CLI::openMemberMenu() {
 
             case 3:
                 currentMember->unlisthouse();
-                cout << "Unlist house successfully" ;
-                
+                cout << "Unlist house successfully";
+
                 break;
 
             case 4:
@@ -296,7 +296,7 @@ void CLI::openMemberMenu() {
                 } else {
                     cout << "You aren't occupy any house yet" << endl;
                 }
-                
+
                 break;
             case 8:
                 result = currentMember->viewAllRequests();
@@ -355,9 +355,9 @@ void CLI::openMemberMenu() {
                 getline(cin, rID);
                 result = {currentMember->viewRequesterInfo(rID)};
                 if (result[0] == "Invalid rID" || result[0] == "Request closed") {
-                    cout << currentMember->viewRequesterInfo(rID);                
+                    cout << currentMember->viewRequesterInfo(rID);
                 } else {
-                    tableGenerator->printTable("Requester ID,Full Name, Username,Phone Number,HouseID,Credit, Occupier Rating,Reviews", result);                    
+                    tableGenerator->printTable("Requester ID,Full Name, Username,Phone Number,HouseID,Credit, Occupier Rating,Reviews", result);
                 }
                 break;
 
@@ -365,8 +365,7 @@ void CLI::openMemberMenu() {
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
-        cout<<sp;
-
+        cout << sp;
     }
 }
 

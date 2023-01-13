@@ -4,10 +4,15 @@
 
 #include "RequestDatabase.h"
 
-#include <iostream>
 /**
  * RequestDatabase implementation
  */
+
+RequestDatabase::~RequestDatabase() {
+    for (int i = requests.size() - 1; i >= 0; i--) {
+        delete requests[i];
+    }
+}
 
 /**
  * @param data

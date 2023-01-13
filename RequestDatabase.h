@@ -47,6 +47,7 @@ class RequestDatabase {
      * @param data
      */
     RequestDatabase(vector<string> data);
+    ~RequestDatabase();
 
    private:
     vector<Request*> requests;

@@ -10,7 +10,7 @@ Database* Database::single = nullptr;
 MemberDatabase* Database::memberDatabase = nullptr;
 HouseDatabase* Database::houseDatabase = nullptr;
 RequestDatabase* Database::requestDatabase = nullptr;
-Admin * Database::admin = nullptr;
+Admin* Database::admin = nullptr;
 string Database::header1 = "";
 string Database::header2 = "";
 string Database::header3 = "";
@@ -34,7 +34,6 @@ void Database::loadFile() {
     std::getline(storage, header3);
 
     vector<string> requests = extractData(storage);
-
 
     memberDatabase = new MemberDatabase(users);
     houseDatabase = new HouseDatabase(houses);
@@ -73,14 +72,18 @@ void Database::updateFile() {
     storage << "\n";
 }
 
-Admin * Database::getAdmin() {
+Admin* Database::getAdmin() {
     return admin;
 }
-
 
 Database::Database() {
     this->loadFile();
 }
+
+Database::~Database() {
+    delete memberDatabase, requestDatabase, houseDatabase, admin;
+}
+
 /**
  * @return Database *
  */
