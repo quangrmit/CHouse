@@ -42,6 +42,7 @@ class HouseDatabase {
      * @param data
      */
     HouseDatabase(vector<string> data);
+    ~HouseDatabase();
 
    private:
     vector<House*> houses;

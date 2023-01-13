@@ -39,6 +39,7 @@ class MemberDatabase {
      * @param data
      */
     MemberDatabase(vector<string> data);
+    ~MemberDatabase();
 
    private:
     vector<Member*> members;

@@ -118,7 +118,7 @@ void CLI::openGuestMenu() {
                 getline(cin, userData["username"]);
                 cout << "Password: ";
                 getline(cin, userData["password"]);
-                cout << "Phone number: ";
+                cout << "Phone number (10 digits and starts with 0): ";
                 getline(cin, userData["phonenumber"]);
 
                 cout << "Enter house detail: " << endl;
@@ -212,7 +212,7 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Enter the consuming point: ";
                 getline(cin, cPoint);
-                if (cPoint != "") consumingPoint = std::stoi(cPoint); 
+                if (cPoint != "") consumingPoint = std::stoi(cPoint);
                 cout << "\nEnter minimum occupier rating (optional): ";
                 getline(cin, minORating);
                 if (minORating == "") minORating = "-11";
@@ -226,8 +226,8 @@ void CLI::openMemberMenu() {
 
             case 3:
                 currentMember->unlisthouse();
-                cout << "Unlist house successfully" ;
-                
+                cout << "Unlist house successfully";
+
                 break;
 
             case 4:
@@ -270,11 +270,19 @@ void CLI::openMemberMenu() {
                 getline(cin, end);
                 cout << "Please enter the House ID of the house you want to stay: ";
                 getline(cin, hID);
-                if (currentMember->requestStaying(Date::stringToDate(start), Date::stringToDate(end), hID)) {
-                    cout << "Request successfully" << endl;
-                } else {
+                int intHid;
+                try {
+                    intHid = std::stoi(hID);
+                    hID = std::to_string(intHid);
+                    if (currentMember->requestStaying(Date::stringToDate(start), Date::stringToDate(end), hID)) {
+                        cout << "Request successfully" << endl;
+                    } else {
+                        cout << "Request failed" << endl;
+                    }
+                } catch (std::exception e) {
                     cout << "Request failed" << endl;
                 }
+
                 break;
             case 7:
                 // input checkout paramter
@@ -296,7 +304,7 @@ void CLI::openMemberMenu() {
                 } else {
                     cout << "You aren't occupy any house yet" << endl;
                 }
-                
+
                 break;
             case 8:
                 result = currentMember->viewAllRequests();
@@ -322,7 +330,6 @@ void CLI::openMemberMenu() {
                 cin.ignore(1, '\n');
                 cout << "Please enter rID of the request: ";
                 getline(cin, rID);
-
                 cout << "Please enter mID of review occupier: ";
                 getline(cin, mID);
                 cout << "Please enter point: ";
@@ -331,11 +338,22 @@ void CLI::openMemberMenu() {
                     cout << "No point enter" << endl;
                     break;
                 }
-                cout << "Please enter comment: ";
-                getline(cin, comment);
-                if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {
-                    cout << "Review successfully" << endl;
-                } else {
+                try {
+                    int intRid, intMid;
+                    intRid = std::stoi(rID);
+                    intMid = std::stoi(mID);
+
+                    rID = std::to_string(intRid);
+                    mID = std::to_string(intMid);
+
+                    cout << "Please enter comment: ";
+                    getline(cin, comment);
+                    if (currentMember->reviewOccupier(rID, mID, std::stod(point), comment)) {
+                        cout << "Review successfully" << endl;
+                    } else {
+                        cout << "Review failed" << endl;
+                    }
+                } catch (std::exception e) {
                     cout << "Review failed" << endl;
                 }
                 break;
@@ -355,9 +373,9 @@ void CLI::openMemberMenu() {
                 getline(cin, rID);
                 result = {currentMember->viewRequesterInfo(rID)};
                 if (result[0] == "Invalid rID" || result[0] == "Request closed") {
-                    cout << currentMember->viewRequesterInfo(rID);                
+                    cout << currentMember->viewRequesterInfo(rID);
                 } else {
-                    tableGenerator->printTable("Requester ID,Full Name, Username,Phone Number,HouseID,Credit, Occupier Rating,Reviews", result);                    
+                    tableGenerator->printTable("Requester ID,Full Name, Username,Phone Number,HouseID,Credit, Occupier Rating,Reviews", result);
                 }
                 break;
 
@@ -365,8 +383,7 @@ void CLI::openMemberMenu() {
                 cout << "Invalid input. Please try another one! \n";
                 break;
         }
-        cout<<sp;
-
+        cout << sp;
     }
 }
 

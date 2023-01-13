@@ -4,12 +4,15 @@
 
 #include "HouseDatabase.h"
 
-#include <iostream>
-
 /**
  * HouseDatabase implementation
  */
 
+HouseDatabase::~HouseDatabase() {
+    for (int i = houses.size() - 1; i >= 0; i--) {
+        delete houses[i];
+    }
+}
 /**
  * @param data
  * @return vector<House*>
@@ -115,7 +118,6 @@ bool HouseDatabase::createHouse(map<string, string> data) {
     } catch (std::bad_alloc) {
         return false;
     }
-    std::cout << houses.size() << std::endl;
 
     return true;
 }
