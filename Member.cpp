@@ -306,6 +306,8 @@ string Member::viewRequesterInfo(string rID) {
     if (request == nullptr) {
         // std::cout << "Invalid rID" << std::endl;
         return "Invalid rID";
+    } else if (request->getHid()!=this->hID){
+        return "Invalid rID";
     } else if (request->isClose() == true) {
         // std::cout << "Request has been closed" << std::endl;
         return "Request closed";
