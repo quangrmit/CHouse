@@ -119,7 +119,7 @@ bool MemberDatabase::createMember(map<string, string> data) {
     } catch (std::bad_alloc) {
         return false;
     }
-    std::cout << members.size() << std::endl;
+    // std::cout << members.size() << std::endl;
     return true;
 }
 

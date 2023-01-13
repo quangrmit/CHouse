@@ -41,6 +41,6 @@ vector<string> Admin::viewAllUser() {
  * @return bool
  */
 bool Admin::compareUsernameandPassword(string username, string password) {
-    std::cout << this->username << this->password << std::endl;
+    // std::cout << this->username << this->password << std::endl;
     return (this->username == username && this->password == password);
 }

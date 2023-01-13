@@ -187,6 +187,9 @@ void TableGenerator::printTable(string header, vector<string>result) {
     vector<string> headersList = split(header, ',');
     vector <vector<string>> rowsList = {};
     for (int i =0; i < result.size(); i++) {
+        if(split(result[i], ',').size() < headersList.size()) {
+            result[i] += ",";
+        }
         rowsList.push_back(split(result[i], ','));
     }
     cout << this->generateTable(headersList, rowsList, {});

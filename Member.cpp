@@ -80,7 +80,7 @@ bool Member::listhouse(Date start, Date end, int consumingPoint, double minOccup
     house->setStartDate(start);
     house->setEndDate(end);
     house->setConsumingPoint(consumingPoint);
-    std::cout << minOccupierRating;
+    // std::cout << minOcc
     house->setMinOccupierRating(minOccupierRating);
 
     return true;

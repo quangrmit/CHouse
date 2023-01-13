@@ -423,7 +423,7 @@ void CLI::openAdminMenu() {
                 result = currentAdmin->viewAllUser();
                 // printVector(result);
 
-                tableGenerator->printTable(memberHeader, result);
+                tableGenerator->printTable("Member ID,Full name,Username,Password, Phone Number,House ID,Credit,Occupier Rating,Reviews", result);
                 break;
             case 2:
                 result = currentAdmin->viewAllHouse();
