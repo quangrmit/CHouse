@@ -36,8 +36,8 @@ void openMemberMenu();
     
 void openAdminMenu();
 private: 
-    Member * currentMember;
-    Admin * currentAdmin;
+    Member * currentMember = nullptr;
+    Admin * currentAdmin = nullptr;
 };
 
 #endif //_CLI_H

@@ -197,6 +197,7 @@ void CLI::openMemberMenu() {
         }
         switch (choice) {
             case 0:
+                currentMember = nullptr;
                 return;
 
             case 1:
@@ -399,7 +400,7 @@ void CLI::openAdminMenu() {
     cout << endl;
     cout << sp;
     currentAdmin = authorize->loginAdmin(username, password);
-    if (currentMember == nullptr) {
+    if (currentAdmin == nullptr) {
         cout << "Username or password is incorrect, please try again";
         return;
     }
@@ -418,6 +419,7 @@ void CLI::openAdminMenu() {
         }
         switch (choice) {
             case 0:
+                currentAdmin = nullptr;
                 return;
             case 1:
                 result = currentAdmin->viewAllUser();

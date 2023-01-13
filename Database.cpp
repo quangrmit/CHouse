@@ -20,7 +20,7 @@ void Database::loadFile() {
     storage.open(FILENAME, std::ios::in);
     if (!storage.is_open()) {
         // Consider alternatives
-        throw std::runtime_error("Can't open file");
+        throw std::runtime_error("Please put the data file in the same directory as exe file\nThe data file is in Group22_Sources.zip name Data.txt");
     }
 
     std::getline(storage, header1);
@@ -40,6 +40,7 @@ void Database::loadFile() {
 
     requestDatabase = new RequestDatabase(requests);
     admin = new Admin();
+    storage.close();
 }
 
 void Database::updateFile() {
@@ -70,6 +71,7 @@ void Database::updateFile() {
         storage << requestData.at(i) << "\n";
     }
     storage << "\n";
+    storage.close();
 }
 
 Admin* Database::getAdmin() {
