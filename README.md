@@ -35,3 +35,5 @@ A project by Greenie
 * City can only be Ha Noi, Hue, Sai Gon
 * Member can only occupy one house at a time
 * Member can't cancel request once has been approved
+
+https://docs.google.com/document/d/1HRS3V26EkgpxXlSmA2ngidnvFj8u1ViF/edit
