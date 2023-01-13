@@ -104,7 +104,7 @@ map<int, int> TableGenerator::getMaximumWidth(vector<string> headerList, vector<
  * @param  {map<int} undefined          : 
  * @param  {int>} columnMaxWidthMapping : 
  */
-void TableGenerator:: createRowLines(stringstream& sstr, int headerListSize, map<int, int> columnMaxWidthMapping) {
+void TableGenerator:: createRowLines(stringstream&sstr, int headerListSize, map<int, int> columnMaxWidthMapping) {
 
     for (int i =0; i < headerListSize; i++) {
         if (i==0) {

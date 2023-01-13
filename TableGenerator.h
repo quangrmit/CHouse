@@ -30,7 +30,7 @@ public:
 
     void createRowLines(stringstream& sstr, int headerListSize, map<int, int> columnMaxWidthMapping);
 
-    int getOptimumCellPadding(int cell_index, int data_length, map<int, int> column_max_width_mapping, int cell_padding_size);
+    int getOptimumCellPadding(int cellIndex, int dataLength, map<int, int> columnMaxWidthMapping, int cellPaddingSize);
 
     void fillSpace(stringstream& sstr, int length);
 
